@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit trunk//EN" "http://www.gwtproject.org/doctype/2.8.0/gwt-module.dtd">
+<module>
+	<source path="com/badlogic/gdx">
+	
+			<exclude name="utils/DataBuffer.java" />
+
+<exclude name="utils/PauseableThread.java" />
+
+<exclude name="graphics/g3d/environment/SphericalHarmonics.java" />
+</source>
+	<source path="com/scs/awt" />
+	<source path="com/scs/lang" />
+	<source path="com/scs/util" />
+	<source path="com/mygdx/game" />
+
+
+</module>

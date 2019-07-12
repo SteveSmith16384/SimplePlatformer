@@ -1,0 +1,6 @@
+RELEASING
+
+Update version number
+Release mode = true
+Delete web-inf from live
+
