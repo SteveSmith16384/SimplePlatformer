@@ -81,7 +81,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		this.inputSystem = new InputSystem(this, ecs);
 		drawingSystem = new DrawingSystem(this, ecs, batch);
 		collisionSystem = new CollisionSystem(ecs);
-		movementSystem = new MovementSystem(ecs);
+		movementSystem = new MovementSystem(this, ecs);
 		guiSystem = new GuiSystem(ecs);
 		animSystem = new AnimationCycleSystem(ecs);
 		enemyMobSystem = new EnemyMobSystem(ecs);
@@ -123,7 +123,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		this.removeAllEntities();
 		
 		// Create entities for game
-		this.playersAvatar = this.entityFactory.createPlayer(50, 50);
+		this.playersAvatar = this.entityFactory.createPlayer(250, 250);
 		ecs.addEntity(this.playersAvatar);
 		
 		AbstractEntity floor = this.entityFactory.createWall(20, 20, Settings.LOGICAL_WIDTH_PIXELS-50, 20);

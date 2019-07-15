@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.mygdx.game.components.CollisionComponent;
 import com.mygdx.game.components.GuiContainerComponent;
 import com.mygdx.game.components.ImageData;
+import com.mygdx.game.components.JumpingComponent;
 import com.mygdx.game.components.MobComponent;
 import com.mygdx.game.components.MovementComponent;
 import com.mygdx.game.components.PositionData;
@@ -34,6 +35,8 @@ public class EntityFactory {
 		e.addComponent(mc);
 		UserInputComponent uic = new UserInputComponent();
 		e.addComponent(uic);
+		JumpingComponent jc = new JumpingComponent();
+		e.addComponent(jc);
 
 		return e;
 	}

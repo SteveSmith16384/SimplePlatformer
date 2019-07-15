@@ -9,27 +9,33 @@ import com.scs.basicecs.BasicECS;
 public class CollisionSystem {
 
 	private BasicECS ecs;
-	
-	public CollisionSystem(BasicECS ecs) {
+
+	public CollisionSystem(BasicECS _ecs) {
+		ecs = _ecs;
 	}
 
 
 	public boolean collided(AbstractEntity mover) {
 		PositionData moverPos = (PositionData)mover.getComponent(PositionData.class);
+		if (moverPos == null) {
+			throw new RuntimeException(mover + " has no " + PositionData.class.getSimpleName());
+		}
 		Iterator<AbstractEntity> it = ecs.getIterator();
 		while (it.hasNext()) {
 			AbstractEntity e = it.next();
-			PositionData pos = (PositionData)e.getComponent(PositionData.class);
-			if (pos != null) {
-				if (moverPos.rect.intersects(pos.rect)) {
-					return true;
+			if (e != mover) {
+				PositionData pos = (PositionData)e.getComponent(PositionData.class);
+				if (pos != null) {
+					if (moverPos.rect.intersects(pos.rect)) {
+						return true;
+					}
 				}
 			}
 		}
 		return false;
 	}
-	
-	
+
+
 	public boolean intersects(AbstractEntity e1, AbstractEntity e2) {
 		PositionData p1 = (PositionData)e1.getComponent(PositionData.class);
 		PositionData p2 = (PositionData)e2.getComponent(PositionData.class);
