@@ -6,6 +6,7 @@ import com.mygdx.game.Settings;
 import com.mygdx.game.components.JumpingComponent;
 import com.mygdx.game.components.MovementComponent;
 import com.mygdx.game.components.PositionData;
+import com.mygdx.game.models.CollisionResults;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
@@ -22,26 +23,30 @@ public class MovementSystem extends AbstractSystem {
 
 
 	@Override
-	public void processEntity(AbstractEntity entity) {
-		MovementComponent md = (MovementComponent)entity.getComponent(MovementComponent.class);
+	public void processEntity(AbstractEntity movingEntity) {
+		MovementComponent md = (MovementComponent)movingEntity.getComponent(MovementComponent.class);
 		if (md != null) {
-			PositionData pos = (PositionData)entity.getComponent(PositionData.class);
+			PositionData pos = (PositionData)movingEntity.getComponent(PositionData.class);
 			if (md.offX != 0) {
 				pos.prevPos.set(pos.rect);
 				pos.rect.move(md.offX * Gdx.graphics.getDeltaTime(), 0);
 				md.offX = 0;
-				if (game.collisionSystem.collided(entity)) {
+				CollisionResults results = game.collisionSystem.collided(movingEntity, 0);
+				if (results != null) {
 					pos.rect.set(pos.prevPos); // Move back
+					game.processCollisionSystem.processCollision(movingEntity, results);
 				}
 			}
 			if (md.offY != 0) {
 				pos.prevPos.set(pos.rect);
 				pos.rect.move(0, md.offY * Gdx.graphics.getDeltaTime());
 				//md.offX = 0;
-				if (game.collisionSystem.collided(entity)) {
+				CollisionResults results = game.collisionSystem.collided(movingEntity, md.offY);
+				if (results != null) {
 					pos.rect.set(pos.prevPos); // Move back
+					game.processCollisionSystem.processCollision(movingEntity, results);
 					if (md.offY < 0) {
-						JumpingComponent jc = (JumpingComponent)entity.getComponent(JumpingComponent.class);
+						JumpingComponent jc = (JumpingComponent)movingEntity.getComponent(JumpingComponent.class);
 						if (jc != null) {
 							jc.canJump = true;
 						}
@@ -50,6 +55,8 @@ public class MovementSystem extends AbstractSystem {
 						// Gravity
 						md.offY = 0;
 					}
+				} else if (pos.rect.top < 0) {
+					pos.rect.move(0, Settings.LOGICAL_HEIGHT_PIXELS);
 				}
 			}
 			if (md.canFall) {

@@ -11,7 +11,8 @@ public final class Settings {
 	// Settings
 	public static final float PLAYER_SPEED = 50;
 	public static final float PLAYER_SIZE = 30;
-	public static final float JUMP_FORCE = 150;
+	public static final float COLLECTABLE_SIZE = 25;
+	public static final float JUMP_FORCE = 250;
 	public static final float GRAVITY = 5;
 	
 	public static final int WINDOW_WIDTH_PIXELS = RELEASE_MODE ? 1024 : 256;

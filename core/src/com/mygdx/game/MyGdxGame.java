@@ -16,13 +16,15 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.helpers.AnimationFramesHelper;
 import com.mygdx.game.models.GameData;
 import com.mygdx.game.systems.AnimationCycleSystem;
+import com.mygdx.game.systems.CollectorSystem;
 import com.mygdx.game.systems.CollisionSystem;
 import com.mygdx.game.systems.DrawingSystem;
-import com.mygdx.game.systems.EnemyMobSystem;
+import com.mygdx.game.systems.EnemyMobAISystem;
 import com.mygdx.game.systems.GuiSystem;
 import com.mygdx.game.systems.InputSystem;
 import com.mygdx.game.systems.MovementSystem;
 import com.mygdx.game.systems.PlayerMovementSystem;
+import com.mygdx.game.systems.ProcessCollisionSystem;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.BasicECS;
 
@@ -54,9 +56,11 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private MovementSystem movementSystem;
 	private GuiSystem guiSystem;
 	private AnimationCycleSystem animSystem;
-	private EnemyMobSystem enemyMobSystem;
+	private EnemyMobAISystem enemyMobSystem;
 	private PlayerMovementSystem playerMovementSystem;
-
+	public ProcessCollisionSystem processCollisionSystem;
+	public CollectorSystem collectorSystem;
+	
 	public AbstractEntity playersAvatar;
 
 	@Override
@@ -84,8 +88,10 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		movementSystem = new MovementSystem(this, ecs);
 		guiSystem = new GuiSystem(ecs);
 		animSystem = new AnimationCycleSystem(ecs);
-		enemyMobSystem = new EnemyMobSystem(ecs);
+		enemyMobSystem = new EnemyMobAISystem(ecs);
 		this.playerMovementSystem = new PlayerMovementSystem(this, ecs);
+		processCollisionSystem = new ProcessCollisionSystem(this, ecs);
+		this.collectorSystem = new CollectorSystem();
 		
 		startPreGame();
 
@@ -128,6 +134,9 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		
 		AbstractEntity floor = this.entityFactory.createWall(20, 20, Settings.LOGICAL_WIDTH_PIXELS-50, 20);
 		ecs.addEntity(floor);
+
+		AbstractEntity platform = this.entityFactory.createFluidPlatform(120, 50, 100);
+		ecs.addEntity(platform);
 	}
 	
 

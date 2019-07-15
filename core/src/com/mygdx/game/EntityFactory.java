@@ -1,9 +1,12 @@
 package com.mygdx.game;
 
+import com.mygdx.game.components.CollectableComponent;
 import com.mygdx.game.components.CollisionComponent;
+import com.mygdx.game.components.DestroyedByMobComponent;
 import com.mygdx.game.components.GuiContainerComponent;
 import com.mygdx.game.components.ImageData;
 import com.mygdx.game.components.JumpingComponent;
+import com.mygdx.game.components.KillByJumpingComponent;
 import com.mygdx.game.components.MobComponent;
 import com.mygdx.game.components.MovementComponent;
 import com.mygdx.game.components.PositionData;
@@ -29,7 +32,7 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionData pos = PositionData.ByCentre(cx, cy, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
-		CollisionComponent cc = new CollisionComponent(true);
+		CollisionComponent cc = new CollisionComponent(true, false);
 		e.addComponent(cc);
 		MovementComponent mc = new MovementComponent(true);
 		e.addComponent(mc);
@@ -37,22 +40,38 @@ public class EntityFactory {
 		e.addComponent(uic);
 		JumpingComponent jc = new JumpingComponent();
 		e.addComponent(jc);
-
+		KillByJumpingComponent kbj = new KillByJumpingComponent();
+		e.addComponent(kbj);
+		DestroyedByMobComponent dbm = new DestroyedByMobComponent();
+		e.addComponent(dbm);		
+		
 		return e;
 	}
 
 
 	public AbstractEntity createWall(int x, int y, int w, int h) {
-		AbstractEntity e = new AbstractEntity("Player");
+		AbstractEntity e = new AbstractEntity("Wall");
 
 		ImageData imageData = new ImageData("grey_box.png", w, h);
 		e.addComponent(imageData);
 		PositionData pos = PositionData.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
-		CollisionComponent cc = new CollisionComponent(true);
+		CollisionComponent cc = new CollisionComponent(true, false);
 		e.addComponent(cc);
-		UserInputComponent uic = new UserInputComponent();
-		e.addComponent(uic);
+
+		return e;
+	}
+
+
+	public AbstractEntity createFluidPlatform(int x, int y, int w) {
+		AbstractEntity e = new AbstractEntity("FluidPlatform");
+
+		ImageData imageData = new ImageData("grey_box.png", w, 5);
+		e.addComponent(imageData);
+		PositionData pos = PositionData.ByBottomLeft(x, y, w, 5);
+		e.addComponent(pos);
+		CollisionComponent cc = new CollisionComponent(false, true);
+		e.addComponent(cc);
 
 		return e;
 	}
@@ -65,12 +84,29 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionData pos = PositionData.ByCentre(cx, cy, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
-		CollisionComponent cc = new CollisionComponent(true);
+		CollisionComponent cc = new CollisionComponent(true, true); // Needs collideAsPlatform to be killed
 		e.addComponent(cc);
 		MovementComponent mc = new MovementComponent(true);
 		e.addComponent(mc);
 		MobComponent mob = new MobComponent();
 		e.addComponent(mob);
+		return e;
+	}
+
+
+	public AbstractEntity createCollectable(int cx, int cy) {
+		AbstractEntity e = new AbstractEntity("Collectable");
+
+		ImageData imageData = new ImageData("grey_box.png", Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
+		e.addComponent(imageData);
+		PositionData pos = PositionData.ByCentre(cx, cy, Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
+		e.addComponent(pos);
+		CollisionComponent cc = new CollisionComponent(true, false);
+		e.addComponent(cc);
+		//MovementComponent mc = new MovementComponent(true);
+		//e.addComponent(mc);
+		CollectableComponent col = new CollectableComponent();
+		e.addComponent(col);
 		return e;
 	}
 

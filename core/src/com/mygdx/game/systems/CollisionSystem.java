@@ -2,10 +2,17 @@ package com.mygdx.game.systems;
 
 import java.util.Iterator;
 
+import com.mygdx.game.components.CollisionComponent;
 import com.mygdx.game.components.PositionData;
+import com.mygdx.game.models.CollisionResults;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.BasicECS;
 
+/**
+ * This system just detects if two things collide.  it does not process the collisions.
+ * @author StephenCS
+ *
+ */
 public class CollisionSystem {
 
 	private BasicECS ecs;
@@ -15,7 +22,7 @@ public class CollisionSystem {
 	}
 
 
-	public boolean collided(AbstractEntity mover) {
+	public CollisionResults collided(AbstractEntity mover, float offY) {
 		PositionData moverPos = (PositionData)mover.getComponent(PositionData.class);
 		if (moverPos == null) {
 			throw new RuntimeException(mover + " has no " + PositionData.class.getSimpleName());
@@ -24,15 +31,26 @@ public class CollisionSystem {
 		while (it.hasNext()) {
 			AbstractEntity e = it.next();
 			if (e != mover) {
-				PositionData pos = (PositionData)e.getComponent(PositionData.class);
-				if (pos != null) {
-					if (moverPos.rect.intersects(pos.rect)) {
-						return true;
+				CollisionComponent cc = (CollisionComponent)e.getComponent(CollisionComponent.class);
+				if (cc != null) {
+					PositionData pos = (PositionData)e.getComponent(PositionData.class);
+					if (pos != null) {
+						if (moverPos.rect.intersects(pos.rect)) {
+							if (cc.collidesAsPlatform) { // Check this first so we can kill baddies by jumping on them
+								if (offY < 0) {
+									if (moverPos.prevPos.intersects(pos.rect) == false) {
+										return new CollisionResults(e, true);
+									}									
+								}
+							} else if (cc.alwaysCollides) {
+								return new CollisionResults(e, false);
+							}
+						}
 					}
 				}
 			}
 		}
-		return false;
+		return null;
 	}
 
 

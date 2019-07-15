@@ -2,10 +2,11 @@ package com.mygdx.game.components;
 
 public class CollisionComponent {
 	
-	public boolean collidesAlways;
+	public boolean alwaysCollides, collidesAsPlatform;
 
-	public CollisionComponent(boolean _collidesAlways) {
-		collidesAlways = _collidesAlways;
+	public CollisionComponent(boolean _alwaysCollides, boolean _collidesAsPlatform) {
+		alwaysCollides = _alwaysCollides;
+		collidesAsPlatform = _collidesAsPlatform;
 	}
 
 }

@@ -4,9 +4,9 @@ import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
 
-public class EnemyMobSystem extends AbstractSystem {
+public class EnemyMobAISystem extends AbstractSystem {
 
-	public EnemyMobSystem(BasicECS ecs) {
+	public EnemyMobAISystem(BasicECS ecs) {
 		super(ecs);
 	}
 
