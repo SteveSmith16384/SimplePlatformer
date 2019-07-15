@@ -10,10 +10,15 @@ public final class Settings {
 
 	// Settings
 	public static final float PLAYER_SPEED = 50;
+	public static final float MOB_SPEED = 45;
+	public static final float MAX_MOVEMENT = 50;
+
 	public static final float PLAYER_SIZE = 30;
 	public static final float COLLECTABLE_SIZE = 25;
 	public static final float JUMP_FORCE = 250;
+	
 	public static final float GRAVITY = 5;
+	public static final float MAX_GRAVITY = 100;
 	
 	public static final int WINDOW_WIDTH_PIXELS = RELEASE_MODE ? 1024 : 256;
 	public static final int WINDOW_HEIGHT_PIXELS = (int)(WINDOW_WIDTH_PIXELS * .68);

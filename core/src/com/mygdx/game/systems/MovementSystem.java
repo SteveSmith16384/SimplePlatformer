@@ -29,21 +29,31 @@ public class MovementSystem extends AbstractSystem {
 			PositionData pos = (PositionData)movingEntity.getComponent(PositionData.class);
 			if (md.offX != 0) {
 				pos.prevPos.set(pos.rect);
+				if (md.offX > Settings.MAX_MOVEMENT) {
+					md.offX = Settings.MAX_MOVEMENT;
+				}
 				pos.rect.move(md.offX * Gdx.graphics.getDeltaTime(), 0);
 				md.offX = 0;
 				CollisionResults results = game.collisionSystem.collided(movingEntity, 0);
 				if (results != null) {
-					pos.rect.set(pos.prevPos); // Move back
+					if (results.blocksMovement) {
+						pos.rect.set(pos.prevPos); // Move back
+					}
 					game.processCollisionSystem.processCollision(movingEntity, results);
 				}
 			}
 			if (md.offY != 0) {
 				pos.prevPos.set(pos.rect);
+				if (md.offY > Settings.MAX_MOVEMENT) {
+					md.offY = Settings.MAX_MOVEMENT;
+				}
 				pos.rect.move(0, md.offY * Gdx.graphics.getDeltaTime());
 				//md.offX = 0;
 				CollisionResults results = game.collisionSystem.collided(movingEntity, md.offY);
 				if (results != null) {
-					pos.rect.set(pos.prevPos); // Move back
+					if (results.blocksMovement) {
+						pos.rect.set(pos.prevPos); // Move back
+					}
 					game.processCollisionSystem.processCollision(movingEntity, results);
 					if (md.offY < 0) {
 						JumpingComponent jc = (JumpingComponent)movingEntity.getComponent(JumpingComponent.class);
@@ -62,6 +72,9 @@ public class MovementSystem extends AbstractSystem {
 			if (md.canFall) {
 				// Gravity
 				md.offY -= Settings.GRAVITY;
+				if (md.offY < -Settings.MAX_GRAVITY) {
+					md.offY = -Settings.MAX_GRAVITY;
+				}
 			} else {
 				md.offY = 0;
 			}

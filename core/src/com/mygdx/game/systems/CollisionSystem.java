@@ -39,14 +39,29 @@ public class CollisionSystem {
 							if (cc.collidesAsPlatform) { // Check this first so we can kill baddies by jumping on them
 								if (offY < 0) {
 									if (moverPos.prevPos.intersects(pos.rect) == false) {
-										return new CollisionResults(e, true);
+										return new CollisionResults(e, true, cc.blocksMovement);
 									}									
 								}
 							} else if (cc.alwaysCollides) {
-								return new CollisionResults(e, false);
+								return new CollisionResults(e, false, cc.blocksMovement);
 							}
 						}
 					}
+				}
+			}
+		}
+		return null;
+	}
+
+
+	public AbstractEntity getEntityAt(float x, float y) {
+		Iterator<AbstractEntity> it = ecs.getIterator();
+		while (it.hasNext()) {
+			AbstractEntity e = it.next();
+			PositionData pos = (PositionData)e.getComponent(PositionData.class);
+			if (pos != null) {
+				if (pos.rect.contains(x, y)) {
+					return e;
 				}
 			}
 		}

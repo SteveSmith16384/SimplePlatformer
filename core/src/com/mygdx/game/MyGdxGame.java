@@ -19,7 +19,7 @@ import com.mygdx.game.systems.AnimationCycleSystem;
 import com.mygdx.game.systems.CollectorSystem;
 import com.mygdx.game.systems.CollisionSystem;
 import com.mygdx.game.systems.DrawingSystem;
-import com.mygdx.game.systems.EnemyMobAISystem;
+import com.mygdx.game.systems.MobAISystem;
 import com.mygdx.game.systems.GuiSystem;
 import com.mygdx.game.systems.InputSystem;
 import com.mygdx.game.systems.MovementSystem;
@@ -56,7 +56,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private MovementSystem movementSystem;
 	private GuiSystem guiSystem;
 	private AnimationCycleSystem animSystem;
-	private EnemyMobAISystem enemyMobSystem;
+	private MobAISystem mobAiSystem;
 	private PlayerMovementSystem playerMovementSystem;
 	public ProcessCollisionSystem processCollisionSystem;
 	public CollectorSystem collectorSystem;
@@ -88,7 +88,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		movementSystem = new MovementSystem(this, ecs);
 		guiSystem = new GuiSystem(ecs);
 		animSystem = new AnimationCycleSystem(ecs);
-		enemyMobSystem = new EnemyMobAISystem(ecs);
+		mobAiSystem = new MobAISystem(this, ecs);
 		this.playerMovementSystem = new PlayerMovementSystem(this, ecs);
 		processCollisionSystem = new ProcessCollisionSystem(this, ecs);
 		this.collectorSystem = new CollectorSystem();
@@ -137,6 +137,13 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 		AbstractEntity platform = this.entityFactory.createFluidPlatform(120, 50, 100);
 		ecs.addEntity(platform);
+		
+		//AbstractEntity mob = this.entityFactory.createMob(500, 500);
+		//ecs.addEntity(mob);
+		
+		AbstractEntity collectable = this.entityFactory.createCollectable(350, 500);
+		ecs.addEntity(collectable);
+		
 	}
 	
 
@@ -162,7 +169,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 			// loop through systems
 			this.inputSystem.process();
 			this.playerMovementSystem.process();
-			this.enemyMobSystem.process();
+			this.mobAiSystem.process();
 			this.movementSystem.process();
 			this.animSystem.process();
 			

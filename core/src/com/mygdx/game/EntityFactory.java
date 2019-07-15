@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.mygdx.game.components.CanCollectComponent;
 import com.mygdx.game.components.CollectableComponent;
 import com.mygdx.game.components.CollisionComponent;
 import com.mygdx.game.components.DestroyedByMobComponent;
@@ -32,7 +33,7 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionData pos = PositionData.ByCentre(cx, cy, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
-		CollisionComponent cc = new CollisionComponent(true, false);
+		CollisionComponent cc = new CollisionComponent(true, false, true);
 		e.addComponent(cc);
 		MovementComponent mc = new MovementComponent(true);
 		e.addComponent(mc);
@@ -43,7 +44,9 @@ public class EntityFactory {
 		KillByJumpingComponent kbj = new KillByJumpingComponent();
 		e.addComponent(kbj);
 		DestroyedByMobComponent dbm = new DestroyedByMobComponent();
-		e.addComponent(dbm);		
+		e.addComponent(dbm);
+		CanCollectComponent ccc = new CanCollectComponent();
+		e.addComponent(ccc);
 		
 		return e;
 	}
@@ -56,7 +59,7 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionData pos = PositionData.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
-		CollisionComponent cc = new CollisionComponent(true, false);
+		CollisionComponent cc = new CollisionComponent(true, false, true);
 		e.addComponent(cc);
 
 		return e;
@@ -70,7 +73,7 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionData pos = PositionData.ByBottomLeft(x, y, w, 5);
 		e.addComponent(pos);
-		CollisionComponent cc = new CollisionComponent(false, true);
+		CollisionComponent cc = new CollisionComponent(false, true, false);
 		e.addComponent(cc);
 
 		return e;
@@ -84,7 +87,7 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionData pos = PositionData.ByCentre(cx, cy, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
-		CollisionComponent cc = new CollisionComponent(true, true); // Needs collideAsPlatform to be killed
+		CollisionComponent cc = new CollisionComponent(true, true, false); // Needs collideAsPlatform to be killed
 		e.addComponent(cc);
 		MovementComponent mc = new MovementComponent(true);
 		e.addComponent(mc);
@@ -101,10 +104,10 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionData pos = PositionData.ByCentre(cx, cy, Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
 		e.addComponent(pos);
-		CollisionComponent cc = new CollisionComponent(true, false);
+		CollisionComponent cc = new CollisionComponent(true, false, false);
 		e.addComponent(cc);
-		//MovementComponent mc = new MovementComponent(true);
-		//e.addComponent(mc);
+		MovementComponent mc = new MovementComponent(true);
+		e.addComponent(mc);
 		CollectableComponent col = new CollectableComponent();
 		e.addComponent(col);
 		return e;

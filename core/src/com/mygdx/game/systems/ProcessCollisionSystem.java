@@ -14,10 +14,10 @@ import com.scs.basicecs.BasicECS;
 public class ProcessCollisionSystem extends AbstractSystem {
 
 	private MyGdxGame game;
-	
+
 	public ProcessCollisionSystem(MyGdxGame _game, BasicECS ecs) {
 		super(ecs);
-		
+
 		game = _game;
 	}
 
@@ -53,16 +53,28 @@ public class ProcessCollisionSystem extends AbstractSystem {
 				}
 			}
 		}
-		
-		// Collecting
-		CanCollectComponent ccc = (CanCollectComponent)mover.getComponent(CanCollectComponent.class);
-		if (ccc != null) {
-			CollectableComponent cc = (CollectableComponent)results.collidedWith.getComponent(CollectableComponent.class);
-			if (cc != null) {
-				game.collectorSystem.entityCollected(mover, results.collidedWith);
+
+		{
+			// Collecting - player moves into collectable
+			CanCollectComponent ccc = (CanCollectComponent)mover.getComponent(CanCollectComponent.class);
+			if (ccc != null) {
+				CollectableComponent cc = (CollectableComponent)results.collidedWith.getComponent(CollectableComponent.class);
+				if (cc != null) {
+					game.collectorSystem.entityCollected(mover, results.collidedWith);
+				}
 			}
 		}
-		
+
+		{
+			// Collecting - collectable moves into player
+			CanCollectComponent ccc = (CanCollectComponent)results.collidedWith.getComponent(CanCollectComponent.class);
+			if (ccc != null) {
+				CollectableComponent cc = (CollectableComponent)mover.getComponent(CollectableComponent.class);
+				if (cc != null) {
+					game.collectorSystem.entityCollected(results.collidedWith, mover);
+				}
+			}
+		}
 	}
 
 }
