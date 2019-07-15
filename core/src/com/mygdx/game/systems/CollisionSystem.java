@@ -5,6 +5,8 @@ import java.util.Iterator;
 import com.mygdx.game.components.CollisionComponent;
 import com.mygdx.game.components.PositionData;
 import com.mygdx.game.models.CollisionResults;
+import com.mygdx.game.models.LineData;
+import com.scs.awt.RectF;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.BasicECS;
 
@@ -35,15 +37,26 @@ public class CollisionSystem {
 				if (cc != null) {
 					PositionData pos = (PositionData)e.getComponent(PositionData.class);
 					if (pos != null) {
-						if (moverPos.rect.intersects(pos.rect)) {
-							if (cc.collidesAsPlatform) { // Check this first so we can kill baddies by jumping on them
-								if (offY < 0) {
-									if (moverPos.prevPos.intersects(pos.rect) == false) {
-										return new CollisionResults(e, true, cc.blocksMovement);
-									}									
+						if (pos.edge != null) {
+							// Edges are always solid
+							if (pos.edge.intersectsRect(moverPos.rect)) {
+								return handleEdge(mover, e, moverPos, pos);
+							}
+						} else {
+							if (moverPos.rect.intersects(pos.rect)) {
+								if (cc.collidesAsPlatform) { // Check this first so we can kill baddies by jumping on them
+									if (offY < 0) {
+										if (moverPos.prevPos.intersects(pos.rect) == false) {
+											return new CollisionResults(e, true, cc.blocksMovement);
+										}									
+									}
+								} else if (cc.isLadder) {
+									if (offY < 0) {
+										return new CollisionResults(e, false, cc.blocksMovement);
+									}
+								} else if (cc.alwaysCollides) {
+									return new CollisionResults(e, false, cc.blocksMovement);
 								}
-							} else if (cc.alwaysCollides) {
-								return new CollisionResults(e, false, cc.blocksMovement);
 							}
 						}
 					}
@@ -51,6 +64,18 @@ public class CollisionSystem {
 			}
 		}
 		return null;
+	}
+
+
+	private CollisionResults handleEdge(AbstractEntity mover, AbstractEntity edge, PositionData moverPos, PositionData edgePos) {
+		// Move player or mob up
+		for (int i=0 ; i<10 ; i++) {
+			if (edgePos.edge.intersectsRect(moverPos.rect) == false) {
+				return null;
+			}
+			moverPos.rect.move(0, 1);
+		}
+		return new CollisionResults(edge, true, true);
 	}
 
 
@@ -96,5 +121,6 @@ public class CollisionSystem {
 		}
 		return false;
 	}
+
 
 }

@@ -42,7 +42,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private boolean paused = false;
 	private Music music;
 	public SoundEffects sfx = new SoundEffects();
-	private ShapeRenderer shapeRenderer;
+	//private ShapeRenderer shapeRenderer;
 	public AnimationFramesHelper animFrameHelper;
 
 	private int gameStage = -1; // -1, -, or 1
@@ -60,7 +60,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private PlayerMovementSystem playerMovementSystem;
 	public ProcessCollisionSystem processCollisionSystem;
 	public CollectorSystem collectorSystem;
-	
+
 	public AbstractEntity playersAvatar;
 
 	@Override
@@ -69,18 +69,18 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
 		viewport = new StretchViewport(Settings.WINDOW_WIDTH_PIXELS, Settings.WINDOW_HEIGHT_PIXELS, camera);
 
-		shapeRenderer = new ShapeRenderer();
+		//shapeRenderer = new ShapeRenderer();
 
 		batch = new SpriteBatch();
 		Gdx.input.setInputProcessor(this);
 
 		font = new BitmapFont();
 		font.getData().setScale(3);
-		
+
 		ecs = new BasicECS();
-		entityFactory = new EntityFactory(this, ecs);
+		entityFactory = new EntityFactory();//this, ecs);
 		animFrameHelper = new AnimationFramesHelper();
-		
+
 		// Systems
 		this.inputSystem = new InputSystem(this, ecs);
 		drawingSystem = new DrawingSystem(this, ecs, batch);
@@ -92,7 +92,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		this.playerMovementSystem = new PlayerMovementSystem(this, ecs);
 		processCollisionSystem = new ProcessCollisionSystem(this, ecs);
 		this.collectorSystem = new CollectorSystem();
-		
+
 		startPreGame();
 
 		if (!Settings.RELEASE_MODE) {
@@ -108,8 +108,8 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		music.setLooping(true);
 		music.setVolume(1f);
 		music.play();*/
-		
-		
+
+
 	}
 
 
@@ -125,27 +125,33 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		}
 
 		gameData = new GameData();
-		
+
 		this.removeAllEntities();
-		
+
 		// Create entities for game
 		this.playersAvatar = this.entityFactory.createPlayer(250, 250);
 		ecs.addEntity(this.playersAvatar);
-		
-		AbstractEntity floor = this.entityFactory.createWall(20, 20, Settings.LOGICAL_WIDTH_PIXELS-50, 20);
-		ecs.addEntity(floor);
 
-		AbstractEntity platform = this.entityFactory.createFluidPlatform(120, 50, 100);
-		ecs.addEntity(platform);
-		
+		//AbstractEntity floor = this.entityFactory.createWall(20, 20, Settings.LOGICAL_WIDTH_PIXELS-50, 20);
+		//ecs.addEntity(floor);
+
+		//AbstractEntity platform = this.entityFactory.createFluidPlatform(120, 50, 100);
+		//ecs.addEntity(platform);
+
 		//AbstractEntity mob = this.entityFactory.createMob(500, 500);
 		//ecs.addEntity(mob);
-		
-		AbstractEntity collectable = this.entityFactory.createCollectable(350, 500);
-		ecs.addEntity(collectable);
-		
+
+		//AbstractEntity collectable = this.entityFactory.createCollectable(350, 500);
+		//ecs.addEntity(collectable);
+
+		AbstractEntity edgeUp = this.entityFactory.createEdge(100, 20, 400, 50);
+		ecs.addEntity(edgeUp);
+
+		//AbstractEntity edgeDown = this.entityFactory.createEdge(310, 50, 400, 5);
+		//ecs.addEntity(edgeDown);
+
 	}
-	
+
 
 	@Override
 	public void render() {
@@ -165,33 +171,35 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 			}
 
 			ecs.process();
-			
+
 			// loop through systems
 			this.inputSystem.process();
 			this.playerMovementSystem.process();
 			this.mobAiSystem.process();
 			this.movementSystem.process();
 			this.animSystem.process();
-			
+
 			// Start actual drawing
 			Gdx.gl.glClearColor(1, 1, 1, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 			batch.setProjectionMatrix(camera.combined);
-			shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+			//shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
 			camera.update();
 
 			batch.begin();
-			
+
 			this.drawingSystem.process();
-			
+
 			this.drawFont(batch, "Creds: " + this.gameData.creds, 20, 40);
 
 			batch.end();
 
-			/*batch.begin();
-			// Any line drawing?
-			batch.end();*/
+			if (Settings.SHOW_OUTLINE) {
+				batch.begin();
+				this.drawingSystem.drawDebug(batch);
+				batch.end();
+			}
 		}
 
 		if (this.toggleFullscreen) {
@@ -232,7 +240,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	public void dispose() {
 		removeAllEntities();
 
-		shapeRenderer.dispose();
+		//shapeRenderer.dispose();
 		batch.dispose();
 		if (font != null) {
 			font.dispose();
@@ -331,10 +339,10 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		return false;
 	}
 
-	
+
 	public static final void p(String s) {
 		System.out.println(s);
 	}
-	
+
 }
 

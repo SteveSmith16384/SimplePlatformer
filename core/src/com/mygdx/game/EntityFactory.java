@@ -17,13 +17,13 @@ import com.scs.basicecs.BasicECS;
 
 public class EntityFactory {
 
-	private BasicECS ecs;
+	/*private BasicECS ecs;
 	private MyGdxGame game;
 	
 	public EntityFactory(MyGdxGame _game, BasicECS _ecs) {
 		game = _game;
 		ecs = _ecs;
-	}
+	}*/
 	
 	
 	public AbstractEntity createPlayer(int cx, int cy) {
@@ -33,7 +33,7 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionData pos = PositionData.ByCentre(cx, cy, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
-		CollisionComponent cc = new CollisionComponent(true, false, true);
+		CollisionComponent cc = new CollisionComponent(true, false, true, false);
 		e.addComponent(cc);
 		MovementComponent mc = new MovementComponent(true);
 		e.addComponent(mc);
@@ -59,7 +59,21 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionData pos = PositionData.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
-		CollisionComponent cc = new CollisionComponent(true, false, true);
+		CollisionComponent cc = new CollisionComponent(true, false, true, false);
+		e.addComponent(cc);
+
+		return e;
+	}
+
+
+	public AbstractEntity createLadderArea(int x, int y, int w, int h) {
+		AbstractEntity e = new AbstractEntity("Ladder");
+
+		ImageData imageData = new ImageData("grey_box.png", w, h);
+		e.addComponent(imageData);
+		PositionData pos = PositionData.ByBottomLeft(x, y, w, h);
+		e.addComponent(pos);
+		CollisionComponent cc = new CollisionComponent(true, false, true, true);
 		e.addComponent(cc);
 
 		return e;
@@ -73,7 +87,21 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionData pos = PositionData.ByBottomLeft(x, y, w, 5);
 		e.addComponent(pos);
-		CollisionComponent cc = new CollisionComponent(false, true, false);
+		CollisionComponent cc = new CollisionComponent(false, true, false, false);
+		e.addComponent(cc);
+
+		return e;
+	}
+
+
+	public AbstractEntity createEdge(int x1, int y1, int x2, int y2) {
+		AbstractEntity e = new AbstractEntity("Edge");
+
+		//ImageData imageData = new ImageData("grey_box.png", w, 5);
+		//e.addComponent(imageData);
+		PositionData pos = PositionData.FromEdge(x1, y1, x2, y2);
+		e.addComponent(pos);
+		CollisionComponent cc = new CollisionComponent(false, false, true, false);
 		e.addComponent(cc);
 
 		return e;
@@ -87,7 +115,7 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionData pos = PositionData.ByCentre(cx, cy, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
-		CollisionComponent cc = new CollisionComponent(true, true, false); // Needs collideAsPlatform to be killed
+		CollisionComponent cc = new CollisionComponent(true, true, false, false); // Needs collideAsPlatform to be killed
 		e.addComponent(cc);
 		MovementComponent mc = new MovementComponent(true);
 		e.addComponent(mc);
@@ -104,7 +132,7 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionData pos = PositionData.ByCentre(cx, cy, Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
 		e.addComponent(pos);
-		CollisionComponent cc = new CollisionComponent(true, false, false);
+		CollisionComponent cc = new CollisionComponent(true, false, false, false);
 		e.addComponent(cc);
 		MovementComponent mc = new MovementComponent(true);
 		e.addComponent(mc);

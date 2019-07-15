@@ -6,7 +6,7 @@ public final class Settings {
 	public static final boolean RELEASE_MODE = false;
 	
 	// Debug
-	public static final boolean SHOW_OUTLINE = !RELEASE_MODE && false;
+	public static final boolean SHOW_OUTLINE = !RELEASE_MODE && true;
 
 	// Settings
 	public static final float PLAYER_SPEED = 50;

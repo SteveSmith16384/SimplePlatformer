@@ -4,7 +4,4 @@ public class GameData {
 
 	public int creds;
 
-	public GameData() {
-	}
-
 }

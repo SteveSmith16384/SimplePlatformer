@@ -3,10 +3,12 @@ package com.mygdx.game.systems;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.components.ImageData;
 import com.mygdx.game.components.PositionData;
@@ -19,13 +21,15 @@ public class DrawingSystem extends AbstractSystem {
 	private MyGdxGame game;
 	private SpriteBatch batch;
 	private HashMap<String, Texture> textures = new HashMap<String, Texture>();
-	//private Sprite cursor;
+	private ShapeRenderer shapeRenderer;
 
 	public DrawingSystem(MyGdxGame _game, BasicECS ecs, SpriteBatch _batch) {
 		super(ecs);
 
 		game = _game;
 		batch = _batch;
+
+		shapeRenderer = new ShapeRenderer();
 	}
 
 
@@ -71,11 +75,35 @@ public class DrawingSystem extends AbstractSystem {
 	}
 
 
+	public void drawDebug(SpriteBatch batch) {
+		shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+
+		Iterator<AbstractEntity> it = ecs.getIterator();
+		while (it.hasNext()) {
+			AbstractEntity entity = it.next();
+			PositionData posData = (PositionData)entity.getComponent(PositionData.class);
+
+			if (posData.edge != null) {
+				shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+				shapeRenderer.setColor(Color.RED);
+				shapeRenderer.line(posData.edge.x1, posData.edge.y1, posData.edge.x2, posData.edge.y2);
+				shapeRenderer.end();
+			}
+			if (posData.rect != null) {
+				shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+				shapeRenderer.setColor(Color.GREEN);
+				shapeRenderer.rect(posData.rect.left, posData.rect.bottom, posData.rect.width(), posData.rect.height()); 
+				shapeRenderer.end();
+			}
+		}
+	}
+
+
 	public void dispose() {
 		for(Texture t : this.textures.values()) {
 			t.dispose();
 		}
-
+		shapeRenderer.dispose();
 	}
 
 }
