@@ -43,7 +43,7 @@ public class InputSystem extends AbstractSystem {
 		UserInputComponent uic = (UserInputComponent)game.playersAvatar.getComponent(UserInputComponent.class);
 		uic.moveLeft = key[29];
 		uic.moveRight = key[32];
-		uic.jump = key[51];
+		uic.jump = key[51] || key[62];  // W or space
 
 		while (mouseDataList.size() > 0) {
 			synchronized (mouseDataList) {

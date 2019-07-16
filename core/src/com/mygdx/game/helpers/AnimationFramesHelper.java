@@ -3,15 +3,18 @@ package com.mygdx.game.helpers;
 import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.mygdx.game.Settings;
+import com.mygdx.game.components.AnimationCycleData;
 
 public class AnimationFramesHelper {
 
 	private HashMap<String, Texture> textures = new HashMap<String, Texture>();
-/*
-	public AnimationCycleData generateForConveyor(Direction dir) {
+
+	public AnimationCycleData generateForCoin() {
 		AnimationCycleData acd = new AnimationCycleData(.5f);
-		//acd.interval = .5f;
-		acd.frames = new Sprite[4];
+		acd.frames = new Sprite[8];
 		
 		Texture tex = getTexture("conveyor_lr_wide.png");
 		TextureAtlas atlas = new TextureAtlas();
@@ -55,7 +58,7 @@ public class AnimationFramesHelper {
 		this.textures.put(filename, t);
 		return t;
 	}
-*/
+
 
 	public void dispose() {
 		for(Texture t : this.textures.values()) {

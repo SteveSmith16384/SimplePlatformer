@@ -10,18 +10,17 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.helpers.AnimationFramesHelper;
 import com.mygdx.game.models.GameData;
 import com.mygdx.game.systems.AnimationCycleSystem;
+import com.mygdx.game.systems.CheckForEndOfLevelSystem;
 import com.mygdx.game.systems.CollectorSystem;
 import com.mygdx.game.systems.CollisionSystem;
 import com.mygdx.game.systems.DrawingSystem;
-import com.mygdx.game.systems.MobAISystem;
-import com.mygdx.game.systems.GuiSystem;
 import com.mygdx.game.systems.InputSystem;
+import com.mygdx.game.systems.MobAISystem;
 import com.mygdx.game.systems.MovementSystem;
 import com.mygdx.game.systems.PlayerMovementSystem;
 import com.mygdx.game.systems.ProcessCollisionSystem;
@@ -53,13 +52,13 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private DrawingSystem drawingSystem;
 	public CollisionSystem collisionSystem;
 	private MovementSystem movementSystem;
-	private GuiSystem guiSystem;
 	private AnimationCycleSystem animSystem;
 	private MobAISystem mobAiSystem;
 	private PlayerMovementSystem playerMovementSystem;
 	public ProcessCollisionSystem processCollisionSystem;
 	public CollectorSystem collectorSystem;
-
+	private CheckForEndOfLevelSystem checkForEndOfLevelSystem;
+	
 	public AbstractEntity playersAvatar;
 
 	@Override
@@ -83,13 +82,13 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		drawingSystem = new DrawingSystem(this, ecs, batch);
 		collisionSystem = new CollisionSystem(ecs);
 		movementSystem = new MovementSystem(this, ecs);
-		guiSystem = new GuiSystem(ecs);
 		animSystem = new AnimationCycleSystem(ecs);
 		mobAiSystem = new MobAISystem(this, ecs);
 		this.playerMovementSystem = new PlayerMovementSystem(this, ecs);
 		processCollisionSystem = new ProcessCollisionSystem(this, ecs);
 		this.collectorSystem = new CollectorSystem();
-
+		this.checkForEndOfLevelSystem = new CheckForEndOfLevelSystem(this, ecs);
+		
 		startPreGame();
 
 		if (!Settings.RELEASE_MODE) {
@@ -174,7 +173,8 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 			this.mobAiSystem.process();
 			this.movementSystem.process();
 			this.animSystem.process();
-
+			this.checkForEndOfLevelSystem.process();
+			
 			// Start actual drawing
 			Gdx.gl.glClearColor(1, 1, 1, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -227,12 +227,17 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		font.draw(batch, text, x, y);
 	}
 
+	
+	public void endOfLevel() {
+		p("End of level!");
+		// todo
+	}
+	
 
 	@Override
 	public void dispose() {
 		removeAllEntities();
 
-		//shapeRenderer.dispose();
 		batch.dispose();
 		if (font != null) {
 			font.dispose();

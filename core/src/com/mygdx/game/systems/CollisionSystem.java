@@ -6,8 +6,6 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.components.CollisionComponent;
 import com.mygdx.game.components.PositionData;
 import com.mygdx.game.models.CollisionResults;
-import com.mygdx.game.models.LineData;
-import com.scs.awt.RectF;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.BasicECS;
 
@@ -74,7 +72,7 @@ public class CollisionSystem {
 
 	private CollisionResults handleEdge(AbstractEntity mover, AbstractEntity edge, PositionData moverPos, PositionData edgePos, float offX) {
 		// Move player or mob up
-		int max = (int)Math.abs(offX);
+		//int max = (int)Math.abs(offX);
 		//MyGdxGame.p("Testing up to " + max);
 		for (int i=0 ; i<3 ; i++) {
 			if (edgePos.edge.intersectsRect(moverPos.rect) == false) {
