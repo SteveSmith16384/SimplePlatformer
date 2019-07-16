@@ -42,7 +42,6 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private boolean paused = false;
 	private Music music;
 	public SoundEffects sfx = new SoundEffects();
-	//private ShapeRenderer shapeRenderer;
 	public AnimationFramesHelper animFrameHelper;
 
 	private int gameStage = -1; // -1, -, or 1
@@ -68,8 +67,6 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		camera = new OrthographicCamera(Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS);
 		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
 		viewport = new StretchViewport(Settings.WINDOW_WIDTH_PIXELS, Settings.WINDOW_HEIGHT_PIXELS, camera);
-
-		//shapeRenderer = new ShapeRenderer();
 
 		batch = new SpriteBatch();
 		Gdx.input.setInputProcessor(this);
@@ -109,7 +106,6 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		music.setVolume(1f);
 		music.play();*/
 
-
 	}
 
 
@@ -132,8 +128,8 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		this.playersAvatar = this.entityFactory.createPlayer(250, 250);
 		ecs.addEntity(this.playersAvatar);
 
-		//AbstractEntity floor = this.entityFactory.createWall(20, 20, Settings.LOGICAL_WIDTH_PIXELS-50, 20);
-		//ecs.addEntity(floor);
+		AbstractEntity floor = this.entityFactory.createWall(20, 20, Settings.LOGICAL_WIDTH_PIXELS-50, 20);
+		ecs.addEntity(floor);
 
 		//AbstractEntity platform = this.entityFactory.createFluidPlatform(120, 50, 100);
 		//ecs.addEntity(platform);
@@ -144,11 +140,11 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		//AbstractEntity collectable = this.entityFactory.createCollectable(350, 500);
 		//ecs.addEntity(collectable);
 
-		AbstractEntity edgeUp = this.entityFactory.createEdge(100, 20, 400, 50);
+		AbstractEntity edgeUp = this.entityFactory.createEdge(50, 20, 300, 50);
 		ecs.addEntity(edgeUp);
 
-		//AbstractEntity edgeDown = this.entityFactory.createEdge(310, 50, 400, 5);
-		//ecs.addEntity(edgeDown);
+		AbstractEntity edgeDown = this.entityFactory.createEdge(300, 50, 400, 500);
+		ecs.addEntity(edgeDown);
 
 	}
 
@@ -184,15 +180,11 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 			batch.setProjectionMatrix(camera.combined);
-			//shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
 			camera.update();
 
 			batch.begin();
-
 			this.drawingSystem.process();
-
 			this.drawFont(batch, "Creds: " + this.gameData.creds, 20, 40);
-
 			batch.end();
 
 			if (Settings.SHOW_OUTLINE) {

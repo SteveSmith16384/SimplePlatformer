@@ -1,9 +1,11 @@
 package com.mygdx.game.systems;
 
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.components.CanBeHarmedComponent;
 import com.mygdx.game.components.CanCollectComponent;
 import com.mygdx.game.components.CollectableComponent;
-import com.mygdx.game.components.DestroyedByMobComponent;
+import com.mygdx.game.components.HarmOnContactComponent;
+import com.mygdx.game.components.HarmedByMobComponent;
 import com.mygdx.game.components.KillByJumpingComponent;
 import com.mygdx.game.components.MobComponent;
 import com.mygdx.game.models.CollisionResults;
@@ -35,7 +37,7 @@ public class ProcessCollisionSystem extends AbstractSystem {
 						return;
 					}
 				}
-				DestroyedByMobComponent dbm = (DestroyedByMobComponent)mover.getComponent(DestroyedByMobComponent.class);
+				HarmedByMobComponent dbm = (HarmedByMobComponent)mover.getComponent(HarmedByMobComponent.class);
 				if (dbm != null) {
 					mover.remove(); // todo - death sequence
 					return;
@@ -47,31 +49,46 @@ public class ProcessCollisionSystem extends AbstractSystem {
 		{
 			MobComponent mob = (MobComponent)mover.getComponent(MobComponent.class);
 			if (mob != null) {
-				DestroyedByMobComponent dbm = (DestroyedByMobComponent)results.collidedWith.getComponent(DestroyedByMobComponent.class);
+				HarmedByMobComponent dbm = (HarmedByMobComponent)results.collidedWith.getComponent(HarmedByMobComponent.class);
 				if (dbm != null) {
 					results.collidedWith.remove();
+					return;
 				}
 			}
 		}
 
+		// Generic harm
 		{
-			// Collecting - player moves into collectable
+			CanBeHarmedComponent cbh = (CanBeHarmedComponent)mover.getComponent(CanBeHarmedComponent.class);
+			if (cbh != null) {
+				HarmOnContactComponent hoc = (HarmOnContactComponent)results.collidedWith.getComponent(HarmOnContactComponent.class);
+				if (hoc != null) {
+					mover.remove(); // todo - death effect
+					return;
+				}
+			}
+		}
+
+		// Collecting - player moves into collectable
+		{
 			CanCollectComponent ccc = (CanCollectComponent)mover.getComponent(CanCollectComponent.class);
 			if (ccc != null) {
 				CollectableComponent cc = (CollectableComponent)results.collidedWith.getComponent(CollectableComponent.class);
 				if (cc != null) {
 					game.collectorSystem.entityCollected(mover, results.collidedWith);
+					return;
 				}
 			}
 		}
 
+		// Collecting - collectable moves into player
 		{
-			// Collecting - collectable moves into player
 			CanCollectComponent ccc = (CanCollectComponent)results.collidedWith.getComponent(CanCollectComponent.class);
 			if (ccc != null) {
 				CollectableComponent cc = (CollectableComponent)mover.getComponent(CollectableComponent.class);
 				if (cc != null) {
 					game.collectorSystem.entityCollected(results.collidedWith, mover);
+					return;
 				}
 			}
 		}

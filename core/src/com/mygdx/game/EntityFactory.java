@@ -3,7 +3,7 @@ package com.mygdx.game;
 import com.mygdx.game.components.CanCollectComponent;
 import com.mygdx.game.components.CollectableComponent;
 import com.mygdx.game.components.CollisionComponent;
-import com.mygdx.game.components.DestroyedByMobComponent;
+import com.mygdx.game.components.HarmedByMobComponent;
 import com.mygdx.game.components.GuiContainerComponent;
 import com.mygdx.game.components.ImageData;
 import com.mygdx.game.components.JumpingComponent;
@@ -43,7 +43,7 @@ public class EntityFactory {
 		e.addComponent(jc);
 		KillByJumpingComponent kbj = new KillByJumpingComponent();
 		e.addComponent(kbj);
-		DestroyedByMobComponent dbm = new DestroyedByMobComponent();
+		HarmedByMobComponent dbm = new HarmedByMobComponent();
 		e.addComponent(dbm);
 		CanCollectComponent ccc = new CanCollectComponent();
 		e.addComponent(ccc);

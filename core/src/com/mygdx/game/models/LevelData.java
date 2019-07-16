@@ -1,9 +1,12 @@
 package com.mygdx.game.models;
 
+import com.scs.awt.Point;
+
 public class LevelData {
 
-	public LevelData() {
-		// TODO Auto-generated constructor stub
-	}
-
+	public int id;
+	public String title;
+	public Point mapGridSize = new Point();
+	public int[][] mapData; 
+	
 }

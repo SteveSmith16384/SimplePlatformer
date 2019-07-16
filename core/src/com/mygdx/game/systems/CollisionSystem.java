@@ -2,6 +2,7 @@ package com.mygdx.game.systems;
 
 import java.util.Iterator;
 
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.components.CollisionComponent;
 import com.mygdx.game.components.PositionData;
 import com.mygdx.game.models.CollisionResults;
@@ -24,7 +25,7 @@ public class CollisionSystem {
 	}
 
 
-	public CollisionResults collided(AbstractEntity mover, float offY) {
+	public CollisionResults collided(AbstractEntity mover, float offX, float offY) {
 		PositionData moverPos = (PositionData)mover.getComponent(PositionData.class);
 		if (moverPos == null) {
 			throw new RuntimeException(mover + " has no " + PositionData.class.getSimpleName());
@@ -40,7 +41,11 @@ public class CollisionSystem {
 						if (pos.edge != null) {
 							// Edges are always solid
 							if (pos.edge.intersectsRect(moverPos.rect)) {
-								return handleEdge(mover, e, moverPos, pos);
+								if (offX != 0) {
+									return handleEdge(mover, e, moverPos, pos, offX);
+								} else {
+									return new CollisionResults(e, true, cc.blocksMovement);
+								}
 							}
 						} else {
 							if (moverPos.rect.intersects(pos.rect)) {
@@ -67,15 +72,19 @@ public class CollisionSystem {
 	}
 
 
-	private CollisionResults handleEdge(AbstractEntity mover, AbstractEntity edge, PositionData moverPos, PositionData edgePos) {
+	private CollisionResults handleEdge(AbstractEntity mover, AbstractEntity edge, PositionData moverPos, PositionData edgePos, float offX) {
 		// Move player or mob up
-		for (int i=0 ; i<10 ; i++) {
+		int max = (int)Math.abs(offX);
+		//MyGdxGame.p("Testing up to " + max);
+		for (int i=0 ; i<3 ; i++) {
 			if (edgePos.edge.intersectsRect(moverPos.rect) == false) {
+				MyGdxGame.p("Moved after " + i);
 				return null;
+				//return new CollisionResults(edge, true, true);
 			}
 			moverPos.rect.move(0, 1);
 		}
-		return new CollisionResults(edge, true, true);
+		return new CollisionResults(edge, true, true); // Will move us back
 	}
 
 

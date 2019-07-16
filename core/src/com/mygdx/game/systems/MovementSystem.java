@@ -31,10 +31,11 @@ public class MovementSystem extends AbstractSystem {
 				pos.prevPos.set(pos.rect);
 				if (md.offX > Settings.MAX_MOVEMENT) {
 					md.offX = Settings.MAX_MOVEMENT;
+					MyGdxGame.p("Max movement hit!");					
 				}
 				pos.rect.move(md.offX * Gdx.graphics.getDeltaTime(), 0);
+				CollisionResults results = game.collisionSystem.collided(movingEntity, md.offX, 0);
 				md.offX = 0;
-				CollisionResults results = game.collisionSystem.collided(movingEntity, 0);
 				if (results != null) {
 					if (results.blocksMovement) {
 						pos.rect.set(pos.prevPos); // Move back
@@ -48,8 +49,7 @@ public class MovementSystem extends AbstractSystem {
 					md.offY = Settings.MAX_MOVEMENT;
 				}
 				pos.rect.move(0, md.offY * Gdx.graphics.getDeltaTime());
-				//md.offX = 0;
-				CollisionResults results = game.collisionSystem.collided(movingEntity, md.offY);
+				CollisionResults results = game.collisionSystem.collided(movingEntity, 0, md.offY);
 				if (results != null) {
 					if (results.blocksMovement) {
 						pos.rect.set(pos.prevPos); // Move back

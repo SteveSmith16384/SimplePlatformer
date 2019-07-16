@@ -1,8 +1,8 @@
 package com.mygdx.game.components;
 
-public class CarryingComponent {
+public class HarmOnContactComponent {
 
-	public CarryingComponent() {
+	public HarmOnContactComponent() {
 		// TODO Auto-generated constructor stub
 	}
 

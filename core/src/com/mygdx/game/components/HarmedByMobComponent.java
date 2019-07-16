@@ -1,6 +1,6 @@
 package com.mygdx.game.components;
 
-public class DestroyedByMobComponent {
+public class HarmedByMobComponent {
 
 
 }
