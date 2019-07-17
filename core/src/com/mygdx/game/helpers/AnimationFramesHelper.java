@@ -4,58 +4,35 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Settings;
-import com.mygdx.game.components.AnimationCycleData;
+import com.mygdx.game.components.AnimationCycleComponent;
 
 public class AnimationFramesHelper {
 
-	private HashMap<String, Texture> textures = new HashMap<String, Texture>();
+	private static HashMap<String, Texture> textures = new HashMap<String, Texture>();
 
-	public AnimationCycleData generateForCoin() {
-		AnimationCycleData acd = new AnimationCycleData(.5f);
-		acd.frames = new Sprite[8];
+	public static AnimationCycleComponent generateForCoin(float size) {
+		AnimationCycleComponent acd = new AnimationCycleComponent(.2f);
+		acd.frames = new Sprite[9];
 		
-		Texture tex = getTexture("conveyor_lr_wide.png");
-		TextureAtlas atlas = new TextureAtlas();
-		for(int i=0 ; i<4 ; i++) {
-			atlas.addRegion("r"+i, tex, (i*2), 0, 12, 12);
-			Sprite sprite = atlas.createSprite("r"+i);
-			sprite.setSize(Settings.DEFAULT_SQ_SIZE, Settings.DEFAULT_SQ_SIZE);
-			
-			switch (dir) {
-			case Left:
-				acd.frames[i] = sprite;
-				break;
-			case Right:
-				acd.frames[3-i] = sprite;
-				break;
-			case Up:
-				sprite.rotate90(true);
-				acd.frames[i] = sprite;
-				break;
-			case Down:
-				sprite.rotate90(false);
-				acd.frames[3-i] = sprite;
-				break;
-			default:
-				throw new RuntimeException("Unknown dir: " + dir);
-			
-			}
+		for(int i=1 ; i<=8 ; i++) {
+			Texture tex = getTexture("coin_0" + i + ".png");
+			Sprite sprite = new Sprite(tex);
+			sprite.setSize(size, size);
+			acd.frames[i-1] = sprite;
 		}
 
 		return acd;
-
-
 	}
 
 
-	public Texture getTexture(String filename) {
+	private static Texture getTexture(String filename) {
 		if (textures.containsKey(filename)) {
 			return textures.get(filename);
 		}
 		Texture t = new Texture(filename);
-		this.textures.put(filename, t);
+		textures.put(filename, t);
 		return t;
 	}
 

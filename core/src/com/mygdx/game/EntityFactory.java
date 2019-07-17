@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.mygdx.game.components.AnimationCycleComponent;
 import com.mygdx.game.components.BlocksEndOfLevelComponent;
 import com.mygdx.game.components.CanCollectComponent;
 import com.mygdx.game.components.CollectableComponent;
@@ -13,6 +14,7 @@ import com.mygdx.game.components.MobComponent;
 import com.mygdx.game.components.MovementComponent;
 import com.mygdx.game.components.PositionData;
 import com.mygdx.game.components.UserInputComponent;
+import com.mygdx.game.helpers.AnimationFramesHelper;
 import com.scs.basicecs.AbstractEntity;
 
 public class EntityFactory {
@@ -166,12 +168,12 @@ public class EntityFactory {
 
 		ImageData imageData = new ImageData("coin_01.png", Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
 		e.addComponent(imageData);
+		AnimationCycleComponent acc = AnimationFramesHelper.generateForCoin(Settings.COLLECTABLE_SIZE);
+		e.addComponent(acc);
 		PositionData pos = PositionData.ByCentre(cx, cy, Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, false, false);
 		e.addComponent(cc);
-		//MovementComponent mc = new MovementComponent(true);
-		//e.addComponent(mc);
 		CollectableComponent col = new CollectableComponent();
 		e.addComponent(col);
 		BlocksEndOfLevelComponent beolc = new BlocksEndOfLevelComponent();

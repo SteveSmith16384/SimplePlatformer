@@ -6,8 +6,8 @@ public final class Settings {
 	public static final boolean RELEASE_MODE = false;
 	
 	// Debug
-	public static final boolean SHOW_OUTLINE = !RELEASE_MODE && true;
-	public static final boolean SHOW_GREY_BOXES = !RELEASE_MODE && true;
+	public static final boolean SHOW_OUTLINE = !RELEASE_MODE && false;
+	public static final boolean SHOW_GREY_BOXES = !RELEASE_MODE && false;
 
 	// Settings
 	public static final float PLAYER_SPEED = 50;

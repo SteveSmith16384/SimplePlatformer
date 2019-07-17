@@ -1,7 +1,7 @@
 package com.mygdx.game.systems;
 
 import com.badlogic.gdx.Gdx;
-import com.mygdx.game.components.AnimationCycleData;
+import com.mygdx.game.components.AnimationCycleComponent;
 import com.mygdx.game.components.ImageData;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
@@ -20,7 +20,7 @@ public class AnimationCycleSystem extends AbstractSystem {
 
 	@Override
 	public void processEntity(AbstractEntity entity) {
-		AnimationCycleData data = (AnimationCycleData)entity.getComponent(AnimationCycleData.class);
+		AnimationCycleComponent data = (AnimationCycleComponent)entity.getComponent(AnimationCycleComponent.class);
 		if (data != null) {
 			data.timeUntilNextFrame -= Gdx.graphics.getDeltaTime();
 

@@ -145,6 +145,8 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		AbstractEntity edgeDown = this.entityFactory.createEdge(300, 50, 400, 500);
 		ecs.addEntity(edgeDown);
 
+		AbstractEntity coin = this.entityFactory.createCoin(300, 400);
+		ecs.addEntity(coin);
 	}
 
 
