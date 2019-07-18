@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.controllers.Controller;
 import com.mygdx.game.components.AnimationCycleComponent;
 import com.mygdx.game.components.CanCollectComponent;
 import com.mygdx.game.components.CollectableComponent;
@@ -29,7 +30,7 @@ public class EntityFactory {
 	}*/
 
 
-	public AbstractEntity createPlayer(int cx, int cy) {
+	public AbstractEntity createPlayer(Controller controller, int cx, int cy) {
 		AbstractEntity e = new AbstractEntity("Player");
 
 		ImageComponent imageData = new ImageComponent("grey_box.png", Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
@@ -40,7 +41,7 @@ public class EntityFactory {
 		e.addComponent(cc);
 		MovementComponent mc = new MovementComponent(true);
 		e.addComponent(mc);
-		UserInputComponent uic = new UserInputComponent();
+		UserInputComponent uic = new UserInputComponent(controller);
 		e.addComponent(uic);
 		JumpingComponent jc = new JumpingComponent();
 		e.addComponent(jc);

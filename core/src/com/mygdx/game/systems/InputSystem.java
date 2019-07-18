@@ -40,12 +40,18 @@ public class InputSystem extends AbstractSystem {
 				game.toggleFullscreen = true;
 			}
 		}
-		
+
 		AbstractEntity player1 = game.playersAvatars.get(0);
 		UserInputComponent uic = (UserInputComponent)player1.getComponent(UserInputComponent.class);
-		uic.moveLeft = key[29];
-		uic.moveRight = key[32];
-		uic.jump = key[51] || key[62];  // W or space
+		if (uic.controller != null) {
+			uic.moveLeft = uic.controller.getAxis(0) < 0; // todo
+			uic.moveRight = uic.controller.getAxis(0) > 0; // todo
+			uic.jump = uic.controller.getButton(0); // todo
+		} else {
+			uic.moveLeft = key[29];
+			uic.moveRight = key[32];
+			uic.jump = key[51] || key[62];  // W or space
+		}
 
 		while (mouseDataList.size() > 0) {
 			synchronized (mouseDataList) {

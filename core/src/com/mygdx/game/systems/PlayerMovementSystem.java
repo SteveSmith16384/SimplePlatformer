@@ -31,12 +31,12 @@ public class PlayerMovementSystem extends AbstractSystem {
 
 			if (uic.moveLeft) {
 				mc.offX = -Settings.PLAYER_SPEED;
-				this.checkAnimation(player, -1);
+				//this.checkAnimation(player, -1);
 			} else if (uic.moveRight) {
 				mc.offX = Settings.PLAYER_SPEED;
-				this.checkAnimation(player, 1);
+				//this.checkAnimation(player, 1);
 			} else {
-				this.checkAnimation(player, 0);
+				//this.checkAnimation(player, 0);
 			}
 
 			if (uic.jump) {
@@ -51,33 +51,5 @@ public class PlayerMovementSystem extends AbstractSystem {
 		}
 	}
 
-
-	private void checkAnimation(AbstractEntity player, int dir) {
-		WalkingAnimationComponent wac = (WalkingAnimationComponent)player.getComponent(WalkingAnimationComponent.class);
-		if (wac.currentDir != dir) {
-			wac.currentFrame = 0;
-			wac.currentDir = dir;
-			wac.timeUntilNextFrame = wac.interval;
-		} else {
-			wac.timeUntilNextFrame -= Gdx.graphics.getDeltaTime();
-			if (wac.timeUntilNextFrame <= 0) {
-				wac.currentFrame++;
-				if (wac.currentFrame >= wac.framesLeft.length) {
-					wac.currentFrame = 0;
-				}
-				wac.timeUntilNextFrame = wac.interval;
-			}
-		}
-
-		ImageComponent image = (ImageComponent)player.getComponent(ImageComponent.class);
-		if (dir == -1) {
-			image.sprite = wac.framesLeft[wac.currentFrame];
-		} else if (dir == 1) {
-			image.sprite = wac.framesRight[wac.currentFrame];
-		} else {
-			image.sprite = wac.idleFrame;
-		}
-
-	}
 
 }

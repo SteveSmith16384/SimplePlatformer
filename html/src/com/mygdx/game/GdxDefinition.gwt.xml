@@ -3,6 +3,7 @@
 <module rename-to="html">
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
 	<inherits name='com.badlogic.gdx.physics.box2d.box2d-gwt' />
+	<inherits name="com.badlogic.gdx.controllers.controllers-gwt"/>
 
 	<inherits name='MyGdxGame' />
 	<entry-point class='com.mygdx.game.client.HtmlLauncher' />

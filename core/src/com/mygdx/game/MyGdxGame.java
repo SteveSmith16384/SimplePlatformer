@@ -8,6 +8,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -27,6 +29,7 @@ import com.mygdx.game.systems.MobAISystem;
 import com.mygdx.game.systems.MovementSystem;
 import com.mygdx.game.systems.PlayerMovementSystem;
 import com.mygdx.game.systems.ProcessCollisionSystem;
+import com.mygdx.game.systems.WalkingAnimationSystem;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.BasicECS;
 
@@ -61,7 +64,8 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	public ProcessCollisionSystem processCollisionSystem;
 	public CollectorSystem collectorSystem;
 	private CheckForEndOfLevelSystem checkForEndOfLevelSystem;
-	
+	private WalkingAnimationSystem walkingAnimationSystem;
+
 	public List<AbstractEntity> playersAvatars = new ArrayList<AbstractEntity>();
 
 	@Override
@@ -91,7 +95,8 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		processCollisionSystem = new ProcessCollisionSystem(this, ecs);
 		this.collectorSystem = new CollectorSystem();
 		this.checkForEndOfLevelSystem = new CheckForEndOfLevelSystem(this, ecs);
-		
+		this.walkingAnimationSystem = new WalkingAnimationSystem(ecs);
+
 		startPreGame();
 
 		if (!Settings.RELEASE_MODE) {
@@ -126,10 +131,14 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 		this.removeAllEntities();
 
-		// Create entities for game
-		AbstractEntity player1 = this.entityFactory.createPlayer(250, 250);
-		this.playersAvatars.add(player1);
-		ecs.addEntity(player1);
+		if (Controllers.getControllers().size > 0) {
+			for (Controller controller : Controllers.getControllers()) {
+				Gdx.app.log("", controller.getName());
+				this.createPlayer(controller);
+			}
+		} else {
+			this.createPlayer(null);
+		}
 
 		AbstractEntity floor = this.entityFactory.createWall(20, 20, Settings.LOGICAL_WIDTH_PIXELS-50, 20);
 		ecs.addEntity(floor);
@@ -151,6 +160,14 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 		AbstractEntity coin = this.entityFactory.createCoin(300, 400);
 		ecs.addEntity(coin);
+	}
+
+
+	private void createPlayer(Controller controller) {
+		// Create entities for game
+		AbstractEntity player = this.entityFactory.createPlayer(controller, 250, 250);
+		this.playersAvatars.add(player);
+		ecs.addEntity(player);
 	}
 
 
@@ -179,8 +196,9 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 			this.mobAiSystem.process();
 			this.movementSystem.process();
 			this.animSystem.process();
+			this.walkingAnimationSystem.process();
 			this.checkForEndOfLevelSystem.process();
-			
+
 			// Start actual drawing
 			Gdx.gl.glClearColor(1, 1, 1, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -233,12 +251,12 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		font.draw(batch, text, x, y);
 	}
 
-	
+
 	public void endOfLevel() {
 		p("End of level!");
 		// todo
 	}
-	
+
 
 	@Override
 	public void dispose() {
