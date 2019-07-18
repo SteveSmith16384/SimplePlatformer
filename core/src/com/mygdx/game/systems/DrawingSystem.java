@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.components.ImageData;
+import com.mygdx.game.components.ImageComponent;
 import com.mygdx.game.components.PositionData;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
@@ -45,7 +45,7 @@ public class DrawingSystem extends AbstractSystem {
 
 	@Override
 	public void processEntity(AbstractEntity entity) {
-		ImageData imageData = (ImageData)entity.getComponent(ImageData.class);
+		ImageComponent imageData = (ImageComponent)entity.getComponent(ImageComponent.class);
 		PositionData posData = (PositionData)entity.getComponent(PositionData.class);
 		if (imageData != null) {
 			if (imageData.sprite == null) {

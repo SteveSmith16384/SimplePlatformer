@@ -1,5 +1,8 @@
 package com.mygdx.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
@@ -59,7 +62,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	public CollectorSystem collectorSystem;
 	private CheckForEndOfLevelSystem checkForEndOfLevelSystem;
 	
-	public AbstractEntity playersAvatar;
+	public List<AbstractEntity> playersAvatars = new ArrayList<AbstractEntity>();
 
 	@Override
 	public void create() {
@@ -124,8 +127,9 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		this.removeAllEntities();
 
 		// Create entities for game
-		this.playersAvatar = this.entityFactory.createPlayer(250, 250);
-		ecs.addEntity(this.playersAvatar);
+		AbstractEntity player1 = this.entityFactory.createPlayer(250, 250);
+		this.playersAvatars.add(player1);
+		ecs.addEntity(player1);
 
 		AbstractEntity floor = this.entityFactory.createWall(20, 20, Settings.LOGICAL_WIDTH_PIXELS-50, 20);
 		ecs.addEntity(floor);

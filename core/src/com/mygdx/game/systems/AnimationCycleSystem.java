@@ -2,7 +2,7 @@ package com.mygdx.game.systems;
 
 import com.badlogic.gdx.Gdx;
 import com.mygdx.game.components.AnimationCycleComponent;
-import com.mygdx.game.components.ImageData;
+import com.mygdx.game.components.ImageComponent;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
@@ -29,7 +29,7 @@ public class AnimationCycleSystem extends AbstractSystem {
 				if (data.currentFrame >= data.frames.length) {
 					data.currentFrame = 0;
 				}
-				ImageData image = (ImageData)entity.getComponent(ImageData.class);
+				ImageComponent image = (ImageComponent)entity.getComponent(ImageComponent.class);
 				image.sprite = data.frames[data.currentFrame];
 
 				data.timeUntilNextFrame = data.interval;

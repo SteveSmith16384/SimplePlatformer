@@ -12,7 +12,7 @@ public class AnimationCycleComponent {
 	
 	public AnimationCycleComponent(float _interval) {
 		interval = _interval;
-		timeUntilNextFrame = Gdx.graphics.getDeltaTime() % interval; 
+		timeUntilNextFrame = Gdx.graphics.getDeltaTime() % interval; // So they all animate at the same time 
 	}
 	
 }

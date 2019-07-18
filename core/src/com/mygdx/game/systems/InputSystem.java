@@ -9,6 +9,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.components.UserInputComponent;
+import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
 import com.scs.libgdx.MouseData;
@@ -40,7 +41,8 @@ public class InputSystem extends AbstractSystem {
 			}
 		}
 		
-		UserInputComponent uic = (UserInputComponent)game.playersAvatar.getComponent(UserInputComponent.class);
+		AbstractEntity player1 = game.playersAvatars.get(0);
+		UserInputComponent uic = (UserInputComponent)player1.getComponent(UserInputComponent.class);
 		uic.moveLeft = key[29];
 		uic.moveRight = key[32];
 		uic.jump = key[51] || key[62];  // W or space

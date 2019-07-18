@@ -1,19 +1,20 @@
 package com.mygdx.game;
 
 import com.mygdx.game.components.AnimationCycleComponent;
-import com.mygdx.game.components.BlocksEndOfLevelComponent;
 import com.mygdx.game.components.CanCollectComponent;
 import com.mygdx.game.components.CollectableComponent;
 import com.mygdx.game.components.CollisionComponent;
 import com.mygdx.game.components.HarmOnContactComponent;
 import com.mygdx.game.components.HarmedByMobComponent;
-import com.mygdx.game.components.ImageData;
+import com.mygdx.game.components.ImageComponent;
 import com.mygdx.game.components.JumpingComponent;
 import com.mygdx.game.components.KillByJumpingComponent;
 import com.mygdx.game.components.MobComponent;
 import com.mygdx.game.components.MovementComponent;
 import com.mygdx.game.components.PositionData;
+import com.mygdx.game.components.PreventsEndOfLevelComponent;
 import com.mygdx.game.components.UserInputComponent;
+import com.mygdx.game.components.WalkingAnimationComponent;
 import com.mygdx.game.helpers.AnimationFramesHelper;
 import com.scs.basicecs.AbstractEntity;
 
@@ -31,7 +32,7 @@ public class EntityFactory {
 	public AbstractEntity createPlayer(int cx, int cy) {
 		AbstractEntity e = new AbstractEntity("Player");
 
-		ImageData imageData = new ImageData("grey_box.png", Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		ImageComponent imageData = new ImageComponent("grey_box.png", Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(imageData);
 		PositionData pos = PositionData.ByCentre(cx, cy, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
@@ -49,7 +50,10 @@ public class EntityFactory {
 		e.addComponent(dbm);
 		CanCollectComponent ccc = new CanCollectComponent();
 		e.addComponent(ccc);
+		WalkingAnimationComponent wac = new WalkingAnimationComponent(.2f);
+		e.addComponent(wac);
 
+		AnimationFramesHelper.createPlayersFrames(e, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		return e;
 	}
 
@@ -58,7 +62,7 @@ public class EntityFactory {
 		AbstractEntity e = new AbstractEntity("Wall");
 
 		if (Settings.SHOW_GREY_BOXES) {
-			ImageData imageData = new ImageData("grey_box.png", w, h);
+			ImageComponent imageData = new ImageComponent("grey_box.png", w, h);
 			e.addComponent(imageData);
 		}
 		PositionData pos = PositionData.ByBottomLeft(x, y, w, h);
@@ -74,7 +78,7 @@ public class EntityFactory {
 		AbstractEntity e = new AbstractEntity("HarmfulArea");
 
 		if (Settings.SHOW_GREY_BOXES) {
-			ImageData imageData = new ImageData("grey_box.png", w, h);
+			ImageComponent imageData = new ImageComponent("grey_box.png", w, h);
 			e.addComponent(imageData);
 		}
 		PositionData pos = PositionData.ByBottomLeft(x, y, w, h);
@@ -91,7 +95,7 @@ public class EntityFactory {
 	public AbstractEntity createImage(String filename, int x, int y, float w, float h) {
 		AbstractEntity e = new AbstractEntity("Image_" + filename);
 
-		ImageData imageData = new ImageData(filename, w, h);
+		ImageComponent imageData = new ImageComponent(filename, w, h);
 		e.addComponent(imageData);
 		PositionData pos = PositionData.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
@@ -104,7 +108,7 @@ public class EntityFactory {
 		AbstractEntity e = new AbstractEntity("Ladder");
 
 		if (Settings.SHOW_GREY_BOXES) {
-			ImageData imageData = new ImageData("grey_box.png", w, h);
+			ImageComponent imageData = new ImageComponent("grey_box.png", w, h);
 			e.addComponent(imageData);
 		}
 		PositionData pos = PositionData.ByBottomLeft(x, y, w, h);
@@ -120,7 +124,7 @@ public class EntityFactory {
 		AbstractEntity e = new AbstractEntity("FluidPlatform");
 
 		if (Settings.SHOW_GREY_BOXES) {
-			ImageData imageData = new ImageData("grey_box.png", w, 5);
+			ImageComponent imageData = new ImageComponent("grey_box.png", w, 5);
 			e.addComponent(imageData);
 		}
 		PositionData pos = PositionData.ByBottomLeft(x, y, w, 5);
@@ -147,7 +151,7 @@ public class EntityFactory {
 	public AbstractEntity createMob1(int cx, int cy) {
 		AbstractEntity e = new AbstractEntity("Mob");
 
-		ImageData imageData = new ImageData("grey_box.png", Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		ImageComponent imageData = new ImageComponent("grey_box.png", Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(imageData);
 		PositionData pos = PositionData.ByCentre(cx, cy, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
@@ -157,8 +161,12 @@ public class EntityFactory {
 		e.addComponent(mc);
 		MobComponent mob = new MobComponent();
 		e.addComponent(mob);
-		BlocksEndOfLevelComponent beolc = new BlocksEndOfLevelComponent();
+		PreventsEndOfLevelComponent beolc = new PreventsEndOfLevelComponent();
 		e.addComponent(beolc);
+
+		WalkingAnimationComponent wac = new WalkingAnimationComponent(.2f);
+		e.addComponent(wac);
+		
 		return e;
 	}
 
@@ -166,7 +174,7 @@ public class EntityFactory {
 	public AbstractEntity createCoin(int cx, int cy) {
 		AbstractEntity e = new AbstractEntity("Coin");
 
-		ImageData imageData = new ImageData("coin_01.png", Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
+		ImageComponent imageData = new ImageComponent("coin_01.png", Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
 		e.addComponent(imageData);
 		AnimationCycleComponent acc = AnimationFramesHelper.generateForCoin(Settings.COLLECTABLE_SIZE);
 		e.addComponent(acc);
@@ -176,7 +184,7 @@ public class EntityFactory {
 		e.addComponent(cc);
 		CollectableComponent col = new CollectableComponent();
 		e.addComponent(col);
-		BlocksEndOfLevelComponent beolc = new BlocksEndOfLevelComponent();
+		PreventsEndOfLevelComponent beolc = new PreventsEndOfLevelComponent();
 		e.addComponent(beolc);
 		return e;
 	}
