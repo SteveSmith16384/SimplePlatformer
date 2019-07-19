@@ -5,7 +5,7 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Settings;
 import com.mygdx.game.components.JumpingComponent;
 import com.mygdx.game.components.MovementComponent;
-import com.mygdx.game.components.PositionData;
+import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.models.CollisionResults;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
@@ -26,7 +26,7 @@ public class MovementSystem extends AbstractSystem {
 	public void processEntity(AbstractEntity movingEntity) {
 		MovementComponent md = (MovementComponent)movingEntity.getComponent(MovementComponent.class);
 		if (md != null) {
-			PositionData pos = (PositionData)movingEntity.getComponent(PositionData.class);
+			PositionComponent pos = (PositionComponent)movingEntity.getComponent(PositionComponent.class);
 			if (md.offX != 0) {
 				pos.prevPos.set(pos.rect);
 				if (md.offX > Settings.MAX_MOVEMENT) {
@@ -62,7 +62,6 @@ public class MovementSystem extends AbstractSystem {
 						}
 					}
 					if (md.canFall) {
-						// Gravity
 						md.offY = 0;
 					}
 				} else if (pos.rect.top < 0) {
@@ -74,6 +73,7 @@ public class MovementSystem extends AbstractSystem {
 				md.offY -= Settings.GRAVITY;
 				if (md.offY < -Settings.MAX_GRAVITY) {
 					md.offY = -Settings.MAX_GRAVITY;
+					MyGdxGame.p("Max gravity hit!");					
 				}
 			} else {
 				md.offY = 0;

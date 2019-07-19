@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.components.ImageComponent;
-import com.mygdx.game.components.PositionData;
+import com.mygdx.game.components.PositionComponent;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
@@ -46,7 +46,7 @@ public class DrawingSystem extends AbstractSystem {
 	@Override
 	public void processEntity(AbstractEntity entity) {
 		ImageComponent imageData = (ImageComponent)entity.getComponent(ImageComponent.class);
-		PositionData posData = (PositionData)entity.getComponent(PositionData.class);
+		PositionComponent posData = (PositionComponent)entity.getComponent(PositionComponent.class);
 		if (imageData != null) {
 			if (imageData.sprite == null) {
 				Texture tex = getTexture(imageData.imageFilename);
@@ -81,7 +81,7 @@ public class DrawingSystem extends AbstractSystem {
 		Iterator<AbstractEntity> it = ecs.getIterator();
 		while (it.hasNext()) {
 			AbstractEntity entity = it.next();
-			PositionData posData = (PositionData)entity.getComponent(PositionData.class);
+			PositionComponent posData = (PositionComponent)entity.getComponent(PositionComponent.class);
 
 			if (posData.edge != null) {
 				shapeRenderer.begin(ShapeRenderer.ShapeType.Line);

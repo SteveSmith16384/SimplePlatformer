@@ -4,11 +4,12 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.mygdx.game.components.AnimationCycleComponent;
 import com.mygdx.game.components.WalkingAnimationComponent;
 import com.scs.basicecs.AbstractEntity;
 
-public class AnimationFramesHelper {
+public class AnimationFramesHelper { // todo - don 't make everything static, and dispose at end
 
 	private static HashMap<String, Texture> textures = new HashMap<String, Texture>();
 
@@ -39,7 +40,7 @@ public class AnimationFramesHelper {
 		wac.framesLeft[1].flip(true,  false);
 		wac.framesLeft[2] = new Sprite(getTexture("player1_right3.png"));
 		wac.framesLeft[2].setSize(w, h);
-		wac.framesLeft[2].flip(true,  false);
+		wac.framesLeft[2].flip(true, false);
 
 		wac.framesRight[0] = new Sprite(getTexture("player1_right1.png"));
 		wac.framesRight[0].setSize(w, h);
@@ -51,6 +52,26 @@ public class AnimationFramesHelper {
 	}
 
 
+	public static void createMob1Frames(AbstractEntity mob, float w, float h) {
+		WalkingAnimationComponent wac = (WalkingAnimationComponent)mob.getComponent(WalkingAnimationComponent.class);
+		wac.framesLeft = new Sprite[7];
+		wac.framesRight = new Sprite[7];
+
+		Texture texture = getTexture("mob1_frames.png");
+		TextureAtlas atlas = new TextureAtlas();
+		for (int i=0 ; i<7 ; i++) {
+			atlas.addRegion("frame"+i, texture, i*54, 0, 54, 31);
+		}
+		for (int i=0 ; i<7 ; i++) {
+			wac.framesLeft[i] = atlas.createSprite("frame"+i);
+			wac.framesLeft[i].setSize(w, h);
+			wac.framesRight[i] = atlas.createSprite("frame"+i);
+			wac.framesRight[i].setSize(w, h);
+			wac.framesRight[i].flip(true, false);
+		}
+	}
+	
+	
 	private static Texture getTexture(String filename) {
 		if (textures.containsKey(filename)) {
 			return textures.get(filename);

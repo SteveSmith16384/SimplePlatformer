@@ -24,9 +24,11 @@ import com.mygdx.game.systems.CheckForEndOfLevelSystem;
 import com.mygdx.game.systems.CollectorSystem;
 import com.mygdx.game.systems.CollisionSystem;
 import com.mygdx.game.systems.DrawingSystem;
+import com.mygdx.game.systems.MoveToOffScreenSystem;
 import com.mygdx.game.systems.InputSystem;
 import com.mygdx.game.systems.MobAISystem;
 import com.mygdx.game.systems.MovementSystem;
+import com.mygdx.game.systems.MovingPlatformSystem;
 import com.mygdx.game.systems.PlayerMovementSystem;
 import com.mygdx.game.systems.ProcessCollisionSystem;
 import com.mygdx.game.systems.WalkingAnimationSystem;
@@ -65,7 +67,10 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	public CollectorSystem collectorSystem;
 	private CheckForEndOfLevelSystem checkForEndOfLevelSystem;
 	private WalkingAnimationSystem walkingAnimationSystem;
-
+	private MoveToOffScreenSystem giantImageSystem;
+	private MovingPlatformSystem movingPlatformSystem;
+	private MoveToOffScreenSystem moveToOffScreenSystem;
+	
 	public List<AbstractEntity> playersAvatars = new ArrayList<AbstractEntity>();
 
 	@Override
@@ -96,7 +101,10 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		this.collectorSystem = new CollectorSystem();
 		this.checkForEndOfLevelSystem = new CheckForEndOfLevelSystem(this, ecs);
 		this.walkingAnimationSystem = new WalkingAnimationSystem(ecs);
-
+		this.giantImageSystem = new MoveToOffScreenSystem(this, ecs);
+		this.movingPlatformSystem = new MovingPlatformSystem(ecs);
+		this.moveToOffScreenSystem = new MoveToOffScreenSystem(this, ecs);
+		
 		startPreGame();
 
 		if (!Settings.RELEASE_MODE) {
@@ -140,32 +148,15 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 			this.createPlayer(null);
 		}
 
-		AbstractEntity floor = this.entityFactory.createWall(20, 20, Settings.LOGICAL_WIDTH_PIXELS-50, 20);
-		ecs.addEntity(floor);
-
-		//AbstractEntity platform = this.entityFactory.createFluidPlatform(120, 50, 100);
-		//ecs.addEntity(platform);
-
-		//AbstractEntity mob = this.entityFactory.createMob(500, 500);
-		//ecs.addEntity(mob);
-
-		//AbstractEntity collectable = this.entityFactory.createCollectable(350, 500);
-		//ecs.addEntity(collectable);
-
-		AbstractEntity edgeUp = this.entityFactory.createEdge(50, 20, 300, 50);
-		ecs.addEntity(edgeUp);
-
-		AbstractEntity edgeDown = this.entityFactory.createEdge(300, 50, 400, 500);
-		ecs.addEntity(edgeDown);
-
-		AbstractEntity coin = this.entityFactory.createCoin(300, 400);
-		ecs.addEntity(coin);
+		LevelGenerator lvl = new LevelGenerator(this.entityFactory, ecs);
+		lvl.createLevel1();
+		
 	}
 
 
 	private void createPlayer(Controller controller) {
 		// Create entities for game
-		AbstractEntity player = this.entityFactory.createPlayer(controller, 250, 250);
+		AbstractEntity player = this.entityFactory.createPlayer(controller, 250, 250); // todo - start pos
 		this.playersAvatars.add(player);
 		ecs.addEntity(player);
 	}
@@ -191,10 +182,13 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 			ecs.process();
 
 			// loop through systems
+			this.moveToOffScreenSystem.process();
+			this.giantImageSystem.process();
 			this.inputSystem.process();
 			this.playerMovementSystem.process();
 			this.mobAiSystem.process();
 			this.movementSystem.process();
+			this.movingPlatformSystem.process();
 			this.animSystem.process();
 			this.walkingAnimationSystem.process();
 			this.checkForEndOfLevelSystem.process();
@@ -253,7 +247,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 
 	public void endOfLevel() {
-		p("End of level!");
+		//p("End of level!");
 		// todo
 	}
 

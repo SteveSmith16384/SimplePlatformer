@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.components.CollisionComponent;
-import com.mygdx.game.components.PositionData;
+import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.models.CollisionResults;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.BasicECS;
@@ -24,9 +24,9 @@ public class CollisionSystem {
 
 
 	public CollisionResults collided(AbstractEntity mover, float offX, float offY) {
-		PositionData moverPos = (PositionData)mover.getComponent(PositionData.class);
+		PositionComponent moverPos = (PositionComponent)mover.getComponent(PositionComponent.class);
 		if (moverPos == null) {
-			throw new RuntimeException(mover + " has no " + PositionData.class.getSimpleName());
+			throw new RuntimeException(mover + " has no " + PositionComponent.class.getSimpleName());
 		}
 		Iterator<AbstractEntity> it = ecs.getIterator();
 		while (it.hasNext()) {
@@ -34,7 +34,7 @@ public class CollisionSystem {
 			if (e != mover) {
 				CollisionComponent cc = (CollisionComponent)e.getComponent(CollisionComponent.class);
 				if (cc != null) {
-					PositionData pos = (PositionData)e.getComponent(PositionData.class);
+					PositionComponent pos = (PositionComponent)e.getComponent(PositionComponent.class);
 					if (pos != null) {
 						if (pos.edge != null) {
 							// Edges are always solid
@@ -50,7 +50,7 @@ public class CollisionSystem {
 								if (cc.collidesAsPlatform) { // Check this first so we can kill baddies by jumping on them
 									if (offY < 0) {
 										if (moverPos.prevPos.intersects(pos.rect) == false) {
-											return new CollisionResults(e, true, cc.blocksMovement);
+											return new CollisionResults(e, true, true);
 										}									
 									}
 								} else if (cc.isLadder) {
@@ -70,7 +70,7 @@ public class CollisionSystem {
 	}
 
 
-	private CollisionResults handleEdge(AbstractEntity mover, AbstractEntity edge, PositionData moverPos, PositionData edgePos, float offX) {
+	private CollisionResults handleEdge(AbstractEntity mover, AbstractEntity edge, PositionComponent moverPos, PositionComponent edgePos, float offX) {
 		// Move player or mob up
 		//int max = (int)Math.abs(offX);
 		//MyGdxGame.p("Testing up to " + max);
@@ -90,7 +90,7 @@ public class CollisionSystem {
 		Iterator<AbstractEntity> it = ecs.getIterator();
 		while (it.hasNext()) {
 			AbstractEntity e = it.next();
-			PositionData pos = (PositionData)e.getComponent(PositionData.class);
+			PositionComponent pos = (PositionComponent)e.getComponent(PositionComponent.class);
 			if (pos != null) {
 				if (pos.rect.contains(x, y)) {
 					return e;
@@ -102,8 +102,8 @@ public class CollisionSystem {
 
 
 	public boolean intersects(AbstractEntity e1, AbstractEntity e2) {
-		PositionData p1 = (PositionData)e1.getComponent(PositionData.class);
-		PositionData p2 = (PositionData)e2.getComponent(PositionData.class);
+		PositionComponent p1 = (PositionComponent)e1.getComponent(PositionComponent.class);
+		PositionComponent p2 = (PositionComponent)e2.getComponent(PositionComponent.class);
 		if (p1 != null && p2 != null) {
 			return p1.rect.intersects(p2.rect);
 		}
@@ -112,8 +112,8 @@ public class CollisionSystem {
 
 
 	public boolean isCentreOver(AbstractEntity train, AbstractEntity track) {
-		PositionData trainPos = (PositionData)train.getComponent(PositionData.class);
-		PositionData trackPos = (PositionData)track.getComponent(PositionData.class);
+		PositionComponent trainPos = (PositionComponent)train.getComponent(PositionComponent.class);
+		PositionComponent trackPos = (PositionComponent)track.getComponent(PositionComponent.class);
 		if (trainPos != null && trackPos != null) {
 			return trackPos.rect.contains(trainPos.rect.centerX(), trainPos.rect.centerY());
 		}
@@ -122,7 +122,7 @@ public class CollisionSystem {
 
 
 	public boolean isCentreOver(AbstractEntity track, float cx, float cy) {
-		PositionData trackPos = (PositionData)track.getComponent(PositionData.class);
+		PositionComponent trackPos = (PositionComponent)track.getComponent(PositionComponent.class);
 		if (trackPos != null) {
 			return trackPos.rect.contains(cx, cy);
 		}

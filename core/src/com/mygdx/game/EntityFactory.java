@@ -12,7 +12,7 @@ import com.mygdx.game.components.JumpingComponent;
 import com.mygdx.game.components.KillByJumpingComponent;
 import com.mygdx.game.components.MobComponent;
 import com.mygdx.game.components.MovementComponent;
-import com.mygdx.game.components.PositionData;
+import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.components.PreventsEndOfLevelComponent;
 import com.mygdx.game.components.UserInputComponent;
 import com.mygdx.game.components.WalkingAnimationComponent;
@@ -33,9 +33,11 @@ public class EntityFactory {
 	public AbstractEntity createPlayer(Controller controller, int cx, int cy) {
 		AbstractEntity e = new AbstractEntity("Player");
 
-		ImageComponent imageData = new ImageComponent("grey_box.png", Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
-		e.addComponent(imageData);
-		PositionData pos = PositionData.ByCentre(cx, cy, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		if (Settings.SHOW_GREY_BOXES) {
+			ImageComponent imageData = new ImageComponent("grey_box.png", Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+			e.addComponent(imageData);
+		}
+		PositionComponent pos = PositionComponent.ByCentre(cx, cy, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, false);
 		e.addComponent(cc);
@@ -66,7 +68,7 @@ public class EntityFactory {
 			ImageComponent imageData = new ImageComponent("grey_box.png", w, h);
 			e.addComponent(imageData);
 		}
-		PositionData pos = PositionData.ByBottomLeft(x, y, w, h);
+		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, false);
 		e.addComponent(cc);
@@ -82,7 +84,7 @@ public class EntityFactory {
 			ImageComponent imageData = new ImageComponent("grey_box.png", w, h);
 			e.addComponent(imageData);
 		}
-		PositionData pos = PositionData.ByBottomLeft(x, y, w, h);
+		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, false);
 		e.addComponent(cc);
@@ -98,7 +100,7 @@ public class EntityFactory {
 
 		ImageComponent imageData = new ImageComponent(filename, w, h);
 		e.addComponent(imageData);
-		PositionData pos = PositionData.ByBottomLeft(x, y, w, h);
+		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
 
 		return e;
@@ -112,7 +114,7 @@ public class EntityFactory {
 			ImageComponent imageData = new ImageComponent("grey_box.png", w, h);
 			e.addComponent(imageData);
 		}
-		PositionData pos = PositionData.ByBottomLeft(x, y, w, h);
+		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, true);
 		e.addComponent(cc);
@@ -128,7 +130,7 @@ public class EntityFactory {
 			ImageComponent imageData = new ImageComponent("grey_box.png", w, 5);
 			e.addComponent(imageData);
 		}
-		PositionData pos = PositionData.ByBottomLeft(x, y, w, 5);
+		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, 5);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(false, true, false, false);
 		e.addComponent(cc);
@@ -140,7 +142,7 @@ public class EntityFactory {
 	public AbstractEntity createEdge(int x1, int y1, float x2, float y2) {
 		AbstractEntity e = new AbstractEntity("Edge");
 
-		PositionData pos = PositionData.FromEdge(x1, y1, x2, y2);
+		PositionComponent pos = PositionComponent.FromEdge(x1, y1, x2, y2);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(false, false, true, false);
 		e.addComponent(cc);
@@ -154,7 +156,7 @@ public class EntityFactory {
 
 		ImageComponent imageData = new ImageComponent("grey_box.png", Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(imageData);
-		PositionData pos = PositionData.ByCentre(cx, cy, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		PositionComponent pos = PositionComponent.ByCentre(cx, cy, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, true, false, false); // Needs collideAsPlatform to be killed
 		e.addComponent(cc);
@@ -167,7 +169,8 @@ public class EntityFactory {
 
 		WalkingAnimationComponent wac = new WalkingAnimationComponent(.2f);
 		e.addComponent(wac);
-		
+
+		AnimationFramesHelper.createMob1Frames(e, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		return e;
 	}
 
@@ -179,7 +182,7 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		AnimationCycleComponent acc = AnimationFramesHelper.generateForCoin(Settings.COLLECTABLE_SIZE);
 		e.addComponent(acc);
-		PositionData pos = PositionData.ByCentre(cx, cy, Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
+		PositionComponent pos = PositionComponent.ByCentre(cx, cy, Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, false, false);
 		e.addComponent(cc);

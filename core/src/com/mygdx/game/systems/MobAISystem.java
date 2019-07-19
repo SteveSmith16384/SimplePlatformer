@@ -4,7 +4,7 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Settings;
 import com.mygdx.game.components.MobComponent;
 import com.mygdx.game.components.MovementComponent;
-import com.mygdx.game.components.PositionData;
+import com.mygdx.game.components.PositionComponent;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
@@ -28,7 +28,7 @@ public class MobAISystem extends AbstractSystem {
 				mob.dirX = -1;
 			}
 			
-			PositionData pos = (PositionData)entity.getComponent(PositionData.class);
+			PositionComponent pos = (PositionComponent)entity.getComponent(PositionComponent.class);
 			// Check for missing floor
 			if (game.collisionSystem.getEntityAt(pos.rect.centerX(), pos.rect.bottom-10) == null) {
 				mob.dirX = mob.dirX * -1;
