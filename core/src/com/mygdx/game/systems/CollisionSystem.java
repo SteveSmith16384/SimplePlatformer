@@ -12,7 +12,7 @@ import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.BasicECS;
 
 /**
- * This system just detects if two things collide.  it does not process the collisions.
+ * This system just detects if two things collide.  it does not actually handle the collisions.
  * @author StephenCS
  *
  */

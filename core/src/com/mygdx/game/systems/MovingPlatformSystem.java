@@ -15,6 +15,7 @@ public class MovingPlatformSystem extends AbstractSystem {
 	@Override
 	public void processEntity(AbstractEntity entity) {
 		MovingPlatformComponent mpc = (MovingPlatformComponent)entity.getComponent(MovingPlatformComponent.class);
+		// todo
 	}
 
 }

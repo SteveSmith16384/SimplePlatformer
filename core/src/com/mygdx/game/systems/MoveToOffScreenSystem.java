@@ -1,6 +1,6 @@
 package com.mygdx.game.systems;
 
-import com.mygdx.game.MyGdxGame;
+import com.badlogic.gdx.Gdx;
 import com.mygdx.game.Settings;
 import com.mygdx.game.components.MoveOffScreenComponent;
 import com.mygdx.game.components.MovementComponent;
@@ -11,12 +11,8 @@ import com.scs.basicecs.BasicECS;
 
 public class MoveToOffScreenSystem extends AbstractSystem {
 
-	private MyGdxGame game;
-	
-	public MoveToOffScreenSystem(MyGdxGame _game, BasicECS ecs) {
+	public MoveToOffScreenSystem(BasicECS ecs) {
 		super(ecs);
-		
-		game = _game;
 	}
 
 
@@ -29,9 +25,11 @@ public class MoveToOffScreenSystem extends AbstractSystem {
 				entity.remove();
 				return;
 			}
-			MovementComponent mc = (MovementComponent)entity.getComponent(MovementComponent.class);
-			mc.offX = gic.offX;
-			mc.offY = gic.offY;
+			//MovementComponent mc = (MovementComponent)entity.getComponent(MovementComponent.class);
+			//mc.offX = gic.offX;
+			//mc.offY = gic.offY;
+			pos.rect.move(gic.offX * Gdx.graphics.getDeltaTime(), gic.offY * Gdx.graphics.getDeltaTime());
+
 		}
 	}
 

@@ -40,7 +40,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	public OrthographicCamera camera;
 	private Viewport viewport;
 
-	private BasicECS ecs;
+	public BasicECS ecs;
 
 	private SpriteBatch batch;
 	public BitmapFont font;
@@ -91,7 +91,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 		// Systems
 		this.inputSystem = new InputSystem(this, ecs);
-		drawingSystem = new DrawingSystem(this, ecs, batch);
+		drawingSystem = new DrawingSystem(ecs, batch);
 		collisionSystem = new CollisionSystem(ecs);
 		movementSystem = new MovementSystem(this, ecs);
 		animSystem = new AnimationCycleSystem(ecs);
@@ -101,9 +101,8 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		this.collectorSystem = new CollectorSystem();
 		this.checkForEndOfLevelSystem = new CheckForEndOfLevelSystem(this, ecs);
 		this.walkingAnimationSystem = new WalkingAnimationSystem(ecs);
-		this.giantImageSystem = new MoveToOffScreenSystem(this, ecs);
 		this.movingPlatformSystem = new MovingPlatformSystem(ecs);
-		this.moveToOffScreenSystem = new MoveToOffScreenSystem(this, ecs);
+		this.moveToOffScreenSystem = new MoveToOffScreenSystem(ecs);
 		
 		startPreGame();
 
@@ -158,7 +157,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		// Create entities for game
 		AbstractEntity player = this.entityFactory.createPlayer(controller, 250, 250); // todo - start pos
 		this.playersAvatars.add(player);
-		//ecs.addEntity(player);
+		ecs.addEntity(player);
 	}
 
 

@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.components.ImageComponent;
 import com.mygdx.game.components.PositionComponent;
 import com.scs.basicecs.AbstractEntity;
@@ -18,15 +17,13 @@ import com.scs.basicecs.BasicECS;
 
 public class DrawingSystem extends AbstractSystem {
 
-	private MyGdxGame game;
 	private SpriteBatch batch;
 	private HashMap<String, Texture> textures = new HashMap<String, Texture>();
 	private ShapeRenderer shapeRenderer;
 
-	public DrawingSystem(MyGdxGame _game, BasicECS ecs, SpriteBatch _batch) {
+	public DrawingSystem(BasicECS ecs, SpriteBatch _batch) {
 		super(ecs);
 
-		game = _game;
 		batch = _batch;
 
 		shapeRenderer = new ShapeRenderer();

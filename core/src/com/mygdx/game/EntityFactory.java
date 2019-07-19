@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.game.components.AnimationCycleComponent;
 import com.mygdx.game.components.CanCollectComponent;
 import com.mygdx.game.components.CollectableComponent;
@@ -11,24 +12,17 @@ import com.mygdx.game.components.ImageComponent;
 import com.mygdx.game.components.JumpingComponent;
 import com.mygdx.game.components.KillByJumpingComponent;
 import com.mygdx.game.components.MobComponent;
+import com.mygdx.game.components.MoveOffScreenComponent;
 import com.mygdx.game.components.MovementComponent;
 import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.components.PreventsEndOfLevelComponent;
 import com.mygdx.game.components.UserInputComponent;
 import com.mygdx.game.components.WalkingAnimationComponent;
+import com.mygdx.game.components.CollectableComponent.Type;
 import com.mygdx.game.helpers.AnimationFramesHelper;
 import com.scs.basicecs.AbstractEntity;
 
 public class EntityFactory {
-
-	/*private BasicECS ecs;
-	private MyGdxGame game;
-
-	public EntityFactory(MyGdxGame _game, BasicECS _ecs) {
-		game = _game;
-		ecs = _ecs;
-	}*/
-
 
 	public AbstractEntity createPlayer(Controller controller, int cx, int cy) {
 		AbstractEntity e = new AbstractEntity("Player");
@@ -175,6 +169,29 @@ public class EntityFactory {
 	}
 
 
+	public AbstractEntity createFallingMob(AbstractEntity mob) {
+		PositionComponent pos = (PositionComponent)mob.getComponent(PositionComponent.class);
+		ImageComponent img = (ImageComponent)mob.getComponent(ImageComponent.class);	
+		
+		return this.createFallingGraphic(pos.rect.centerX(), pos.rect.centerY(), img.sprite, pos.rect.width(), pos.rect.height());
+	}
+
+
+	public AbstractEntity createFallingGraphic(float cx, float cy, Sprite image, float w, float h) {
+		AbstractEntity e = new AbstractEntity("FallingGfx");
+
+		ImageComponent imageData = new ImageComponent(image, w, h);
+		e.addComponent(imageData);
+		PositionComponent pos = PositionComponent.ByCentre(cx, cy, w, h);
+		e.addComponent(pos);
+		//MovementComponent mc = new MovementComponent(true);
+		//e.addComponent(mc);
+		MoveOffScreenComponent moc = new MoveOffScreenComponent(0, -1);
+		e.addComponent(moc);
+		return e;
+	}
+
+
 	public AbstractEntity createCoin(int cx, int cy) {
 		AbstractEntity e = new AbstractEntity("Coin");
 
@@ -186,11 +203,28 @@ public class EntityFactory {
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, false, false);
 		e.addComponent(cc);
-		CollectableComponent col = new CollectableComponent();
+		CollectableComponent col = new CollectableComponent(Type.Coin);
 		e.addComponent(col);
 		PreventsEndOfLevelComponent beolc = new PreventsEndOfLevelComponent();
 		e.addComponent(beolc);
 		return e;
 	}
+
+
+	public AbstractEntity createRisingCoin(AbstractEntity coin) {
+		PositionComponent pos = (PositionComponent)coin.getComponent(PositionComponent.class);
+
+		AbstractEntity e = new AbstractEntity("Coin");
+
+		ImageComponent imageData = new ImageComponent("coin_01.png", pos.rect.width(), pos.rect.height());
+		e.addComponent(imageData);
+		PositionComponent pos2 = PositionComponent.ByCentre(pos.rect.centerX(),  pos.rect.centerY(), pos.rect.width(), pos.rect.height());
+		e.addComponent(pos2);
+		MoveOffScreenComponent moc = new MoveOffScreenComponent(1, 1);
+		e.addComponent(moc);
+
+		return e;
+	}	
+
 
 }
