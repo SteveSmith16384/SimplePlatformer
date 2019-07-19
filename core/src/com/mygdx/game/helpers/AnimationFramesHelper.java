@@ -60,7 +60,7 @@ public class AnimationFramesHelper { // todo - don 't make everything static, an
 		Texture texture = getTexture("mob1_frames.png");
 		TextureAtlas atlas = new TextureAtlas();
 		for (int i=0 ; i<7 ; i++) {
-			atlas.addRegion("frame"+i, texture, i*54, 0, 54, 31);
+			atlas.addRegion("frame"+i, texture, i*12, 0, 12, 13);
 		}
 		for (int i=0 ; i<7 ; i++) {
 			wac.framesLeft[i] = atlas.createSprite("frame"+i);
@@ -69,6 +69,7 @@ public class AnimationFramesHelper { // todo - don 't make everything static, an
 			wac.framesRight[i].setSize(w, h);
 			wac.framesRight[i].flip(true, false);
 		}
+		wac.idleFrame = wac.framesLeft[0];
 	}
 	
 	

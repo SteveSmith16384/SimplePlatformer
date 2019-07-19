@@ -71,7 +71,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private MovingPlatformSystem movingPlatformSystem;
 	private MoveToOffScreenSystem moveToOffScreenSystem;
 	
-	public List<AbstractEntity> playersAvatars = new ArrayList<AbstractEntity>();
+	public List<AbstractEntity> playersAvatars = new ArrayList<AbstractEntity>(); // todo - remove this
 
 	@Override
 	public void create() {
@@ -158,7 +158,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		// Create entities for game
 		AbstractEntity player = this.entityFactory.createPlayer(controller, 250, 250); // todo - start pos
 		this.playersAvatars.add(player);
-		ecs.addEntity(player);
+		//ecs.addEntity(player);
 	}
 
 

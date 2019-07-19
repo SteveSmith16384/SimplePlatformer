@@ -1,6 +1,8 @@
 package com.mygdx.game.systems;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.components.CollisionComponent;
@@ -86,18 +88,20 @@ public class CollisionSystem {
 	}
 
 
-	public AbstractEntity getEntityAt(float x, float y) {
+	public List<AbstractEntity> getEntitiesAt(float x, float y) {
+		List<AbstractEntity> ret = new ArrayList<AbstractEntity>();
+		
 		Iterator<AbstractEntity> it = ecs.getIterator();
 		while (it.hasNext()) {
 			AbstractEntity e = it.next();
 			PositionComponent pos = (PositionComponent)e.getComponent(PositionComponent.class);
 			if (pos != null) {
 				if (pos.rect.contains(x, y)) {
-					return e;
+					ret.add(e);
 				}
 			}
 		}
-		return null;
+		return ret;
 	}
 
 

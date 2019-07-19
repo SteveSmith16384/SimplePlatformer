@@ -22,14 +22,13 @@ public class LevelGenerator {
 			AbstractEntity platform = this.entityFactory.createFluidPlatform(50, 100+(row*100), Settings.LOGICAL_WIDTH_PIXELS-150);
 			ecs.addEntity(platform);
 
-		/*	AbstractEntity mob = this.entityFactory.createMob1(400, 75+(row*50));
+			AbstractEntity mob = this.entityFactory.createMob1(400, 75+(row*100));
 			ecs.addEntity(mob);
-
+			
 			for (int col=0 ; col<10 ; col++) {
-				AbstractEntity coin = this.entityFactory.createCoin(50+(row*50), 500);
+				AbstractEntity coin = this.entityFactory.createCoin(50+(col*50), 120+(row*100));
 				ecs.addEntity(coin);
 			}
-			*/
 		}
 
 		/*AbstractEntity edgeUp = this.entityFactory.createEdge(50, 20, 300, 50);
@@ -37,9 +36,6 @@ public class LevelGenerator {
 
 		AbstractEntity edgeDown = this.entityFactory.createEdge(300, 50, 400, 500);
 		ecs.addEntity(edgeDown);*/
-
-		//AbstractEntity coin = this.entityFactory.createCoin(300, 400);
-		//ecs.addEntity(coin);
 
 	}
 

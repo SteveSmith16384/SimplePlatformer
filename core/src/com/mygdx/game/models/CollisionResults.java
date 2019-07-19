@@ -5,12 +5,12 @@ import com.scs.basicecs.AbstractEntity;
 public class CollisionResults {
 
 	public AbstractEntity collidedWith;
-	public boolean fromAbove, blocksMovement;
+	public boolean fromAbove, moveBack;
 	
-	public CollisionResults(AbstractEntity _collidedWith, boolean _fromAbove, boolean _blocksMovement) {
+	public CollisionResults(AbstractEntity _collidedWith, boolean _fromAbove, boolean _moveBack) {
 		collidedWith = _collidedWith;
 		fromAbove = _fromAbove;
-		blocksMovement = _blocksMovement;
+		moveBack = _moveBack;
 	}
 
 }
