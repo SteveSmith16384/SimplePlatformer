@@ -23,10 +23,11 @@ import com.mygdx.game.systems.AnimationCycleSystem;
 import com.mygdx.game.systems.CheckForEndOfLevelSystem;
 import com.mygdx.game.systems.CollectorSystem;
 import com.mygdx.game.systems.CollisionSystem;
+import com.mygdx.game.systems.DrawScoreSystem;
 import com.mygdx.game.systems.DrawingSystem;
-import com.mygdx.game.systems.MoveToOffScreenSystem;
 import com.mygdx.game.systems.InputSystem;
 import com.mygdx.game.systems.MobAISystem;
+import com.mygdx.game.systems.MoveToOffScreenSystem;
 import com.mygdx.game.systems.MovementSystem;
 import com.mygdx.game.systems.MovingPlatformSystem;
 import com.mygdx.game.systems.PlayerMovementSystem;
@@ -70,6 +71,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private MoveToOffScreenSystem giantImageSystem;
 	private MovingPlatformSystem movingPlatformSystem;
 	private MoveToOffScreenSystem moveToOffScreenSystem;
+	private DrawScoreSystem drawScoreSystem;
 	
 	public List<AbstractEntity> playersAvatars = new ArrayList<AbstractEntity>(); // todo - remove this
 
@@ -103,6 +105,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		this.walkingAnimationSystem = new WalkingAnimationSystem(ecs);
 		this.movingPlatformSystem = new MovingPlatformSystem(ecs);
 		this.moveToOffScreenSystem = new MoveToOffScreenSystem(ecs);
+		this.drawScoreSystem = new DrawScoreSystem(this, ecs, batch);
 		
 		startPreGame();
 
@@ -201,7 +204,8 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 			batch.begin();
 			this.drawingSystem.process();
-			this.drawFont(batch, "Creds: " + this.gameData.creds, 20, 40);
+			//this.drawFont(batch, "Creds: " + this.gameData.creds, 20, 40);
+			this.drawScoreSystem.process();
 			batch.end();
 
 			if (Settings.SHOW_OUTLINE) {
@@ -240,7 +244,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	}
 
 
-	private void drawFont(Batch batch, String text, float x, float y) {
+	public void drawFont(Batch batch, String text, float x, float y) {
 		font.draw(batch, text, x, y);
 	}
 
