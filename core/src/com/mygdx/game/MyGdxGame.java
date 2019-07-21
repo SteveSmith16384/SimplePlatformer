@@ -185,7 +185,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 			// loop through systems
 			this.moveToOffScreenSystem.process();
-			this.giantImageSystem.process();
+			//this.giantImageSystem.process();
 			this.inputSystem.process();
 			this.playerMovementSystem.process();
 			this.mobAiSystem.process();
