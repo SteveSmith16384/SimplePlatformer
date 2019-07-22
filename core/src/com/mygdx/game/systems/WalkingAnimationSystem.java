@@ -16,6 +16,12 @@ public class WalkingAnimationSystem extends AbstractSystem {
 
 
 	@Override
+	public Class getEntityClass() {
+		return WalkingAnimationComponent.class;
+	}
+
+
+	@Override
 	public void processEntity(AbstractEntity entity) {
 		try {
 			WalkingAnimationComponent wac = (WalkingAnimationComponent)entity.getComponent(WalkingAnimationComponent.class);
@@ -46,6 +52,10 @@ public class WalkingAnimationSystem extends AbstractSystem {
 					image.sprite = wac.framesRight[wac.currentFrame];
 				} else {
 					image.sprite = wac.idleFrame;
+				}
+				
+				if (image.sprite == null) {
+					throw new RuntimeException("null sprite for " + entity + "!");
 				}
 			}
 		} catch (Exception ex) {

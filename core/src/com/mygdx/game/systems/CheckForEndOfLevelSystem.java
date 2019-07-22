@@ -20,6 +20,7 @@ public class CheckForEndOfLevelSystem extends AbstractSystem {
 
 
 
+	@Override
 	public void process() {
 		Iterator<AbstractEntity> it = ecs.getIterator();
 		while (it.hasNext()) {

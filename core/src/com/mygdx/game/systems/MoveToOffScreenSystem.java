@@ -3,7 +3,6 @@ package com.mygdx.game.systems;
 import com.badlogic.gdx.Gdx;
 import com.mygdx.game.Settings;
 import com.mygdx.game.components.MoveOffScreenComponent;
-import com.mygdx.game.components.MovementComponent;
 import com.mygdx.game.components.PositionComponent;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
@@ -16,6 +15,12 @@ public class MoveToOffScreenSystem extends AbstractSystem {
 	}
 
 
+	@Override
+	public Class getEntityClass() {
+		return MoveOffScreenComponent.class;
+	}
+
+	
 	@Override
 	public void processEntity(AbstractEntity entity) {
 		MoveOffScreenComponent gic = (MoveOffScreenComponent)entity.getComponent(MoveOffScreenComponent.class);

@@ -71,8 +71,8 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private MovingPlatformSystem movingPlatformSystem;
 	private MoveToOffScreenSystem moveToOffScreenSystem;
 	private DrawScoreSystem drawScoreSystem;
-	
-	public List<AbstractEntity> playersAvatars = new ArrayList<AbstractEntity>(); // todo - remove this
+
+	//public List<AbstractEntity> playersAvatars = new ArrayList<AbstractEntity>(); // todo - remove this
 
 	@Override
 	public void create() {
@@ -99,13 +99,13 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		mobAiSystem = new MobAISystem(this, ecs);
 		this.playerMovementSystem = new PlayerMovementSystem(this, ecs);
 		processCollisionSystem = new ProcessCollisionSystem(this, ecs);
-		this.collectorSystem = new CollectorSystem();
+		this.collectorSystem = new CollectorSystem(this);
 		this.checkForEndOfLevelSystem = new CheckForEndOfLevelSystem(this, ecs);
 		this.walkingAnimationSystem = new WalkingAnimationSystem(ecs);
 		this.movingPlatformSystem = new MovingPlatformSystem(ecs);
 		this.moveToOffScreenSystem = new MoveToOffScreenSystem(ecs);
 		this.drawScoreSystem = new DrawScoreSystem(this, ecs, batch);
-		
+
 		startPreGame();
 
 		if (!Settings.RELEASE_MODE) {
@@ -117,11 +117,14 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private void startPreGame() {
 		this.removeAllEntities();
 
-		/*music = Gdx.audio.newMusic(Gdx.files.internal("kevin-macleod-hall-of-the-mountain-king.ogg"));
-		music.setLooping(true);
-		music.setVolume(1f);
-		music.play();*/
-
+		try {
+			music = Gdx.audio.newMusic(Gdx.files.internal("8BitMetal.wav"));
+			music.setLooping(true);
+			music.setVolume(1f);
+			music.play();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 
@@ -151,14 +154,12 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 		LevelGenerator lvl = new LevelGenerator(this.entityFactory, ecs);
 		lvl.createLevel1();
-		
+
 	}
 
 
 	private void createPlayer(Controller controller) {
-		// Create entities for game
-		AbstractEntity player = this.entityFactory.createPlayer(controller, 250, 250); // todo - start pos
-		this.playersAvatars.add(player);
+		AbstractEntity player = this.entityFactory.createPlayer(controller, 250, 300); // todo - start pos
 		ecs.addEntity(player);
 	}
 
@@ -188,10 +189,10 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 			this.playerMovementSystem.process();
 			this.mobAiSystem.process();
 			this.movementSystem.process();
-			this.movingPlatformSystem.process();
-			this.animSystem.process();
+			//this.movingPlatformSystem.process();
+			//this.animSystem.process();
 			this.walkingAnimationSystem.process();
-			this.checkForEndOfLevelSystem.process();
+			//this.checkForEndOfLevelSystem.process();
 
 			// Start actual drawing
 			Gdx.gl.glClearColor(1, 1, 1, 1);

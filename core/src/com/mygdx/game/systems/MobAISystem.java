@@ -25,6 +25,12 @@ public class MobAISystem extends AbstractSystem {
 
 
 	@Override
+	public Class getEntityClass() {
+		return MobComponent.class;
+	}
+
+	
+	@Override
 	public void processEntity(AbstractEntity entity) {
 		MobComponent mob = (MobComponent)entity.getComponent(MobComponent.class);
 		if (mob != null) {

@@ -121,7 +121,7 @@ public class EntityFactory {
 		AbstractEntity e = new AbstractEntity("FluidPlatform");
 
 		if (Settings.SHOW_GREY_BOXES) {
-			ImageComponent imageData = new ImageComponent("grey_box.png", w, 5);
+			ImageComponent imageData = new ImageComponent("grey_box.png", w, Settings.PLAYER_SIZE);
 			e.addComponent(imageData);
 		}
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, 5);
@@ -220,7 +220,7 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionComponent pos2 = PositionComponent.ByCentre(pos.rect.centerX(),  pos.rect.centerY(), pos.rect.width(), pos.rect.height());
 		e.addComponent(pos2);
-		MoveOffScreenComponent moc = new MoveOffScreenComponent(1, 1);
+		MoveOffScreenComponent moc = new MoveOffScreenComponent(50, 50);
 		e.addComponent(moc);
 
 		return e;

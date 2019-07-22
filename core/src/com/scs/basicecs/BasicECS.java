@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import com.mygdx.game.MyGdxGame;
+
 public class BasicECS {
 
 	private HashMap<Class, AbstractSystem> systems = new HashMap<Class, AbstractSystem>();
@@ -31,28 +33,34 @@ public class BasicECS {
 		for (int i = this.entities.size()-1 ; i >= 0; i--) {
 			AbstractEntity entity = this.entities.get(i);
 			if (entity.isMarkedForRemoval()) {
+				MyGdxGame.p("Removing " + entity);
 				this.entities.remove(entity);
-				
+
 				// Remove from systems
 				for(AbstractSystem system : this.systems.values()) {
 					Class clazz = system.getEntityClass();
-					if (clazz != null && entity.getClass() == clazz) {
-						system.entities.remove(entity);
+					if (clazz != null) {
+						if (entity.getComponents().containsKey(clazz)) {
+							MyGdxGame.p("Removing " + entity + " from " + system + " system");
+							system.entities.remove(entity);
+						}
 					}
 				}
 			}
 		}
-		
+
 		for(AbstractEntity e : this.to_add_entities) {
 			for(AbstractSystem system : this.systems.values()) {
 				Class clazz = system.getEntityClass();
-				if (clazz != null && e.getClass() == clazz) {
-					system.entities.add(e);
+				if (clazz != null) {
+					if (e.getComponents().containsKey(clazz)) {
+						system.entities.add(e);
+					}
 				}
 			}
 			this.entities.add(e);			
 		}
-		
+
 		to_add_entities.clear();
 	}
 
@@ -60,17 +68,17 @@ public class BasicECS {
 	public void addEntity(AbstractEntity e) {
 		this.to_add_entities.add(e);
 	}
-	
-	
+
+
 	public AbstractEntity get(int i) {
 		return this.entities.get(i);
 	}
 
-	
+
 	public Iterator<AbstractEntity> getIterator() {
 		return this.entities.iterator();
 	}
-	
+
 	public void removeAllEntities() {
 		// Remove any entities
 		while (this.entities.size() > 0) {

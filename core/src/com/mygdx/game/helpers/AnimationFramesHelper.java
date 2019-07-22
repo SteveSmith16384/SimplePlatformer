@@ -20,7 +20,7 @@ public class AnimationFramesHelper { // todo - don 't make everything static, an
 		for(int i=1 ; i<=8 ; i++) {
 			Texture tex = getTexture("coin_0" + i + ".png");
 			Sprite sprite = new Sprite(tex);
-			sprite.setSize(size, size);
+			sprite.setSize(size * (tex.getWidth()/45f), size);
 			acd.frames[i-1] = sprite;
 		}
 
@@ -49,6 +49,8 @@ public class AnimationFramesHelper { // todo - don 't make everything static, an
 		wac.framesRight[2] = new Sprite(getTexture("player1_right3.png"));
 		wac.framesRight[2].setSize(w, h);
 		
+		wac.idleFrame = wac.framesRight[0];
+		
 	}
 
 
@@ -60,7 +62,7 @@ public class AnimationFramesHelper { // todo - don 't make everything static, an
 		Texture texture = getTexture("mob1_frames.png");
 		TextureAtlas atlas = new TextureAtlas();
 		for (int i=0 ; i<7 ; i++) {
-			atlas.addRegion("frame"+i, texture, i*12, 0, 12, 13);
+			atlas.addRegion("frame"+i, texture, i*16, 0, 16, 13);
 		}
 		for (int i=0 ; i<7 ; i++) {
 			wac.framesLeft[i] = atlas.createSprite("frame"+i);

@@ -23,6 +23,12 @@ public class MovementSystem extends AbstractSystem {
 
 
 	@Override
+	public Class getEntityClass() {
+		return MovementComponent.class;
+	}
+
+
+	@Override
 	public void processEntity(AbstractEntity movingEntity) {
 		MovementComponent md = (MovementComponent)movingEntity.getComponent(MovementComponent.class);
 		if (md != null) {
@@ -80,11 +86,9 @@ public class MovementSystem extends AbstractSystem {
 			}
 			if (md.canFall) {
 				// Gravity
-				md.offY -= Settings.GRAVITY;
-				/*if (md.offY < -Settings.MAX_GRAVITY) {
-					md.offY = -Settings.MAX_GRAVITY;
-					MyGdxGame.p("Max gravity hit!");					
-				}*/
+				if (!Settings.TURN_OFF_GRAVITY) {
+					md.offY -= Settings.GRAVITY;
+				}
 			} else {
 				md.offY = 0;
 			}

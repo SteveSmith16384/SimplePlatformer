@@ -22,6 +22,12 @@ public class DrawScoreSystem extends AbstractSystem {
 
 
 	@Override
+	public Class getEntityClass() {
+		return UserInputComponent.class;
+	}
+
+	
+	@Override
 	public void processEntity(AbstractEntity entity) {
 		UserInputComponent uic = (UserInputComponent)entity.getComponent(UserInputComponent.class);
 		if (uic != null) {

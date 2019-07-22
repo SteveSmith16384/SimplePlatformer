@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.components.MobComponent;
 import com.mygdx.game.components.UserInputComponent;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
@@ -28,6 +29,13 @@ public class InputSystem extends AbstractSystem {
 	}
 
 
+	@Override
+	public Class getEntityClass() {
+		return UserInputComponent.class;
+	}
+
+	
+	@Override
 	public void process() {
 		// Process keys
 		if (key[Keys.F1]) {// && Gdx.app.getType() == ApplicationType.WebGL) {
@@ -41,9 +49,21 @@ public class InputSystem extends AbstractSystem {
 			}
 		}
 
-		//		AbstractEntity player1 = game.playersAvatars.get(0);
-		for (AbstractEntity player : game.playersAvatars) {
-			UserInputComponent uic = (UserInputComponent)player.getComponent(UserInputComponent.class);
+		while (mouseDataList.size() > 0) {
+			synchronized (mouseDataList) {
+				MouseData mouseData = this.mouseDataList.remove(0);
+				processMouseData(mouseData);
+			}
+		}
+
+		super.process();
+	}
+
+
+	public void processEntity(AbstractEntity entity) {
+		//for (AbstractEntity player : game.playersAvatars) {
+		UserInputComponent uic = (UserInputComponent)entity.getComponent(UserInputComponent.class);
+		if (uic != null) {
 			if (uic.controller != null) {
 				uic.moveLeft = uic.controller.getAxis(0) < 0; // todo
 				uic.moveRight = uic.controller.getAxis(0) > 0; // todo
@@ -52,13 +72,6 @@ public class InputSystem extends AbstractSystem {
 				uic.moveLeft = key[29];
 				uic.moveRight = key[32];
 				uic.jump = key[51] || key[62];  // W or space
-			}
-		}
-
-		while (mouseDataList.size() > 0) {
-			synchronized (mouseDataList) {
-				MouseData mouseData = this.mouseDataList.remove(0);
-				processMouseData(mouseData);
 			}
 		}
 	}

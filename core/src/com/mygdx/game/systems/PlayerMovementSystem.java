@@ -21,9 +21,15 @@ public class PlayerMovementSystem extends AbstractSystem {
 
 
 	@Override
-	public void process() {
-		for (AbstractEntity player : game.playersAvatars) {
-			UserInputComponent uic = (UserInputComponent)player.getComponent(UserInputComponent.class);
+	public Class getEntityClass() {
+		return UserInputComponent.class;
+	}
+
+
+	@Override
+	public void processEntity(AbstractEntity player) {
+		UserInputComponent uic = (UserInputComponent)player.getComponent(UserInputComponent.class);
+		if (uic != null) {
 			MovementComponent mc = (MovementComponent)player.getComponent(MovementComponent.class);
 
 			if (uic.moveLeft) {

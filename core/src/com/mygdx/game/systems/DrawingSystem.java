@@ -9,7 +9,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.components.ImageComponent;
+import com.mygdx.game.components.MovementComponent;
 import com.mygdx.game.components.PositionComponent;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
@@ -29,7 +31,7 @@ public class DrawingSystem extends AbstractSystem {
 		shapeRenderer = new ShapeRenderer();
 	}
 
-
+	/*
 	@Override
 	public void process() {
 		Iterator<AbstractEntity> it = ecs.getIterator();
@@ -38,27 +40,34 @@ public class DrawingSystem extends AbstractSystem {
 			this.processEntity(entity);
 		}
 	}
+	 */
+
+	@Override
+	public Class getEntityClass() {
+		return ImageComponent.class;
+	}
 
 
 	@Override
 	public void processEntity(AbstractEntity entity) {
 		ImageComponent imageData = (ImageComponent)entity.getComponent(ImageComponent.class);
 		PositionComponent posData = (PositionComponent)entity.getComponent(PositionComponent.class);
-		if (imageData != null) {
-			if (imageData.sprite == null) {
-				Texture tex = getTexture(imageData.imageFilename);
-				if (imageData.atlasPosition == null) {
-					imageData.sprite = new Sprite(tex);
-				} else {
-					TextureAtlas atlas = new TextureAtlas();
-					atlas.addRegion("r", tex, (int)imageData.atlasPosition.left, (int)imageData.atlasPosition.bottom, (int)imageData.atlasPosition.width(), (int)imageData.atlasPosition.height());
-					imageData.sprite = atlas.createSprite("r");
-				}
-				imageData.sprite.setSize(imageData.w, imageData.h);
+		//if (imageData != null) {
+		if (imageData.sprite == null) {
+			MyGdxGame.p("Creating sprite for " + entity);
+			Texture tex = getTexture(imageData.imageFilename);
+			if (imageData.atlasPosition == null) {
+				imageData.sprite = new Sprite(tex);
+			} else {
+				TextureAtlas atlas = new TextureAtlas();
+				atlas.addRegion("r", tex, (int)imageData.atlasPosition.left, (int)imageData.atlasPosition.bottom, (int)imageData.atlasPosition.width(), (int)imageData.atlasPosition.height());
+				imageData.sprite = atlas.createSprite("r");
 			}
-			imageData.sprite.setPosition(posData.rect.getX(), posData.rect.getY());
-			imageData.sprite.draw(batch);
+			imageData.sprite.setSize(imageData.w, imageData.h);
 		}
+		imageData.sprite.setPosition(posData.rect.getX(), posData.rect.getY());
+		imageData.sprite.draw(batch);
+		//}
 	}
 
 

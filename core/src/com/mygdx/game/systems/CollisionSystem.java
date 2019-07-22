@@ -5,10 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.components.AnimationCycleComponent;
 import com.mygdx.game.components.CollisionComponent;
 import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.models.CollisionResults;
 import com.scs.basicecs.AbstractEntity;
+import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
 
 /**
@@ -16,12 +18,16 @@ import com.scs.basicecs.BasicECS;
  * @author StephenCS
  *
  */
-public class CollisionSystem {
+public class CollisionSystem extends AbstractSystem {
 
-	private BasicECS ecs;
+	public CollisionSystem(BasicECS ecs) {
+		super(ecs);
+	}
 
-	public CollisionSystem(BasicECS _ecs) {
-		ecs = _ecs;
+
+	@Override
+	public Class getEntityClass() {
+		return AnimationCycleComponent.class;
 	}
 
 
@@ -30,7 +36,10 @@ public class CollisionSystem {
 		if (moverPos == null) {
 			throw new RuntimeException(mover + " has no " + PositionComponent.class.getSimpleName());
 		}
-		Iterator<AbstractEntity> it = ecs.getIterator();
+		/*Iterator<AbstractEntity> it = ecs.getIterator();
+		while (it.hasNext()) {
+			AbstractEntity e = it.next();*/
+		Iterator<AbstractEntity> it = entities.iterator();
 		while (it.hasNext()) {
 			AbstractEntity e = it.next();
 			if (e != mover) {
@@ -90,8 +99,8 @@ public class CollisionSystem {
 
 	public List<AbstractEntity> getEntitiesAt(float x, float y) {
 		List<AbstractEntity> ret = new ArrayList<AbstractEntity>();
-		
-		Iterator<AbstractEntity> it = ecs.getIterator();
+
+		Iterator<AbstractEntity> it = this.entities.iterator();// ecs.getIterator();
 		while (it.hasNext()) {
 			AbstractEntity e = it.next();
 			PositionComponent pos = (PositionComponent)e.getComponent(PositionComponent.class);

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.mygdx.game.Settings;
+
 public abstract class AbstractSystem {
 
 	protected BasicECS ecs;
@@ -20,7 +22,7 @@ public abstract class AbstractSystem {
 	}
 
 
-	public Class getEntityClass() {
+	public Class<Object> getEntityClass() {
 		return null;
 	}
 
@@ -32,7 +34,7 @@ public abstract class AbstractSystem {
 
 	// Override if required to run against all entities
 	public void process() {
-		if (this.entities == null) {
+		if (this.entities == null || Settings.USE_SIMPLE_ECS) {
 			Iterator<AbstractEntity> it = ecs.getIterator();
 			while (it.hasNext()) {
 				AbstractEntity entity = it.next();
