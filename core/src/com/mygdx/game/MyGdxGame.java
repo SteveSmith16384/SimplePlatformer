@@ -68,7 +68,6 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	public CollectorSystem collectorSystem;
 	private CheckForEndOfLevelSystem checkForEndOfLevelSystem;
 	private WalkingAnimationSystem walkingAnimationSystem;
-	private MoveToOffScreenSystem giantImageSystem;
 	private MovingPlatformSystem movingPlatformSystem;
 	private MoveToOffScreenSystem moveToOffScreenSystem;
 	private DrawScoreSystem drawScoreSystem;
@@ -185,7 +184,6 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 			// loop through systems
 			this.moveToOffScreenSystem.process();
-			this.giantImageSystem.process();
 			this.inputSystem.process();
 			this.playerMovementSystem.process();
 			this.mobAiSystem.process();

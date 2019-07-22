@@ -18,6 +18,11 @@ public class AnimationCycleSystem extends AbstractSystem {
 	}
 
 
+	public Class getEntityClass() {
+		return AnimationCycleComponent.class;
+	}
+
+	
 	@Override
 	public void processEntity(AbstractEntity entity) {
 		AnimationCycleComponent data = (AnimationCycleComponent)entity.getComponent(AnimationCycleComponent.class);

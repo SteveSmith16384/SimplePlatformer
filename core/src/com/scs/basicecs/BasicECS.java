@@ -32,6 +32,14 @@ public class BasicECS {
 			AbstractEntity entity = this.entities.get(i);
 			if (entity.isMarkedForRemoval()) {
 				this.entities.remove(entity);
+				
+				// Remove from systems
+				for(AbstractSystem system : this.systems.values()) {
+					Class clazz = system.getEntityClass();
+					if (clazz != null && entity.getClass() == clazz) {
+						system.entities.remove(entity);
+					}
+				}
 			}
 		}
 		
@@ -39,7 +47,7 @@ public class BasicECS {
 			for(AbstractSystem system : this.systems.values()) {
 				Class clazz = system.getEntityClass();
 				if (clazz != null && e.getClass() == clazz) {
-					// todo
+					system.entities.add(e);
 				}
 			}
 			this.entities.add(e);			
@@ -58,11 +66,6 @@ public class BasicECS {
 		return this.entities.get(i);
 	}
 
-	
-	/*public void removeEntity(AbstractEntity e) {
-		e.markForRemoval = true;
-	}*/
-	
 	
 	public Iterator<AbstractEntity> getIterator() {
 		return this.entities.iterator();
