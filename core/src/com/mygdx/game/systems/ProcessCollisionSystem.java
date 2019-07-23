@@ -8,7 +8,9 @@ import com.mygdx.game.components.HarmOnContactComponent;
 import com.mygdx.game.components.HarmedByMobComponent;
 import com.mygdx.game.components.KillByJumpingComponent;
 import com.mygdx.game.components.MobComponent;
+import com.mygdx.game.components.UserInputComponent;
 import com.mygdx.game.models.CollisionResults;
+import com.mygdx.game.models.PlayerData;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
@@ -97,9 +99,15 @@ public class ProcessCollisionSystem extends AbstractSystem {
 	}
 	
 	
-	private void playerKilled(AbstractEntity player) {
-		player.remove();
-		game.ecs.addEntity(game.entityFactory.createDeadPlayer(player));
+	private void playerKilled(AbstractEntity avatar) {
+		avatar.remove();
+		game.ecs.addEntity(game.entityFactory.createDeadPlayer(avatar));
+
+		UserInputComponent uic = (UserInputComponent)avatar.getComponent(UserInputComponent.class);
+		PlayerData player = game.players.get(uic.playerId);
+		player.avatar = null;
+		player.timeUntilAvatar = 4; // todo - setting
+		
 	}
 
 }

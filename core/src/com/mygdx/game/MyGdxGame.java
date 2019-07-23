@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
@@ -16,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.helpers.AnimationFramesHelper;
 import com.mygdx.game.models.GameData;
+import com.mygdx.game.models.PlayerData;
 import com.mygdx.game.systems.AnimationCycleSystem;
 import com.mygdx.game.systems.CheckForEndOfLevelSystem;
 import com.mygdx.game.systems.CollectorSystem;
@@ -29,6 +32,7 @@ import com.mygdx.game.systems.MovementSystem;
 import com.mygdx.game.systems.MovingPlatformSystem;
 import com.mygdx.game.systems.PlayerMovementSystem;
 import com.mygdx.game.systems.ProcessCollisionSystem;
+import com.mygdx.game.systems.ProcessPlayersSystem;
 import com.mygdx.game.systems.WalkingAnimationSystem;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.BasicECS;
@@ -48,7 +52,8 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private Music music;
 	public SoundEffects sfx = new SoundEffects();
 	public AnimationFramesHelper animFrameHelper;
-
+	public LevelGenerator lvl;
+	
 	private int gameStage = -1; // -1, -, or 1
 	private boolean nextStage = false;
 	public boolean toggleFullscreen = false, fullscreen = false;
@@ -68,6 +73,10 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private MovingPlatformSystem movingPlatformSystem;
 	private MoveToOffScreenSystem moveToOffScreenSystem;
 	private DrawScoreSystem drawScoreSystem;
+	private ProcessPlayersSystem processPlayersSystem;
+	
+	public HashMap<Integer, PlayerData> players = new HashMap<Integer, PlayerData>();	
+	
 
 	@Override
 	public void create() {
@@ -99,8 +108,9 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		this.walkingAnimationSystem = new WalkingAnimationSystem(ecs);
 		this.movingPlatformSystem = new MovingPlatformSystem(ecs);
 		this.moveToOffScreenSystem = new MoveToOffScreenSystem(ecs);
-		this.drawScoreSystem = new DrawScoreSystem(this, ecs, batch);
-
+		this.drawScoreSystem = new DrawScoreSystem(this, batch);
+		this.processPlayersSystem = new ProcessPlayersSystem(this);
+		
 		startPreGame();
 
 		if (!Settings.RELEASE_MODE) {
@@ -138,7 +148,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 		this.removeAllEntities();
 
-		LevelGenerator lvl = new LevelGenerator(this.entityFactory, ecs);
+		lvl = new LevelGenerator(this.entityFactory, ecs);
 		lvl.createLevel1();
 
 		if (Controllers.getControllers().size > 0) {
@@ -156,8 +166,18 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 
 	private void createPlayer(int id, Controller controller, LevelGenerator lvl) {
-		AbstractEntity player = this.entityFactory.createPlayer(id, controller, lvl.playerStartPos.x, lvl.playerStartPos.y);
-		ecs.addEntity(player);
+		PlayerData data = new PlayerData(id, controller);
+		this.players.put(id, data);
+		
+		this.createPlayersAvatar(id, controller, lvl);
+	}
+	
+	
+	public void createPlayersAvatar(int id, Controller controller, LevelGenerator lvl) {
+		AbstractEntity avatar = this.entityFactory.createPlayer(id, controller, lvl.playerStartPos.x, lvl.playerStartPos.y);
+		ecs.addEntity(avatar);
+		
+		this.players.get(id).avatar = avatar;
 	}
 
 
@@ -181,6 +201,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 			ecs.process();
 
 			// loop through systems
+			this.processPlayersSystem.process();
 			this.moveToOffScreenSystem.process();
 			this.inputSystem.process();
 			this.playerMovementSystem.process();
