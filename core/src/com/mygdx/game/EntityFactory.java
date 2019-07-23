@@ -24,7 +24,7 @@ import com.scs.basicecs.AbstractEntity;
 
 public class EntityFactory {
 
-	public AbstractEntity createPlayer(Controller controller, int x, int y) {
+	public AbstractEntity createPlayer(int id, Controller controller, int x, int y) {
 		AbstractEntity e = new AbstractEntity("Player");
 
 		ImageComponent imageData = new ImageComponent("grey_box.png", 1, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
@@ -35,7 +35,7 @@ public class EntityFactory {
 		e.addComponent(cc);
 		MovementComponent mc = new MovementComponent(true);
 		e.addComponent(mc);
-		UserInputComponent uic = new UserInputComponent(controller);
+		UserInputComponent uic = new UserInputComponent(id, controller);
 		e.addComponent(uic);
 		JumpingComponent jc = new JumpingComponent();
 		e.addComponent(jc);
@@ -171,12 +171,12 @@ public class EntityFactory {
 		PositionComponent pos = (PositionComponent)mob.getComponent(PositionComponent.class);
 		ImageComponent img = (ImageComponent)mob.getComponent(ImageComponent.class);	
 
-		return this.createFallingGraphic(pos.rect.centerX(), pos.rect.centerY(), img.sprite, pos.rect.width(), pos.rect.height());
+		return this.createFallingGraphic(mob.toString(), pos.rect.left, pos.rect.bottom, img.sprite, pos.rect.width(), pos.rect.height());
 	}
 
 
-	public AbstractEntity createFallingGraphic(float x, float y, Sprite image, float w, float h) {
-		AbstractEntity e = new AbstractEntity("FallingGfx");
+	public AbstractEntity createFallingGraphic(String name, float x, float y, Sprite image, float w, float h) {
+		AbstractEntity e = new AbstractEntity("Falling" + name);
 
 		ImageComponent imageData = new ImageComponent(image, 1, w, h);
 		e.addComponent(imageData);
@@ -184,7 +184,7 @@ public class EntityFactory {
 		e.addComponent(pos);
 		//MovementComponent mc = new MovementComponent(true);
 		//e.addComponent(mc);
-		MoveOffScreenComponent moc = new MoveOffScreenComponent(0, -1);
+		MoveOffScreenComponent moc = new MoveOffScreenComponent(0, -Settings.PLAYER_SPEED*2);
 		e.addComponent(moc);
 		return e;
 	}
@@ -211,14 +211,32 @@ public class EntityFactory {
 
 	public AbstractEntity createRisingCoin(AbstractEntity coin) {
 		PositionComponent pos = (PositionComponent)coin.getComponent(PositionComponent.class);
+		ImageComponent img = (ImageComponent)coin.getComponent(ImageComponent.class);
+		
+		AbstractEntity e = new AbstractEntity("RisingCoin");
 
-		AbstractEntity e = new AbstractEntity("Coin");
-
-		ImageComponent imageData = new ImageComponent("coin_01.png", 1, pos.rect.width(), pos.rect.height());
+		ImageComponent imageData = new ImageComponent(img.sprite, 1, -1, -1);
 		e.addComponent(imageData);
 		PositionComponent pos2 = PositionComponent.ByBottomLeft(pos.rect.left, pos.rect.bottom, pos.rect.width(), pos.rect.height());
 		e.addComponent(pos2);
-		MoveOffScreenComponent moc = new MoveOffScreenComponent(50, 50);
+		MoveOffScreenComponent moc = new MoveOffScreenComponent(Settings.PLAYER_SPEED*2, Settings.PLAYER_SPEED*2);
+		e.addComponent(moc);
+
+		return e;
+	}	
+
+
+	public AbstractEntity createDeadPlayer(AbstractEntity player) {
+		PositionComponent pos = (PositionComponent)player.getComponent(PositionComponent.class);
+		ImageComponent img = (ImageComponent)player.getComponent(ImageComponent.class);
+		
+		AbstractEntity e = new AbstractEntity("DeadPlayer");
+
+		ImageComponent imageData = new ImageComponent(img.sprite, 1, -1, -1);
+		e.addComponent(imageData);
+		PositionComponent pos2 = PositionComponent.ByBottomLeft(pos.rect.left, pos.rect.bottom, pos.rect.width(), pos.rect.height());
+		e.addComponent(pos2);
+		MoveOffScreenComponent moc = new MoveOffScreenComponent(0, -Settings.PLAYER_SPEED*2);
 		e.addComponent(moc);
 
 		return e;

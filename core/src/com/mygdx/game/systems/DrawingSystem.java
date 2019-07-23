@@ -67,7 +67,7 @@ public class DrawingSystem extends AbstractSystem {
 		if (imageData.zOrder == zOrder)  {
 			PositionComponent posData = (PositionComponent)entity.getComponent(PositionComponent.class);
 			if (imageData.sprite == null) {
-				MyGdxGame.p("Creating sprite for " + entity);
+				//MyGdxGame.p("Creating sprite for " + entity);
 				Texture tex = getTexture(imageData.imageFilename);
 				if (imageData.atlasPosition == null) {
 					imageData.sprite = new Sprite(tex);
@@ -76,7 +76,9 @@ public class DrawingSystem extends AbstractSystem {
 					atlas.addRegion("r", tex, (int)imageData.atlasPosition.left, (int)imageData.atlasPosition.bottom, (int)imageData.atlasPosition.width(), (int)imageData.atlasPosition.height());
 					imageData.sprite = atlas.createSprite("r");
 				}
-				imageData.sprite.setSize(imageData.w, imageData.h);
+				if (imageData.w > 0 && imageData.h > 0) {
+					imageData.sprite.setSize(imageData.w, imageData.h);
+				}
 			}
 			imageData.sprite.setPosition(posData.rect.getX(), posData.rect.getY());
 			imageData.sprite.draw(batch);
@@ -88,6 +90,7 @@ public class DrawingSystem extends AbstractSystem {
 		if (textures.containsKey(filename)) {
 			return textures.get(filename);
 		}
+		MyGdxGame.p("Loading new tex: " + filename);
 		Texture t = new Texture(filename);
 		this.textures.put(filename, t);
 		return t;

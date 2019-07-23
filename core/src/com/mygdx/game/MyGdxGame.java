@@ -142,20 +142,21 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		lvl.createLevel1();
 
 		if (Controllers.getControllers().size > 0) {
+			int playerId = 0;
 			for (Controller controller : Controllers.getControllers()) {
 				Gdx.app.log("", controller.getName());
-				this.createPlayer(controller, lvl);
+				this.createPlayer(playerId++, controller, lvl);
 			}
 		} else {
-			this.createPlayer(null, lvl);
+			this.createPlayer(0, null, lvl);
 		}
 
 
 	}
 
 
-	private void createPlayer(Controller controller, LevelGenerator lvl) {
-		AbstractEntity player = this.entityFactory.createPlayer(controller, lvl.playerStartPos.x, lvl.playerStartPos.y);
+	private void createPlayer(int id, Controller controller, LevelGenerator lvl) {
+		AbstractEntity player = this.entityFactory.createPlayer(id, controller, lvl.playerStartPos.x, lvl.playerStartPos.y);
 		ecs.addEntity(player);
 	}
 
@@ -184,11 +185,11 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 			this.inputSystem.process();
 			this.playerMovementSystem.process();
 			this.mobAiSystem.process();
+			this.walkingAnimationSystem.process(); // Must be before the movementsystem, as that clears the direction
 			this.movementSystem.process();
-			//this.movingPlatformSystem.process();
-			//this.animSystem.process();
-			this.walkingAnimationSystem.process();
-			//this.checkForEndOfLevelSystem.process();
+			this.movingPlatformSystem.process();
+			this.animSystem.process();
+			this.checkForEndOfLevelSystem.process();
 
 			// Start actual drawing
 			Gdx.gl.glClearColor(1, 1, 1, 1);

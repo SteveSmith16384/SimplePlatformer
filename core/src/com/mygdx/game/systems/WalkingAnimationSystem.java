@@ -1,6 +1,7 @@
 package com.mygdx.game.systems;
 
 import com.badlogic.gdx.Gdx;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.components.ImageComponent;
 import com.mygdx.game.components.MovementComponent;
 import com.mygdx.game.components.WalkingAnimationComponent;
@@ -27,8 +28,9 @@ public class WalkingAnimationSystem extends AbstractSystem {
 			WalkingAnimationComponent wac = (WalkingAnimationComponent)entity.getComponent(WalkingAnimationComponent.class);
 			if (wac != null) {
 				MovementComponent mc = (MovementComponent)entity.getComponent(MovementComponent.class);
-
+				MyGdxGame.p("Dir:" + mc.offX);
 				int dir = (int)Math.signum(mc.offX);
+				MyGdxGame.p("Dir:" + dir);
 
 				if (wac.currentDir != dir) {
 					wac.currentFrame = 0;

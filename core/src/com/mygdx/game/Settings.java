@@ -21,7 +21,6 @@ public final class Settings {
 	public static final float JUMP_FORCE = 200;//300;
 	
 	public static final float GRAVITY = 7;
-	//public static final float MAX_GRAVITY = 550;
 	
 	public static final float SQ_SIZE = 40;
 	

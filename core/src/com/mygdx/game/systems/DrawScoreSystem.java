@@ -31,7 +31,7 @@ public class DrawScoreSystem extends AbstractSystem {
 	public void processEntity(AbstractEntity entity) {
 		UserInputComponent uic = (UserInputComponent)entity.getComponent(UserInputComponent.class);
 		if (uic != null) {
-			game.drawFont(batch, "Creds: " + uic.score, 20, 40);
+			game.drawFont(batch, "Score: " + uic.score, 20, 40); // todo - position based on player
 		}
 	}
 

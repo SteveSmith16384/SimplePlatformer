@@ -41,7 +41,7 @@ public class ProcessCollisionSystem extends AbstractSystem {
 				}
 				HarmedByMobComponent dbm = (HarmedByMobComponent)mover.getComponent(HarmedByMobComponent.class);
 				if (dbm != null) {
-					mover.remove(); // todo - death sequence
+					this.playerKilled(mover);
 					return;
 				}
 			}
@@ -53,7 +53,7 @@ public class ProcessCollisionSystem extends AbstractSystem {
 			if (mob != null) {
 				HarmedByMobComponent dbm = (HarmedByMobComponent)results.collidedWith.getComponent(HarmedByMobComponent.class);
 				if (dbm != null) {
-					results.collidedWith.remove();
+					this.playerKilled(results.collidedWith);
 					return;
 				}
 			}
@@ -94,6 +94,12 @@ public class ProcessCollisionSystem extends AbstractSystem {
 				}
 			}
 		}
+	}
+	
+	
+	private void playerKilled(AbstractEntity player) {
+		player.remove();
+		game.ecs.addEntity(game.entityFactory.createDeadPlayer(player));
 	}
 
 }
