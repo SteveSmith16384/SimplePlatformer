@@ -6,19 +6,19 @@ public final class Settings {
 	public static final boolean RELEASE_MODE = false;
 	
 	// Debug
-	public static final boolean USE_SIMPLE_ECS = !RELEASE_MODE && true;
-	public static final boolean TURN_OFF_GRAVITY = !RELEASE_MODE && true;
-	public static final boolean SHOW_OUTLINE = !RELEASE_MODE && false;
 	public static final boolean SHOW_GREY_BOXES = !RELEASE_MODE && true;
+	public static final boolean USE_SIMPLE_ECS = !RELEASE_MODE && false;
+	public static final boolean TURN_OFF_GRAVITY = !RELEASE_MODE && false;
+	public static final boolean SHOW_OUTLINE = !RELEASE_MODE && false;
 
 	// Settings
 	public static final float PLAYER_SPEED = 50;
 	public static final float MOB_SPEED = 45;
-	public static final float MAX_MOVEMENT = 50;//150; // After adjusting for FPS
+	public static final float MAX_MOVEMENT = 20;//50;//150; // After adjusting for FPS
 
 	public static final float PLAYER_SIZE = 30;
 	public static final float COLLECTABLE_SIZE = 25;
-	public static final float JUMP_FORCE = 300;
+	public static final float JUMP_FORCE = 200;//300;
 	
 	public static final float GRAVITY = 7;
 	//public static final float MAX_GRAVITY = 550;

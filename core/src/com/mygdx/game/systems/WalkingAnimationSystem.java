@@ -59,6 +59,7 @@ public class WalkingAnimationSystem extends AbstractSystem {
 				}
 			}
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			throw new RuntimeException(ex);
 		}
 	}

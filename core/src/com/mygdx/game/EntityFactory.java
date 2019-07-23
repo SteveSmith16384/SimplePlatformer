@@ -24,14 +24,12 @@ import com.scs.basicecs.AbstractEntity;
 
 public class EntityFactory {
 
-	public AbstractEntity createPlayer(Controller controller, int cx, int cy) {
+	public AbstractEntity createPlayer(Controller controller, int x, int y) {
 		AbstractEntity e = new AbstractEntity("Player");
 
-		if (Settings.SHOW_GREY_BOXES) {
-			ImageComponent imageData = new ImageComponent("grey_box.png", Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
-			e.addComponent(imageData);
-		}
-		PositionComponent pos = PositionComponent.ByCentre(cx, cy, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		ImageComponent imageData = new ImageComponent("grey_box.png", 1, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		e.addComponent(imageData);
+		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, false);
 		e.addComponent(cc);
@@ -59,7 +57,7 @@ public class EntityFactory {
 		AbstractEntity e = new AbstractEntity("Wall");
 
 		if (Settings.SHOW_GREY_BOXES) {
-			ImageComponent imageData = new ImageComponent("grey_box.png", w, h);
+			ImageComponent imageData = new ImageComponent("grey_box.png", 0, w, h);
 			e.addComponent(imageData);
 		}
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
@@ -75,7 +73,7 @@ public class EntityFactory {
 		AbstractEntity e = new AbstractEntity("HarmfulArea");
 
 		if (Settings.SHOW_GREY_BOXES) {
-			ImageComponent imageData = new ImageComponent("grey_box.png", w, h);
+			ImageComponent imageData = new ImageComponent("grey_box.png", 0, w, h);
 			e.addComponent(imageData);
 		}
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
@@ -92,7 +90,7 @@ public class EntityFactory {
 	public AbstractEntity createImage(String filename, int x, int y, float w, float h) {
 		AbstractEntity e = new AbstractEntity("Image_" + filename);
 
-		ImageComponent imageData = new ImageComponent(filename, w, h);
+		ImageComponent imageData = new ImageComponent(filename, -1, w, h);
 		e.addComponent(imageData);
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
@@ -105,7 +103,7 @@ public class EntityFactory {
 		AbstractEntity e = new AbstractEntity("Ladder");
 
 		if (Settings.SHOW_GREY_BOXES) {
-			ImageComponent imageData = new ImageComponent("grey_box.png", w, h);
+			ImageComponent imageData = new ImageComponent("grey_box.png", 0, w, h);
 			e.addComponent(imageData);
 		}
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
@@ -121,10 +119,10 @@ public class EntityFactory {
 		AbstractEntity e = new AbstractEntity("FluidPlatform");
 
 		if (Settings.SHOW_GREY_BOXES) {
-			ImageComponent imageData = new ImageComponent("grey_box.png", w, Settings.PLAYER_SIZE);
+			ImageComponent imageData = new ImageComponent("grey_box.png", 0, w, Settings.PLAYER_SIZE);
 			e.addComponent(imageData);
 		}
-		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, 5);
+		PositionComponent pos = PositionComponent.ByTopLeft(x, y, w, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(false, true, false, false);
 		e.addComponent(cc);
@@ -145,12 +143,12 @@ public class EntityFactory {
 	}
 
 
-	public AbstractEntity createMob1(int cx, int cy) {
+	public AbstractEntity createMob1(int x, int y) {
 		AbstractEntity e = new AbstractEntity("Mob");
 
-		ImageComponent imageData = new ImageComponent("grey_box.png", Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		ImageComponent imageData = new ImageComponent("grey_box.png", 1, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(imageData);
-		PositionComponent pos = PositionComponent.ByCentre(cx, cy, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, true, false, false); // Needs collideAsPlatform to be killed
 		e.addComponent(cc);
@@ -172,17 +170,17 @@ public class EntityFactory {
 	public AbstractEntity createFallingMob(AbstractEntity mob) {
 		PositionComponent pos = (PositionComponent)mob.getComponent(PositionComponent.class);
 		ImageComponent img = (ImageComponent)mob.getComponent(ImageComponent.class);	
-		
+
 		return this.createFallingGraphic(pos.rect.centerX(), pos.rect.centerY(), img.sprite, pos.rect.width(), pos.rect.height());
 	}
 
 
-	public AbstractEntity createFallingGraphic(float cx, float cy, Sprite image, float w, float h) {
+	public AbstractEntity createFallingGraphic(float x, float y, Sprite image, float w, float h) {
 		AbstractEntity e = new AbstractEntity("FallingGfx");
 
-		ImageComponent imageData = new ImageComponent(image, w, h);
+		ImageComponent imageData = new ImageComponent(image, 1, w, h);
 		e.addComponent(imageData);
-		PositionComponent pos = PositionComponent.ByCentre(cx, cy, w, h);
+		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
 		//MovementComponent mc = new MovementComponent(true);
 		//e.addComponent(mc);
@@ -192,14 +190,14 @@ public class EntityFactory {
 	}
 
 
-	public AbstractEntity createCoin(int cx, int cy) {
+	public AbstractEntity createCoin(int x, int y) {
 		AbstractEntity e = new AbstractEntity("Coin");
 
-		ImageComponent imageData = new ImageComponent("coin_01.png", Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
+		ImageComponent imageData = new ImageComponent("coin_01.png", 1, Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
 		e.addComponent(imageData);
 		AnimationCycleComponent acc = AnimationFramesHelper.generateForCoin(Settings.COLLECTABLE_SIZE);
 		e.addComponent(acc);
-		PositionComponent pos = PositionComponent.ByCentre(cx, cy, Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
+		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, false, false);
 		e.addComponent(cc);
@@ -216,9 +214,9 @@ public class EntityFactory {
 
 		AbstractEntity e = new AbstractEntity("Coin");
 
-		ImageComponent imageData = new ImageComponent("coin_01.png", pos.rect.width(), pos.rect.height());
+		ImageComponent imageData = new ImageComponent("coin_01.png", 1, pos.rect.width(), pos.rect.height());
 		e.addComponent(imageData);
-		PositionComponent pos2 = PositionComponent.ByCentre(pos.rect.centerX(),  pos.rect.centerY(), pos.rect.width(), pos.rect.height());
+		PositionComponent pos2 = PositionComponent.ByBottomLeft(pos.rect.left, pos.rect.bottom, pos.rect.width(), pos.rect.height());
 		e.addComponent(pos2);
 		MoveOffScreenComponent moc = new MoveOffScreenComponent(50, 50);
 		e.addComponent(moc);

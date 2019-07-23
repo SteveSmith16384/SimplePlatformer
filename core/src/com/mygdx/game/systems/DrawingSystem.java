@@ -31,16 +31,6 @@ public class DrawingSystem extends AbstractSystem {
 		shapeRenderer = new ShapeRenderer();
 	}
 
-	/*
-	@Override
-	public void process() {
-		Iterator<AbstractEntity> it = ecs.getIterator();
-		while (it.hasNext()) {
-			AbstractEntity entity = it.next();
-			this.processEntity(entity);
-		}
-	}
-	 */
 
 	@Override
 	public Class getEntityClass() {
@@ -49,25 +39,48 @@ public class DrawingSystem extends AbstractSystem {
 
 
 	@Override
-	public void processEntity(AbstractEntity entity) {
-		ImageComponent imageData = (ImageComponent)entity.getComponent(ImageComponent.class);
-		PositionComponent posData = (PositionComponent)entity.getComponent(PositionComponent.class);
-		//if (imageData != null) {
-		if (imageData.sprite == null) {
-			MyGdxGame.p("Creating sprite for " + entity);
-			Texture tex = getTexture(imageData.imageFilename);
-			if (imageData.atlasPosition == null) {
-				imageData.sprite = new Sprite(tex);
-			} else {
-				TextureAtlas atlas = new TextureAtlas();
-				atlas.addRegion("r", tex, (int)imageData.atlasPosition.left, (int)imageData.atlasPosition.bottom, (int)imageData.atlasPosition.width(), (int)imageData.atlasPosition.height());
-				imageData.sprite = atlas.createSprite("r");
-			}
-			imageData.sprite.setSize(imageData.w, imageData.h);
+	public void process() {
+		Iterator<AbstractEntity> it = this.entities.iterator();
+		while (it.hasNext()) {
+			AbstractEntity entity = it.next();
+			this.processEntity(entity, -1);
 		}
-		imageData.sprite.setPosition(posData.rect.getX(), posData.rect.getY());
-		imageData.sprite.draw(batch);
-		//}
+
+		it = this.entities.iterator();
+		while (it.hasNext()) {
+			AbstractEntity entity = it.next();
+			this.processEntity(entity, 0);
+		}
+
+		it = this.entities.iterator();
+		while (it.hasNext()) {
+			AbstractEntity entity = it.next();
+			this.processEntity(entity, 1);
+		}
+	}
+
+
+	//@Override
+	public void processEntity(AbstractEntity entity, int zOrder) {
+		ImageComponent imageData = (ImageComponent)entity.getComponent(ImageComponent.class);
+		//if (imageData != null) {
+		if (imageData.zOrder == zOrder)  {
+			PositionComponent posData = (PositionComponent)entity.getComponent(PositionComponent.class);
+			if (imageData.sprite == null) {
+				MyGdxGame.p("Creating sprite for " + entity);
+				Texture tex = getTexture(imageData.imageFilename);
+				if (imageData.atlasPosition == null) {
+					imageData.sprite = new Sprite(tex);
+				} else {
+					TextureAtlas atlas = new TextureAtlas();
+					atlas.addRegion("r", tex, (int)imageData.atlasPosition.left, (int)imageData.atlasPosition.bottom, (int)imageData.atlasPosition.width(), (int)imageData.atlasPosition.height());
+					imageData.sprite = atlas.createSprite("r");
+				}
+				imageData.sprite.setSize(imageData.w, imageData.h);
+			}
+			imageData.sprite.setPosition(posData.rect.getX(), posData.rect.getY());
+			imageData.sprite.draw(batch);
+		}
 	}
 
 

@@ -1,8 +1,5 @@
 package com.mygdx.game;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
@@ -71,8 +68,6 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private MovingPlatformSystem movingPlatformSystem;
 	private MoveToOffScreenSystem moveToOffScreenSystem;
 	private DrawScoreSystem drawScoreSystem;
-
-	//public List<AbstractEntity> playersAvatars = new ArrayList<AbstractEntity>(); // todo - remove this
 
 	@Override
 	public void create() {
@@ -143,23 +138,24 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 		this.removeAllEntities();
 
+		LevelGenerator lvl = new LevelGenerator(this.entityFactory, ecs);
+		lvl.createLevel1();
+
 		if (Controllers.getControllers().size > 0) {
 			for (Controller controller : Controllers.getControllers()) {
 				Gdx.app.log("", controller.getName());
-				this.createPlayer(controller);
+				this.createPlayer(controller, lvl);
 			}
 		} else {
-			this.createPlayer(null);
+			this.createPlayer(null, lvl);
 		}
 
-		LevelGenerator lvl = new LevelGenerator(this.entityFactory, ecs);
-		lvl.createLevel1();
 
 	}
 
 
-	private void createPlayer(Controller controller) {
-		AbstractEntity player = this.entityFactory.createPlayer(controller, 250, 300); // todo - start pos
+	private void createPlayer(Controller controller, LevelGenerator lvl) {
+		AbstractEntity player = this.entityFactory.createPlayer(controller, lvl.playerStartPos.x, lvl.playerStartPos.y);
 		ecs.addEntity(player);
 	}
 

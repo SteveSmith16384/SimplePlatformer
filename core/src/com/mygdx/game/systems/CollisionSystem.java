@@ -27,7 +27,7 @@ public class CollisionSystem extends AbstractSystem {
 
 	@Override
 	public Class getEntityClass() {
-		return AnimationCycleComponent.class;
+		return CollisionComponent.class;
 	}
 
 
@@ -58,9 +58,9 @@ public class CollisionSystem extends AbstractSystem {
 							}
 						} else {
 							if (moverPos.rect.intersects(pos.rect)) {
-								if (cc.collidesAsPlatform) { // Check this first so we can kill baddies by jumping on them
-									if (offY < 0) {
-										if (moverPos.prevPos.intersects(pos.rect) == false) {
+								if (cc.fluidPlatform) { // Check this first so we can kill baddies by jumping on them
+									if (offY < 0) { // Going down
+										if (moverPos.prevPos.intersects(pos.rect) == false) { // Didn't collide previously, so we have hit
 											return new CollisionResults(e, true, true);
 										}									
 									}

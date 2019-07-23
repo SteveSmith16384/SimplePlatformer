@@ -2,11 +2,14 @@ package com.mygdx.game.components;
 
 public class CollisionComponent {
 	
-	public boolean alwaysCollides, collidesAsPlatform, blocksMovement, isLadder;
+	public boolean alwaysCollides;
+	public boolean fluidPlatform;
+	public boolean blocksMovement;
+	public boolean isLadder;
 
-	public CollisionComponent(boolean _alwaysCollides, boolean _collidesAsPlatform, boolean _blocksMovement, boolean _isLadder) {
+	public CollisionComponent(boolean _alwaysCollides, boolean _fluidPlatform, boolean _blocksMovement, boolean _isLadder) {
 		alwaysCollides = _alwaysCollides;
-		collidesAsPlatform = _collidesAsPlatform;
+		fluidPlatform = _fluidPlatform;
 		blocksMovement = _blocksMovement;
 		isLadder = _isLadder;
 	}
