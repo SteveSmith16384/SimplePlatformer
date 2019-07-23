@@ -1,5 +1,7 @@
 package com.mygdx.game.systems;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -11,13 +13,12 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.components.ImageComponent;
-import com.mygdx.game.components.MovementComponent;
 import com.mygdx.game.components.PositionComponent;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
 
-public class DrawingSystem extends AbstractSystem {
+public class DrawingSystem extends AbstractSystem implements Comparator<AbstractEntity> {
 
 	private SpriteBatch batch;
 	private HashMap<String, Texture> textures = new HashMap<String, Texture>();
@@ -40,31 +41,20 @@ public class DrawingSystem extends AbstractSystem {
 
 	@Override
 	public void process() {
+		Collections.sort(this.entities, this);
 		Iterator<AbstractEntity> it = this.entities.iterator();
 		while (it.hasNext()) {
 			AbstractEntity entity = it.next();
-			this.processEntity(entity, -1);
-		}
-
-		it = this.entities.iterator();
-		while (it.hasNext()) {
-			AbstractEntity entity = it.next();
-			this.processEntity(entity, 0);
-		}
-
-		it = this.entities.iterator();
-		while (it.hasNext()) {
-			AbstractEntity entity = it.next();
-			this.processEntity(entity, 1);
+			this.processEntity(entity);
 		}
 	}
 
 
 	//@Override
-	public void processEntity(AbstractEntity entity, int zOrder) {
+	public void processEntity(AbstractEntity entity) {
 		ImageComponent imageData = (ImageComponent)entity.getComponent(ImageComponent.class);
 		//if (imageData != null) {
-		if (imageData.zOrder == zOrder)  {
+		//if (imageData.zOrder == zOrder)  {
 			PositionComponent posData = (PositionComponent)entity.getComponent(PositionComponent.class);
 			if (imageData.sprite == null) {
 				//MyGdxGame.p("Creating sprite for " + entity);
@@ -82,7 +72,7 @@ public class DrawingSystem extends AbstractSystem {
 			}
 			imageData.sprite.setPosition(posData.rect.getX(), posData.rect.getY());
 			imageData.sprite.draw(batch);
-		}
+		//}
 	}
 
 
@@ -126,6 +116,14 @@ public class DrawingSystem extends AbstractSystem {
 			t.dispose();
 		}
 		shapeRenderer.dispose();
+	}
+
+
+	@Override
+	public int compare(AbstractEntity arg0, AbstractEntity arg1) {
+		ImageComponent im0 = (ImageComponent)arg0.getComponent(ImageComponent.class);
+		ImageComponent im1 = (ImageComponent)arg1.getComponent(ImageComponent.class);
+		return im0.zOrder - im1.zOrder;
 	}
 
 }
