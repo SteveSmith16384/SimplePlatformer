@@ -24,11 +24,11 @@ public class ImageComponent {
 	}
 
 
-	public ImageComponent(Sprite _sprite, int _zOrder, float _w, float _h)  {
+	public ImageComponent(Sprite _sprite, int _zOrder)  {
 		this.sprite = _sprite;
 		zOrder = _zOrder;
-		w = _w;
-		h = _h;
+		w = -1;//_w;
+		h = -1;//_h;
 		imageFilename = "none";
 	}
 

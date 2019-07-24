@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.game.components.AnimationCycleComponent;
 import com.mygdx.game.components.CanCollectComponent;
@@ -21,6 +20,7 @@ import com.mygdx.game.components.PreventsEndOfLevelComponent;
 import com.mygdx.game.components.UserInputComponent;
 import com.mygdx.game.components.WalkingAnimationComponent;
 import com.mygdx.game.helpers.AnimationFramesHelper;
+import com.scs.awt.Rect;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.libgdx.Ninepatch;
 
@@ -89,15 +89,15 @@ public class EntityFactory {
 	}
 
 
-	public AbstractEntity createTestImage(int x, int y, float w, float h, int zOrder) {
+	public AbstractEntity createTestImage(int x, int y, int w, int h, int zOrder) {
 		AbstractEntity e = new AbstractEntity("TestImage");
 		
-		Texture tex = new Texture("grey_box.png");
+		//Texture tex = new Texture("grey_box.png");
 		Ninepatch np = new Ninepatch(null, null);
-		Sprite sprite = np.getImage(tex);
+		Sprite sprite = np.getImage(w, h);
 		sprite.setSize(w, h);
 
-		ImageComponent imageData = new ImageComponent(sprite, zOrder, w, h);
+		ImageComponent imageData = new ImageComponent(sprite, zOrder);
 		e.addComponent(imageData);
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
@@ -141,6 +141,23 @@ public class EntityFactory {
 			ImageComponent imageData = new ImageComponent("grey_box.png", 0, w, Settings.PLAYER_SIZE);
 			e.addComponent(imageData);
 		}
+		PositionComponent pos = PositionComponent.ByTopLeft(x, y, w, Settings.PLAYER_SIZE);
+		e.addComponent(pos);
+		CollisionComponent cc = new CollisionComponent(false, true, false, false);
+		e.addComponent(cc);
+
+		return e;
+	}
+
+
+	public AbstractEntity createPlatformImage1(int x, int y, int w, int h) {
+		AbstractEntity e = new AbstractEntity("PlatformImage1");
+
+		Ninepatch ninepatch = new Ninepatch("platform1.png", new Rect(3, 10, 44, 2));
+		
+		ImageComponent imageData = new ImageComponent(ninepatch.getImage(w, h), -1);
+		e.addComponent(imageData);
+		
 		PositionComponent pos = PositionComponent.ByTopLeft(x, y, w, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(false, true, false, false);
@@ -197,12 +214,10 @@ public class EntityFactory {
 	public AbstractEntity createFallingGraphic(String name, float x, float y, Sprite image, float w, float h) {
 		AbstractEntity e = new AbstractEntity("Falling" + name);
 
-		ImageComponent imageData = new ImageComponent(image, 1, w, h);
+		ImageComponent imageData = new ImageComponent(image, 1);
 		e.addComponent(imageData);
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
-		//MovementComponent mc = new MovementComponent(true);
-		//e.addComponent(mc);
 		MoveOffScreenComponent moc = new MoveOffScreenComponent(0, -Settings.PLAYER_SPEED*2);
 		e.addComponent(moc);
 		return e;
@@ -234,7 +249,7 @@ public class EntityFactory {
 		
 		AbstractEntity e = new AbstractEntity("RisingCoin");
 
-		ImageComponent imageData = new ImageComponent(img.sprite, 1, -1, -1);
+		ImageComponent imageData = new ImageComponent(img.sprite, 1);
 		e.addComponent(imageData);
 		PositionComponent pos2 = PositionComponent.ByBottomLeft(pos.rect.left, pos.rect.bottom, pos.rect.width(), pos.rect.height());
 		e.addComponent(pos2);
@@ -251,7 +266,7 @@ public class EntityFactory {
 		
 		AbstractEntity e = new AbstractEntity("DeadPlayer");
 
-		ImageComponent imageData = new ImageComponent(img.sprite, 1, -1, -1);
+		ImageComponent imageData = new ImageComponent(img.sprite, 1);
 		e.addComponent(imageData);
 		PositionComponent pos2 = PositionComponent.ByBottomLeft(pos.rect.left, pos.rect.bottom, pos.rect.width(), pos.rect.height());
 		e.addComponent(pos2);
