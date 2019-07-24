@@ -94,7 +94,7 @@ public class MapLoader {
 			AbstractEntity e = this.entityFactory.createCoin(px, py);
 			this.levelData.entities.add(e);
 		} else if (subtoken.startsWith("image|")) {
-			AbstractEntity e = this.entityFactory.createImage(sub[1], px, py, Integer.parseInt(sub[2]) * Settings.SQ_SIZE, Integer.parseInt(sub[3]) * Settings.SQ_SIZE);
+			AbstractEntity e = this.entityFactory.createImage(sub[1], px, py, Integer.parseInt(sub[2]) * Settings.SQ_SIZE, Integer.parseInt(sub[3]) * Settings.SQ_SIZE, Integer.parseInt(sub[4]));
 			this.levelData.entities.add(e);
 		} else {
 			throw new RuntimeException("Unknown token: " + subtoken);

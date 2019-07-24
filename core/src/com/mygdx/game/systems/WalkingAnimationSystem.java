@@ -28,9 +28,7 @@ public class WalkingAnimationSystem extends AbstractSystem {
 			WalkingAnimationComponent wac = (WalkingAnimationComponent)entity.getComponent(WalkingAnimationComponent.class);
 			if (wac != null) {
 				MovementComponent mc = (MovementComponent)entity.getComponent(MovementComponent.class);
-				MyGdxGame.p("Dir:" + mc.offX);
 				int dir = (int)Math.signum(mc.offX);
-				MyGdxGame.p("Dir:" + dir);
 
 				if (wac.currentDir != dir) {
 					wac.currentFrame = 0;

@@ -1,10 +1,12 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.game.components.AnimationCycleComponent;
 import com.mygdx.game.components.CanCollectComponent;
 import com.mygdx.game.components.CollectableComponent;
+import com.mygdx.game.components.CollectableComponent.Type;
 import com.mygdx.game.components.CollisionComponent;
 import com.mygdx.game.components.HarmOnContactComponent;
 import com.mygdx.game.components.HarmedByMobComponent;
@@ -18,9 +20,9 @@ import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.components.PreventsEndOfLevelComponent;
 import com.mygdx.game.components.UserInputComponent;
 import com.mygdx.game.components.WalkingAnimationComponent;
-import com.mygdx.game.components.CollectableComponent.Type;
 import com.mygdx.game.helpers.AnimationFramesHelper;
 import com.scs.basicecs.AbstractEntity;
+import com.scs.libgdx.Ninepatch;
 
 public class EntityFactory {
 
@@ -87,10 +89,27 @@ public class EntityFactory {
 	}
 
 
-	public AbstractEntity createImage(String filename, int x, int y, float w, float h) {
+	public AbstractEntity createTestImage(int x, int y, float w, float h, int zOrder) {
+		AbstractEntity e = new AbstractEntity("TestImage");
+		
+		Texture tex = new Texture("grey_box.png");
+		Ninepatch np = new Ninepatch(null, null);
+		Sprite sprite = np.getImage(tex);
+		sprite.setSize(w, h);
+
+		ImageComponent imageData = new ImageComponent(sprite, zOrder, w, h);
+		e.addComponent(imageData);
+		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
+		e.addComponent(pos);
+
+		return e;
+	}
+
+
+	public AbstractEntity createImage(String filename, int x, int y, float w, float h, int zOrder) {
 		AbstractEntity e = new AbstractEntity("Image_" + filename);
 
-		ImageComponent imageData = new ImageComponent(filename, -1, w, h);
+		ImageComponent imageData = new ImageComponent(filename, zOrder, w, h);
 		e.addComponent(imageData);
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);

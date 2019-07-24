@@ -55,13 +55,14 @@ public class AnimationFramesHelper { // todo - don 't make everything static, an
 
 
 	public static void createMob1Frames(AbstractEntity mob, float w, float h) {
+		int NUM_FRAMES = 6;
 		WalkingAnimationComponent wac = (WalkingAnimationComponent)mob.getComponent(WalkingAnimationComponent.class);
-		wac.framesLeft = new Sprite[7];
-		wac.framesRight = new Sprite[7];
+		wac.framesLeft = new Sprite[NUM_FRAMES];
+		wac.framesRight = new Sprite[NUM_FRAMES];
 
 		Texture texture = getTexture("mob1_frames.png");
 		TextureAtlas atlas = new TextureAtlas();
-		for (int i=0 ; i<6 ; i++) {
+		for (int i=0 ; i<NUM_FRAMES ; i++) {
 			atlas.addRegion("frame"+i, texture, i*16, 0, 16, 13);
 		/*}
 		for (int i=0 ; i<6 ; i++) {*/

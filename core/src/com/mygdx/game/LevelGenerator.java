@@ -20,8 +20,11 @@ public class LevelGenerator {
 		playerStartPos = new Point(50, Settings.LOGICAL_HEIGHT_PIXELS-100);
 		
 		if (Settings.RELEASE_MODE) {
-			AbstractEntity background = this.entityFactory.createImage("background3.jpg", 0, 0, Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS);
+			AbstractEntity background = this.entityFactory.createImage("background3.jpg", 0, 0, Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS, -99);
 			ecs.addEntity(background);
+		} else {
+			AbstractEntity test = this.entityFactory.createTestImage(50, 50, 50, 50, -99);
+			ecs.addEntity(test);			
 		}
 
 		AbstractEntity floor = this.entityFactory.createWall(20, 20, Settings.LOGICAL_WIDTH_PIXELS-50, 20);
@@ -31,10 +34,10 @@ public class LevelGenerator {
 		int row = Settings.LOGICAL_HEIGHT_PIXELS/2;
 		{
 			AbstractEntity platform = this.entityFactory.createFluidPlatform(50, row, Settings.LOGICAL_WIDTH_PIXELS-150);
-			ecs.addEntity(platform);
+			//ecs.addEntity(platform);
 
 			AbstractEntity mob = this.entityFactory.createMob1(400, row);
-			ecs.addEntity(mob);
+			//ecs.addEntity(mob);
 
 			for (int col=0 ; col<10 ; col++) {
 				AbstractEntity coin = this.entityFactory.createCoin(50+(col*50), row+5);
