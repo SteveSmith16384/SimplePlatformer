@@ -36,6 +36,7 @@ public class ProcessCollisionSystem extends AbstractSystem {
 					KillByJumpingComponent kbj = (KillByJumpingComponent)mover.getComponent(KillByJumpingComponent.class);
 					if (kbj != null) {
 						results.collidedWith.remove();
+						game.sfx.play("Laser.ogg");
 						AbstractEntity fall = game.entityFactory.createFallingMob(results.collidedWith);
 						game.ecs.addEntity(fall);
 						return;
@@ -100,6 +101,8 @@ public class ProcessCollisionSystem extends AbstractSystem {
 	
 	
 	private void playerKilled(AbstractEntity avatar) {
+		game.sfx.play("Falling.ogg");
+
 		avatar.remove();
 		game.ecs.addEntity(game.entityFactory.createDeadPlayer(avatar));
 

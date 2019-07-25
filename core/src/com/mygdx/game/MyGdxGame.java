@@ -139,10 +139,10 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 
 	private void startGame() {
-		if (music != null) {
+		/*if (music != null) {
 			music.dispose();
 			music = null;
-		}
+		}*/
 
 		gameData = new GameData();
 
