@@ -34,16 +34,16 @@ public class LevelGenerator {
 		int row = Settings.LOGICAL_HEIGHT_PIXELS/2;
 		{
 			AbstractEntity platform = this.entityFactory.createFluidPlatform(50, row, Settings.LOGICAL_WIDTH_PIXELS-150);
-			//ecs.addEntity(platform);
+			ecs.addEntity(platform);
 			AbstractEntity platformImage = this.entityFactory.createPlatformImage1(50, row, Settings.LOGICAL_WIDTH_PIXELS-150, 40);
 			ecs.addEntity(platformImage);
 			
 			AbstractEntity mob = this.entityFactory.createMob1(400, row);
-			//ecs.addEntity(mob);
+			ecs.addEntity(mob);
 
 			for (int col=0 ; col<10 ; col++) {
 				AbstractEntity coin = this.entityFactory.createCoin(50+(col*50), row+5);
-				//ecs.addEntity(coin);
+				ecs.addEntity(coin);
 			}
 		}
 

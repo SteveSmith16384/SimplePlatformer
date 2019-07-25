@@ -8,11 +8,11 @@ import com.mygdx.game.components.CollectableComponent;
 import com.mygdx.game.components.CollectableComponent.Type;
 import com.mygdx.game.components.CollisionComponent;
 import com.mygdx.game.components.HarmOnContactComponent;
-import com.mygdx.game.components.HarmedByMobComponent;
 import com.mygdx.game.components.ImageComponent;
 import com.mygdx.game.components.JumpingComponent;
 import com.mygdx.game.components.KillByJumpingComponent;
 import com.mygdx.game.components.MobComponent;
+import com.mygdx.game.components.MoveDownComponent;
 import com.mygdx.game.components.MoveOffScreenComponent;
 import com.mygdx.game.components.MovementComponent;
 import com.mygdx.game.components.PositionComponent;
@@ -43,8 +43,6 @@ public class EntityFactory {
 		e.addComponent(jc);
 		KillByJumpingComponent kbj = new KillByJumpingComponent();
 		e.addComponent(kbj);
-		HarmedByMobComponent dbm = new HarmedByMobComponent();
-		e.addComponent(dbm);
 		CanCollectComponent ccc = new CanCollectComponent();
 		e.addComponent(ccc);
 		WalkingAnimationComponent wac = new WalkingAnimationComponent(.2f);
@@ -84,7 +82,8 @@ public class EntityFactory {
 		e.addComponent(cc);
 		HarmOnContactComponent hoc = new HarmOnContactComponent();
 		e.addComponent(hoc);
-
+		MoveDownComponent mdc = new MoveDownComponent();
+		e.addComponent(mdc);
 		return e;
 	}
 
@@ -129,6 +128,8 @@ public class EntityFactory {
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, true);
 		e.addComponent(cc);
+		MoveDownComponent mdc = new MoveDownComponent();
+		e.addComponent(mdc);
 
 		return e;
 	}
@@ -145,6 +146,8 @@ public class EntityFactory {
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(false, true, false, false);
 		e.addComponent(cc);
+		MoveDownComponent mdc = new MoveDownComponent();
+		e.addComponent(mdc);
 
 		return e;
 	}
@@ -153,7 +156,7 @@ public class EntityFactory {
 	public AbstractEntity createPlatformImage1(int x, int y, int w, int h) {
 		AbstractEntity e = new AbstractEntity("PlatformImage1");
 
-		Ninepatch ninepatch = new Ninepatch("platform1.png", new Rect(3, 10, 44, 2));
+		Ninepatch ninepatch = new Ninepatch("platform1.png", new Rect(1, 8, 1, 3));
 		
 		ImageComponent imageData = new ImageComponent(ninepatch.getImage(w, h), -1);
 		e.addComponent(imageData);
@@ -162,6 +165,8 @@ public class EntityFactory {
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(false, true, false, false);
 		e.addComponent(cc);
+		MoveDownComponent mdc = new MoveDownComponent();
+		e.addComponent(mdc);
 
 		return e;
 	}
@@ -174,6 +179,8 @@ public class EntityFactory {
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(false, false, true, false);
 		e.addComponent(cc);
+		MoveDownComponent mdc = new MoveDownComponent();
+		e.addComponent(mdc);
 
 		return e;
 	}
@@ -194,9 +201,10 @@ public class EntityFactory {
 		e.addComponent(mob);
 		PreventsEndOfLevelComponent beolc = new PreventsEndOfLevelComponent();
 		e.addComponent(beolc);
-
 		WalkingAnimationComponent wac = new WalkingAnimationComponent(.2f);
 		e.addComponent(wac);
+		MoveDownComponent mdc = new MoveDownComponent();
+		e.addComponent(mdc);
 
 		AnimationFramesHelper.createMob1Frames(e, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		return e;
@@ -239,6 +247,8 @@ public class EntityFactory {
 		e.addComponent(col);
 		PreventsEndOfLevelComponent beolc = new PreventsEndOfLevelComponent();
 		e.addComponent(beolc);
+		MoveDownComponent mdc = new MoveDownComponent();
+		e.addComponent(mdc);
 		return e;
 	}
 

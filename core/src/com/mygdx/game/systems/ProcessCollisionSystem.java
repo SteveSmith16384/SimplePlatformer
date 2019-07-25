@@ -5,7 +5,6 @@ import com.mygdx.game.components.CanBeHarmedComponent;
 import com.mygdx.game.components.CanCollectComponent;
 import com.mygdx.game.components.CollectableComponent;
 import com.mygdx.game.components.HarmOnContactComponent;
-import com.mygdx.game.components.HarmedByMobComponent;
 import com.mygdx.game.components.KillByJumpingComponent;
 import com.mygdx.game.components.MobComponent;
 import com.mygdx.game.components.UserInputComponent;
@@ -42,7 +41,7 @@ public class ProcessCollisionSystem extends AbstractSystem {
 						return;
 					}
 				}
-				HarmedByMobComponent dbm = (HarmedByMobComponent)mover.getComponent(HarmedByMobComponent.class);
+				UserInputComponent dbm = (UserInputComponent)mover.getComponent(UserInputComponent.class);
 				if (dbm != null) {
 					this.playerKilled(mover);
 					return;
@@ -54,7 +53,7 @@ public class ProcessCollisionSystem extends AbstractSystem {
 		{
 			MobComponent mob = (MobComponent)mover.getComponent(MobComponent.class);
 			if (mob != null) {
-				HarmedByMobComponent dbm = (HarmedByMobComponent)results.collidedWith.getComponent(HarmedByMobComponent.class);
+				UserInputComponent dbm = (UserInputComponent)results.collidedWith.getComponent(UserInputComponent.class);
 				if (dbm != null) {
 					this.playerKilled(results.collidedWith);
 					return;
@@ -100,8 +99,8 @@ public class ProcessCollisionSystem extends AbstractSystem {
 	}
 	
 	
-	private void playerKilled(AbstractEntity avatar) {
-		game.sfx.play("Falling.ogg");
+	public void playerKilled(AbstractEntity avatar) {
+		game.sfx.play("Falling.mp3");
 
 		avatar.remove();
 		game.ecs.addEntity(game.entityFactory.createDeadPlayer(avatar));

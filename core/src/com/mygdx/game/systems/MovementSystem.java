@@ -6,6 +6,7 @@ import com.mygdx.game.Settings;
 import com.mygdx.game.components.JumpingComponent;
 import com.mygdx.game.components.MovementComponent;
 import com.mygdx.game.components.PositionComponent;
+import com.mygdx.game.components.UserInputComponent;
 import com.mygdx.game.models.CollisionResults;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
@@ -80,8 +81,12 @@ public class MovementSystem extends AbstractSystem {
 						}
 					}
 					game.processCollisionSystem.processCollision(movingEntity, results);
-				} else if (pos.rect.top < 0) { // Fallen off bottom of screen, so reappear at the top
-					pos.rect.move(0, Settings.LOGICAL_HEIGHT_PIXELS);
+				} else if (pos.rect.top < 0) { // Fallen off bottom of screen
+					//pos.rect.move(0, Settings.LOGICAL_HEIGHT_PIXELS);
+					UserInputComponent dbm = (UserInputComponent)movingEntity.getComponent(UserInputComponent.class);
+					if (dbm != null) {
+						game.processCollisionSystem.playerKilled(movingEntity);
+					}
 				}
 			}
 			if (md.canFall) {

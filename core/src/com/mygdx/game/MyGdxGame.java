@@ -23,10 +23,12 @@ import com.mygdx.game.systems.AnimationCycleSystem;
 import com.mygdx.game.systems.CheckForEndOfLevelSystem;
 import com.mygdx.game.systems.CollectorSystem;
 import com.mygdx.game.systems.CollisionSystem;
+import com.mygdx.game.systems.CreateNewPlatformsSystem;
 import com.mygdx.game.systems.DrawScoreSystem;
 import com.mygdx.game.systems.DrawingSystem;
 import com.mygdx.game.systems.InputSystem;
 import com.mygdx.game.systems.MobAISystem;
+import com.mygdx.game.systems.MoveDownSystem;
 import com.mygdx.game.systems.MoveToOffScreenSystem;
 import com.mygdx.game.systems.MovementSystem;
 import com.mygdx.game.systems.MovingPlatformSystem;
@@ -74,7 +76,8 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private MoveToOffScreenSystem moveToOffScreenSystem;
 	private DrawScoreSystem drawScoreSystem;
 	private ProcessPlayersSystem processPlayersSystem;
-	
+	private MoveDownSystem moveDownSystem;
+	private CreateNewPlatformsSystem createNewPlatformsSystem;
 	public HashMap<Integer, PlayerData> players = new HashMap<Integer, PlayerData>();	
 	
 
@@ -110,6 +113,8 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		this.moveToOffScreenSystem = new MoveToOffScreenSystem(ecs);
 		this.drawScoreSystem = new DrawScoreSystem(this, batch);
 		this.processPlayersSystem = new ProcessPlayersSystem(this);
+		this.moveDownSystem = new MoveDownSystem(ecs);
+		this.createNewPlatformsSystem = new CreateNewPlatformsSystem(this);
 		
 		startPreGame();
 
@@ -206,12 +211,15 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 			this.inputSystem.process();
 			this.playerMovementSystem.process();
 			this.mobAiSystem.process();
+			this.moveDownSystem.process();
 			this.walkingAnimationSystem.process(); // Must be before the movementsystem, as that clears the direction
 			this.movementSystem.process();
 			this.movingPlatformSystem.process();
 			this.animSystem.process();
 			this.checkForEndOfLevelSystem.process();
-
+			this.createNewPlatformsSystem.process();
+			
+			
 			// Start actual drawing
 			Gdx.gl.glClearColor(1, 1, 1, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
