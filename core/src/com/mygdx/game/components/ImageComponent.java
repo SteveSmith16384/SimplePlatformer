@@ -30,6 +30,10 @@ public class ImageComponent {
 		w = -1;//_w;
 		h = -1;//_h;
 		imageFilename = "none";
+		
+		if (sprite == null) {
+			throw new RuntimeException("No sprite");
+		}
 	}
 
 

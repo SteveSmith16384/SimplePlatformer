@@ -3,7 +3,7 @@ package com.mygdx.game;
 public final class Settings {
 	
 	public static final String VERSION = "0.01";
-	public static final boolean RELEASE_MODE = false;
+	public static final boolean RELEASE_MODE = true;
 	
 	// Debug
 	public static final boolean SHOW_GREY_BOXES = !RELEASE_MODE && false;
@@ -12,9 +12,11 @@ public final class Settings {
 	public static final boolean SHOW_OUTLINE = !RELEASE_MODE && false;
 
 	// Settings
-	public static final float PLAYER_SPEED = 50;
+	public static final float PLAYER_SPEED = 100;//50;
 	public static final float MOB_SPEED = 45;
 	public static final float MAX_MOVEMENT = 20;//50;//150; // After adjusting for FPS
+	public static final int PLATFORM_START_HEIGHT = 200; // From the top
+	public static final int PLATFORM_SPACING = 100; // From the top
 
 	public static final float PLAYER_SIZE = 30;
 	public static final float COLLECTABLE_SIZE = 25;

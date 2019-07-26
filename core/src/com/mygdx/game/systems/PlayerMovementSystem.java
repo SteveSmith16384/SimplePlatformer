@@ -4,7 +4,7 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Settings;
 import com.mygdx.game.components.JumpingComponent;
 import com.mygdx.game.components.MovementComponent;
-import com.mygdx.game.components.UserInputComponent;
+import com.mygdx.game.components.PlayersAvatarComponent;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
@@ -22,24 +22,20 @@ public class PlayerMovementSystem extends AbstractSystem {
 
 	@Override
 	public Class getEntityClass() {
-		return UserInputComponent.class;
+		return PlayersAvatarComponent.class;
 	}
 
 
 	@Override
 	public void processEntity(AbstractEntity player) {
-		UserInputComponent uic = (UserInputComponent)player.getComponent(UserInputComponent.class);
+		PlayersAvatarComponent uic = (PlayersAvatarComponent)player.getComponent(PlayersAvatarComponent.class);
 		if (uic != null) {
 			MovementComponent mc = (MovementComponent)player.getComponent(MovementComponent.class);
 
 			if (uic.moveLeft) {
 				mc.offX = -Settings.PLAYER_SPEED;
-				//this.checkAnimation(player, -1);
 			} else if (uic.moveRight) {
 				mc.offX = Settings.PLAYER_SPEED;
-				//this.checkAnimation(player, 1);
-			} else {
-				//this.checkAnimation(player, 0);
 			}
 
 			if (uic.jump) {

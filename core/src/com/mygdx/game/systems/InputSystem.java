@@ -8,8 +8,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Settings;
 import com.mygdx.game.components.MobComponent;
-import com.mygdx.game.components.UserInputComponent;
+import com.mygdx.game.components.PlayersAvatarComponent;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
@@ -31,7 +32,7 @@ public class InputSystem extends AbstractSystem {
 
 	@Override
 	public Class getEntityClass() {
-		return UserInputComponent.class;
+		return PlayersAvatarComponent.class;
 	}
 
 	
@@ -62,7 +63,7 @@ public class InputSystem extends AbstractSystem {
 
 	public void processEntity(AbstractEntity entity) {
 		//for (AbstractEntity player : game.playersAvatars) {
-		UserInputComponent uic = (UserInputComponent)entity.getComponent(UserInputComponent.class);
+		PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
 		if (uic != null) {
 			if (uic.controller != null) {
 				uic.moveLeft = uic.controller.getAxis(0) < 0; // todo
@@ -82,13 +83,18 @@ public class InputSystem extends AbstractSystem {
 
 
 	public void keyDown(int keycode) {
-		MyGdxGame.p("key pressed: " + keycode);
+		if (!Settings.RELEASE_MODE) {
+		//MyGdxGame.p("key pressed: " + keycode);
+		}
 		key[keycode] = true;
 	}
 
 
 	public void keyUp(int keycode) {
+		if (!Settings.RELEASE_MODE) {
 		//Settings.p("key released: " + keycode);
+		}
+		
 		key[keycode] = false;
 
 		/*if (gameStage == -1) {

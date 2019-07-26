@@ -2,15 +2,18 @@ package com.mygdx.game.components;
 
 import com.badlogic.gdx.controllers.Controller;
 
-public class UserInputComponent {
+public class PlayersAvatarComponent {
 
 	public int playerId;
 	public Controller controller; // If null, player is keyboard
 	public boolean moveLeft, moveRight, jump;
+	public long timeStarted;
 	
-	public UserInputComponent(int _id, Controller _controller) {
+	public PlayersAvatarComponent(int _id, Controller _controller) {
 		playerId = _id;
 		controller = _controller;
+		
+		timeStarted = System.currentTimeMillis();
 	}
 	
 }

@@ -6,7 +6,7 @@ import com.mygdx.game.Settings;
 import com.mygdx.game.components.JumpingComponent;
 import com.mygdx.game.components.MovementComponent;
 import com.mygdx.game.components.PositionComponent;
-import com.mygdx.game.components.UserInputComponent;
+import com.mygdx.game.components.PlayersAvatarComponent;
 import com.mygdx.game.models.CollisionResults;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
@@ -81,11 +81,20 @@ public class MovementSystem extends AbstractSystem {
 						}
 					}
 					game.processCollisionSystem.processCollision(movingEntity, results);
-				} else if (pos.rect.top < 0) { // Fallen off bottom of screen
-					//pos.rect.move(0, Settings.LOGICAL_HEIGHT_PIXELS);
-					UserInputComponent dbm = (UserInputComponent)movingEntity.getComponent(UserInputComponent.class);
-					if (dbm != null) {
-						game.processCollisionSystem.playerKilled(movingEntity);
+				} else {
+					if (md.offY < 0) {
+						JumpingComponent jc = (JumpingComponent)movingEntity.getComponent(JumpingComponent.class);
+						if (jc != null) {
+							jc.canJump = false;
+						}
+					}
+
+					if (pos.rect.top < 0) { // Fallen off bottom of screen
+						//pos.rect.move(0, Settings.LOGICAL_HEIGHT_PIXELS);
+						PlayersAvatarComponent dbm = (PlayersAvatarComponent)movingEntity.getComponent(PlayersAvatarComponent.class);
+						if (dbm != null) {
+							game.processCollisionSystem.playerKilled(movingEntity);
+						}
 					}
 				}
 			}

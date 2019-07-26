@@ -2,7 +2,7 @@ package com.mygdx.game.systems;
 
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.components.CollectableComponent;
-import com.mygdx.game.components.UserInputComponent;
+import com.mygdx.game.components.PlayersAvatarComponent;
 import com.scs.basicecs.AbstractEntity;
 
 public class CollectorSystem {
@@ -20,9 +20,8 @@ public class CollectorSystem {
 		CollectableComponent cc = (CollectableComponent)coin.getComponent(CollectableComponent.class);
 		switch (cc.type) {
 		case Coin:
-			UserInputComponent uic = (UserInputComponent)collector.getComponent(UserInputComponent.class);
+			PlayersAvatarComponent uic = (PlayersAvatarComponent)collector.getComponent(PlayersAvatarComponent.class);
 			if (uic != null) {
-				//uic.score += 100;
 				game.players.get(uic.playerId).score += 100;
 			}
 			game.ecs.addEntity(game.entityFactory.createRisingCoin(coin));

@@ -1,13 +1,14 @@
 package com.mygdx.game.systems;
 
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Settings;
 import com.mygdx.game.components.CanBeHarmedComponent;
 import com.mygdx.game.components.CanCollectComponent;
 import com.mygdx.game.components.CollectableComponent;
 import com.mygdx.game.components.HarmOnContactComponent;
 import com.mygdx.game.components.KillByJumpingComponent;
 import com.mygdx.game.components.MobComponent;
-import com.mygdx.game.components.UserInputComponent;
+import com.mygdx.game.components.PlayersAvatarComponent;
 import com.mygdx.game.models.CollisionResults;
 import com.mygdx.game.models.PlayerData;
 import com.scs.basicecs.AbstractEntity;
@@ -38,13 +39,27 @@ public class ProcessCollisionSystem extends AbstractSystem {
 						game.sfx.play("Laser.ogg");
 						AbstractEntity fall = game.entityFactory.createFallingMob(results.collidedWith);
 						game.ecs.addEntity(fall);
+
+						// Give player points
+						PlayersAvatarComponent uic = (PlayersAvatarComponent)mover.getComponent(PlayersAvatarComponent.class);
+						if (uic != null) {
+							game.players.get(uic.playerId).score += 200;
+						}
+
 						return;
 					}
 				}
-				UserInputComponent dbm = (UserInputComponent)mover.getComponent(UserInputComponent.class);
+				PlayersAvatarComponent dbm = (PlayersAvatarComponent)mover.getComponent(PlayersAvatarComponent.class);
 				if (dbm != null) {
-					this.playerKilled(mover);
-					return;
+					long diff = System.currentTimeMillis() - dbm.timeStarted;
+					if (diff > 4000) { // Invincible for 4 seconds
+						this.playerKilled(mover);
+						return;
+					} else {
+						if (!Settings.RELEASE_MODE) {
+							MyGdxGame.p("Player invincible!");
+						}
+					}
 				}
 			}
 		}
@@ -53,7 +68,7 @@ public class ProcessCollisionSystem extends AbstractSystem {
 		{
 			MobComponent mob = (MobComponent)mover.getComponent(MobComponent.class);
 			if (mob != null) {
-				UserInputComponent dbm = (UserInputComponent)results.collidedWith.getComponent(UserInputComponent.class);
+				PlayersAvatarComponent dbm = (PlayersAvatarComponent)results.collidedWith.getComponent(PlayersAvatarComponent.class);
 				if (dbm != null) {
 					this.playerKilled(results.collidedWith);
 					return;
@@ -105,10 +120,11 @@ public class ProcessCollisionSystem extends AbstractSystem {
 		avatar.remove();
 		game.ecs.addEntity(game.entityFactory.createDeadPlayer(avatar));
 
-		UserInputComponent uic = (UserInputComponent)avatar.getComponent(UserInputComponent.class);
+		PlayersAvatarComponent uic = (PlayersAvatarComponent)avatar.getComponent(PlayersAvatarComponent.class);
 		PlayerData player = game.players.get(uic.playerId);
 		player.avatar = null;
 		player.timeUntilAvatar = 4; // todo - setting
+		player.score -= 1000;
 		
 	}
 

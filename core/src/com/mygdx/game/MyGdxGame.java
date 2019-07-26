@@ -20,10 +20,8 @@ import com.mygdx.game.helpers.AnimationFramesHelper;
 import com.mygdx.game.models.GameData;
 import com.mygdx.game.models.PlayerData;
 import com.mygdx.game.systems.AnimationCycleSystem;
-import com.mygdx.game.systems.CheckForEndOfLevelSystem;
 import com.mygdx.game.systems.CollectorSystem;
 import com.mygdx.game.systems.CollisionSystem;
-import com.mygdx.game.systems.CreateNewPlatformsSystem;
 import com.mygdx.game.systems.DrawScoreSystem;
 import com.mygdx.game.systems.DrawingSystem;
 import com.mygdx.game.systems.InputSystem;
@@ -38,6 +36,7 @@ import com.mygdx.game.systems.ProcessPlayersSystem;
 import com.mygdx.game.systems.WalkingAnimationSystem;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.BasicECS;
+import com.scs.lang.NumberFunctions;
 
 public final class MyGdxGame extends ApplicationAdapter implements InputProcessor {
 
@@ -70,14 +69,12 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private PlayerMovementSystem playerMovementSystem;
 	public ProcessCollisionSystem processCollisionSystem;
 	public CollectorSystem collectorSystem;
-	private CheckForEndOfLevelSystem checkForEndOfLevelSystem;
 	private WalkingAnimationSystem walkingAnimationSystem;
 	private MovingPlatformSystem movingPlatformSystem;
 	private MoveToOffScreenSystem moveToOffScreenSystem;
 	private DrawScoreSystem drawScoreSystem;
 	private ProcessPlayersSystem processPlayersSystem;
 	private MoveDownSystem moveDownSystem;
-	private CreateNewPlatformsSystem createNewPlatformsSystem;
 	public HashMap<Integer, PlayerData> players = new HashMap<Integer, PlayerData>();	
 	
 
@@ -107,20 +104,20 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		this.playerMovementSystem = new PlayerMovementSystem(this, ecs);
 		processCollisionSystem = new ProcessCollisionSystem(this, ecs);
 		this.collectorSystem = new CollectorSystem(this);
-		this.checkForEndOfLevelSystem = new CheckForEndOfLevelSystem(this, ecs);
 		this.walkingAnimationSystem = new WalkingAnimationSystem(ecs);
 		this.movingPlatformSystem = new MovingPlatformSystem(ecs);
 		this.moveToOffScreenSystem = new MoveToOffScreenSystem(ecs);
 		this.drawScoreSystem = new DrawScoreSystem(this, batch);
 		this.processPlayersSystem = new ProcessPlayersSystem(this);
-		this.moveDownSystem = new MoveDownSystem(ecs);
-		this.createNewPlatformsSystem = new CreateNewPlatformsSystem(this);
+		this.moveDownSystem = new MoveDownSystem(this, ecs);
 		
+		lvl = new LevelGenerator(this.entityFactory, ecs);
+
 		startPreGame();
 
-		if (!Settings.RELEASE_MODE) {
+		//if (!Settings.RELEASE_MODE) {
 			this.startGame();
-		}
+		//}
 	}
 
 
@@ -153,7 +150,6 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 		this.removeAllEntities();
 
-		lvl = new LevelGenerator(this.entityFactory, ecs);
 		lvl.createLevel1();
 
 		if (Controllers.getControllers().size > 0) {
@@ -179,7 +175,8 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	
 	
 	public void createPlayersAvatar(int id, Controller controller, LevelGenerator lvl) {
-		AbstractEntity avatar = this.entityFactory.createPlayer(id, controller, lvl.playerStartPos.x, lvl.playerStartPos.y);
+		int xPos = NumberFunctions.rnd(50,  Settings.LOGICAL_WIDTH_PIXELS-50);
+		AbstractEntity avatar = this.entityFactory.createPlayer(id, controller, xPos, Settings.LOGICAL_HEIGHT_PIXELS);
 		ecs.addEntity(avatar);
 		
 		this.players.get(id).avatar = avatar;
@@ -215,10 +212,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 			this.walkingAnimationSystem.process(); // Must be before the movementsystem, as that clears the direction
 			this.movementSystem.process();
 			this.movingPlatformSystem.process();
-			this.animSystem.process();
-			this.checkForEndOfLevelSystem.process();
-			this.createNewPlatformsSystem.process();
-			
+			this.animSystem.process();			
 			
 			// Start actual drawing
 			Gdx.gl.glClearColor(1, 1, 1, 1);

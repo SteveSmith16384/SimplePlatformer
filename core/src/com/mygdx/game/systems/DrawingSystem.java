@@ -54,24 +54,26 @@ public class DrawingSystem extends AbstractSystem implements Comparator<Abstract
 	public void processEntity(AbstractEntity entity) {
 		ImageComponent imageData = (ImageComponent)entity.getComponent(ImageComponent.class);
 		//if (imageData != null) {
-		//if (imageData.zOrder == zOrder)  {
-			PositionComponent posData = (PositionComponent)entity.getComponent(PositionComponent.class);
-			if (imageData.sprite == null) {
-				//MyGdxGame.p("Creating sprite for " + entity);
-				Texture tex = getTexture(imageData.imageFilename);
-				if (imageData.atlasPosition == null) {
-					imageData.sprite = new Sprite(tex);
-				} else {
-					TextureAtlas atlas = new TextureAtlas();
-					atlas.addRegion("r", tex, (int)imageData.atlasPosition.left, (int)imageData.atlasPosition.bottom, (int)imageData.atlasPosition.width(), (int)imageData.atlasPosition.height());
-					imageData.sprite = atlas.createSprite("r");
-				}
-				if (imageData.w > 0 && imageData.h > 0) {
-					imageData.sprite.setSize(imageData.w, imageData.h);
-				}
+		PositionComponent posData = (PositionComponent)entity.getComponent(PositionComponent.class);
+		if (imageData.sprite == null) {
+			// Load sprite for given filename
+			//MyGdxGame.p("Creating sprite for " + entity);
+			Texture tex = getTexture(imageData.imageFilename);
+			if (imageData.atlasPosition == null) {
+				imageData.sprite = new Sprite(tex);
+			} else {
+				TextureAtlas atlas = new TextureAtlas();
+				atlas.addRegion("r", tex, (int)imageData.atlasPosition.left, (int)imageData.atlasPosition.bottom, (int)imageData.atlasPosition.width(), (int)imageData.atlasPosition.height());
+				imageData.sprite = atlas.createSprite("r");
 			}
-			imageData.sprite.setPosition(posData.rect.getX(), posData.rect.getY());
-			imageData.sprite.draw(batch);
+			if (imageData.w > 0 && imageData.h > 0) {
+				imageData.sprite.setSize(imageData.w, imageData.h);
+			}
+		}
+		
+		// Draw the sprite
+		imageData.sprite.setPosition(posData.rect.getX(), posData.rect.getY());
+		imageData.sprite.draw(batch);
 		//}
 	}
 

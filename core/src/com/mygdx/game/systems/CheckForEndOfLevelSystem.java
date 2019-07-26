@@ -1,5 +1,5 @@
 package com.mygdx.game.systems;
-
+/*
 import java.util.Iterator;
 
 import com.mygdx.game.MyGdxGame;
@@ -37,3 +37,4 @@ public class CheckForEndOfLevelSystem extends AbstractSystem {
 
 
 }
+*/

@@ -17,7 +17,7 @@ import com.mygdx.game.components.MoveOffScreenComponent;
 import com.mygdx.game.components.MovementComponent;
 import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.components.PreventsEndOfLevelComponent;
-import com.mygdx.game.components.UserInputComponent;
+import com.mygdx.game.components.PlayersAvatarComponent;
 import com.mygdx.game.components.WalkingAnimationComponent;
 import com.mygdx.game.helpers.AnimationFramesHelper;
 import com.scs.awt.Rect;
@@ -37,7 +37,7 @@ public class EntityFactory {
 		e.addComponent(cc);
 		MovementComponent mc = new MovementComponent(true);
 		e.addComponent(mc);
-		UserInputComponent uic = new UserInputComponent(id, controller);
+		PlayersAvatarComponent uic = new PlayersAvatarComponent(id, controller);
 		e.addComponent(uic);
 		JumpingComponent jc = new JumpingComponent();
 		e.addComponent(jc);
@@ -56,14 +56,16 @@ public class EntityFactory {
 	public AbstractEntity createWall(int x, int y, float w, float h) {
 		AbstractEntity e = new AbstractEntity("Wall");
 
-		if (Settings.SHOW_GREY_BOXES) {
+		//if (Settings.SHOW_GREY_BOXES) {
 			ImageComponent imageData = new ImageComponent("grey_box.png", 0, w, h);
 			e.addComponent(imageData);
-		}
+		//}
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, false);
 		e.addComponent(cc);
+		MoveDownComponent mdc = new MoveDownComponent();
+		e.addComponent(mdc);
 
 		return e;
 	}
@@ -226,7 +228,7 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
-		MoveOffScreenComponent moc = new MoveOffScreenComponent(0, -Settings.PLAYER_SPEED*2);
+		MoveOffScreenComponent moc = new MoveOffScreenComponent(0, -Settings.PLAYER_SPEED*5);
 		e.addComponent(moc);
 		return e;
 	}
@@ -280,7 +282,7 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionComponent pos2 = PositionComponent.ByBottomLeft(pos.rect.left, pos.rect.bottom, pos.rect.width(), pos.rect.height());
 		e.addComponent(pos2);
-		MoveOffScreenComponent moc = new MoveOffScreenComponent(0, -Settings.PLAYER_SPEED*2);
+		MoveOffScreenComponent moc = new MoveOffScreenComponent(0, -Settings.PLAYER_SPEED*5);
 		e.addComponent(moc);
 
 		return e;
