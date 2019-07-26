@@ -27,7 +27,7 @@ public class CollectorSystem {
 			game.ecs.addEntity(game.entityFactory.createRisingCoin(coin));
 			break;
 		default:
-			throw new RuntimeException("todo");
+			throw new RuntimeException("Unknown collectable type: " + cc.type);
 		}
 	}
 

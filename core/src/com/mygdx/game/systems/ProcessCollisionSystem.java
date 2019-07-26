@@ -82,7 +82,7 @@ public class ProcessCollisionSystem extends AbstractSystem {
 			if (cbh != null) {
 				HarmOnContactComponent hoc = (HarmOnContactComponent)results.collidedWith.getComponent(HarmOnContactComponent.class);
 				if (hoc != null) {
-					mover.remove(); // todo - death effect
+					mover.remove();
 					return;
 				}
 			}

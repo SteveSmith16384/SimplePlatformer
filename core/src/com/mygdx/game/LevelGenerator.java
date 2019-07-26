@@ -8,7 +8,6 @@ public class LevelGenerator {
 
 	private EntityFactory entityFactory;
 	private BasicECS ecs;
-	//public Point playerStartPos; // todo - multiple
 
 	public LevelGenerator(EntityFactory _entityFactory, BasicECS _ecs) {
 		entityFactory = _entityFactory;
@@ -17,12 +16,10 @@ public class LevelGenerator {
 
 
 	public void createLevel1() {
-		//playerStartPos = new Point(50, Settings.LOGICAL_HEIGHT_PIXELS-100);
-
-		//if (Settings.RELEASE_MODE) {
-		AbstractEntity background = this.entityFactory.createImage("background3.jpg", 0, 0, Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS, -99);
-		ecs.addEntity(background);
-		//}
+		if (Settings.RELEASE_MODE) {
+			AbstractEntity background = this.entityFactory.createImage("background3.jpg", 0, 0, Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS, -99);
+			ecs.addEntity(background);
+		}
 
 		//AbstractEntity floor = this.entityFactory.createWall(20, 20, Settings.LOGICAL_WIDTH_PIXELS-50, 20);
 		//ecs.addEntity(floor);

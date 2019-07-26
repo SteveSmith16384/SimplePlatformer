@@ -19,7 +19,7 @@ public class ImageComponent {
 		h = _h;
 
 		if (_filename == null || _filename.length() == 0) {
-			throw new RuntimeException("Todo");
+			throw new RuntimeException("No filename specified");
 		}
 	}
 

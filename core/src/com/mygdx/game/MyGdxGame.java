@@ -270,7 +270,6 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 	public void endOfLevel() {
 		//p("End of level!");
-		// todo
 	}
 
 
