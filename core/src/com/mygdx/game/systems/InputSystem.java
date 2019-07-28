@@ -66,9 +66,19 @@ public class InputSystem extends AbstractSystem {
 		PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
 		if (uic != null) {
 			if (uic.controller != null) {
-				uic.moveLeft = uic.controller.getAxis(0) < 0; // todo
-				uic.moveRight = uic.controller.getAxis(0) > 0; // todo
-				uic.jump = uic.controller.getButton(0); // todo
+				if (!Settings.RELEASE_MODE) {
+					// 1 = right stick l/r
+					// 2 = left stick u/d
+					// 3 = left stick l.r
+					MyGdxGame.p("Axis:" + uic.controller.getAxis(3));
+					// 0 =square
+					if (uic.controller.getButton(1)) {
+						MyGdxGame.p("button!");
+					}
+				}
+				uic.moveLeft = uic.controller.getAxis(3) < -0.5f;
+				uic.moveRight = uic.controller.getAxis(3) > 0.5f;
+				uic.jump = uic.controller.getButton(1);
 			} else {
 				uic.moveLeft = key[29];
 				uic.moveRight = key[32];
