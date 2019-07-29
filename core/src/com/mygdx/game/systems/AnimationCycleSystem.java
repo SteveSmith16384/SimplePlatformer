@@ -8,7 +8,7 @@ import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
 
 /**
- * System for looping an entity through frames
+ * System for looping an entity through frames, e.g. spinning coin
  *
  */
 public class AnimationCycleSystem extends AbstractSystem {

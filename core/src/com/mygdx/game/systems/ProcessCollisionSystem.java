@@ -43,7 +43,7 @@ public class ProcessCollisionSystem extends AbstractSystem {
 						// Give player points
 						PlayersAvatarComponent uic = (PlayersAvatarComponent)mover.getComponent(PlayersAvatarComponent.class);
 						if (uic != null) {
-							game.players.get(uic.playerId).score += 200;
+							uic.player.score += 200;
 						}
 
 						return;
@@ -121,7 +121,7 @@ public class ProcessCollisionSystem extends AbstractSystem {
 		game.ecs.addEntity(game.entityFactory.createDeadPlayer(avatar));
 
 		PlayersAvatarComponent uic = (PlayersAvatarComponent)avatar.getComponent(PlayersAvatarComponent.class);
-		PlayerData player = game.players.get(uic.playerId);
+		PlayerData player = uic.player;
 		player.avatar = null;
 		player.timeUntilAvatar = 4; // todo - setting
 		player.score -= 1000;

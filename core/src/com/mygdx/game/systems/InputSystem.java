@@ -1,27 +1,22 @@
 package com.mygdx.game.systems;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.Controllers;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Settings;
-import com.mygdx.game.components.MobComponent;
 import com.mygdx.game.components.PlayersAvatarComponent;
+import com.mygdx.game.models.PlayerData;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
-import com.scs.libgdx.MouseData;
 
 public class InputSystem extends AbstractSystem {
 
 	private MyGdxGame game;
 	private volatile boolean key[] = new boolean[256];
-	private List<MouseData> mouseDataList = new LinkedList<MouseData>();
-	private int lastMouseX, lastMouseY;
 
 	public InputSystem(MyGdxGame _game, BasicECS ecs) {
 		super(ecs);
@@ -35,7 +30,7 @@ public class InputSystem extends AbstractSystem {
 		return PlayersAvatarComponent.class;
 	}
 
-	
+
 	@Override
 	public void process() {
 		// Process keys
@@ -50,19 +45,56 @@ public class InputSystem extends AbstractSystem {
 			}
 		}
 
-		while (mouseDataList.size() > 0) {
-			synchronized (mouseDataList) {
-				MouseData mouseData = this.mouseDataList.remove(0);
-				processMouseData(mouseData);
+		if (key[Keys.S]) { // S to start
+			game.startNextStage();
+		}
+
+		if (key[Keys.SPACE]) { // Space for keyboard player to join
+			for (PlayerData player : game.players) {
+				if (player.controller == null) {
+				if (player.in_game == false) {
+						MyGdxGame.p("Keyboard player joined");
+						player.in_game = true;
+						break;
+					}
+				}
 			}
 		}
 
-		super.process();
+		if (game.gameStage == -1) {
+			for (Controller controller : Controllers.getControllers()) {
+				boolean playerFound = false;
+				for (PlayerData player : game.players) {
+					if (player.controller == controller) {
+						playerFound = true;
+						break;
+					}
+				}
+				if (!playerFound) {
+					game.createPlayer(controller);
+				}
+			}
+
+			// See if players want to join
+			for (PlayerData player : game.players) {
+				if (player.in_game == false) {
+					if (player.controller != null) {
+						if (player.controller.getButton(1)) {
+							MyGdxGame.p("Controller player joined!");
+							player.in_game = true;
+						}
+					}
+				}
+			}
+
+		} else if (game.gameStage == 0) {
+			super.process();
+		}
 	}
 
 
+	@Override
 	public void processEntity(AbstractEntity entity) {
-		//for (AbstractEntity player : game.playersAvatars) {
 		PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
 		if (uic != null) {
 			if (uic.controller != null) {
@@ -88,13 +120,9 @@ public class InputSystem extends AbstractSystem {
 	}
 
 
-	private void processMouseData(MouseData mouseData) {
-	}
-
-
 	public void keyDown(int keycode) {
 		if (!Settings.RELEASE_MODE) {
-		//MyGdxGame.p("key pressed: " + keycode);
+			MyGdxGame.p("key pressed: " + keycode);
 		}
 		key[keycode] = true;
 	}
@@ -102,9 +130,9 @@ public class InputSystem extends AbstractSystem {
 
 	public void keyUp(int keycode) {
 		if (!Settings.RELEASE_MODE) {
-		//Settings.p("key released: " + keycode);
+			//Settings.p("key released: " + keycode);
 		}
-		
+
 		key[keycode] = false;
 
 		/*if (gameStage == -1) {
@@ -123,31 +151,6 @@ public class InputSystem extends AbstractSystem {
 				toggleFullscreen = true;
 			}
 		}*/
-	}
-
-
-	public void mouseMoved(int screenX, int screenY) {
-		Vector3 pos = game.camera.unproject(new Vector3(screenX, screenY, 0));
-		lastMouseX = (int)pos.x;
-		lastMouseY = (int)pos.y;
-		//MyGdxGame.p("Mouse moved at " + lastMouseX + ", " + lastMouseY);
-	}
-
-
-	public void touchDown(int screenX, int screenY, int pointer, int button) {
-		//MyGdxGame.p("Mouse clicked at " + screenX + ", " + screenY);
-		MouseData mouseData = new MouseData();
-		Vector3 pos = game.camera.unproject(new Vector3(screenX, screenY, 0));
-		mouseData.screenX = (int)pos.x;// screenX;//(int)newpos.x;
-		mouseData.screenY = (int)pos.y;// screenY;
-		mouseData.pointer = pointer;
-		mouseData.button = button;
-
-		//MyGdxGame.p("Converted:" + mouseData.screenX + ", " + mouseData.screenY);
-
-		synchronized (mouseDataList) {
-			this.mouseDataList.add(mouseData);
-		}
 	}
 
 }

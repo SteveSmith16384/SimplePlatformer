@@ -51,9 +51,9 @@ public class MovementSystem extends AbstractSystem {
 					}
 					game.processCollisionSystem.processCollision(movingEntity, results);
 				} else {
-					if (pos.rect.right < 0) {
+					if (pos.rect.centerX() < 0) {
 						pos.rect.move(Settings.LOGICAL_WIDTH_PIXELS, 0);
-					} else if (pos.rect.left > Settings.LOGICAL_WIDTH_PIXELS) {
+					} else if (pos.rect.centerX() > Settings.LOGICAL_WIDTH_PIXELS) {
 						pos.rect.move(-Settings.LOGICAL_WIDTH_PIXELS, 0);
 					}
 				}

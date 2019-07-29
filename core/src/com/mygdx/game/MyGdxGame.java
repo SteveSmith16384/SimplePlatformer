@@ -1,6 +1,6 @@
 package com.mygdx.game;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -8,7 +8,6 @@ import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -22,17 +21,18 @@ import com.mygdx.game.models.PlayerData;
 import com.mygdx.game.systems.AnimationCycleSystem;
 import com.mygdx.game.systems.CollectorSystem;
 import com.mygdx.game.systems.CollisionSystem;
-import com.mygdx.game.systems.DrawScoreSystem;
+import com.mygdx.game.systems.DrawInGameGuiSystem;
+import com.mygdx.game.systems.DrawPreGameGuiSystem;
 import com.mygdx.game.systems.DrawingSystem;
 import com.mygdx.game.systems.InputSystem;
 import com.mygdx.game.systems.MobAISystem;
-import com.mygdx.game.systems.MoveDownSystem;
 import com.mygdx.game.systems.MoveToOffScreenSystem;
 import com.mygdx.game.systems.MovementSystem;
 import com.mygdx.game.systems.MovingPlatformSystem;
 import com.mygdx.game.systems.PlayerMovementSystem;
 import com.mygdx.game.systems.ProcessCollisionSystem;
 import com.mygdx.game.systems.ProcessPlayersSystem;
+import com.mygdx.game.systems.ScrollPlayAreaSystem;
 import com.mygdx.game.systems.WalkingAnimationSystem;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.BasicECS;
@@ -40,11 +40,10 @@ import com.scs.lang.NumberFunctions;
 
 public final class MyGdxGame extends ApplicationAdapter implements InputProcessor {
 
-	public OrthographicCamera camera;
-	private Viewport viewport;
-
 	public BasicECS ecs;
 
+	public OrthographicCamera camera;
+	private Viewport viewport;
 	private SpriteBatch batch;
 	public BitmapFont font;
 	public EntityFactory entityFactory;
@@ -54,8 +53,8 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	public SoundEffects sfx = new SoundEffects();
 	public AnimationFramesHelper animFrameHelper;
 	public LevelGenerator lvl;
-	
-	private int gameStage = -1; // -1, -, or 1
+
+	public int gameStage = -1; // -1, 0, or 1 for before, during and after game
 	private boolean nextStage = false;
 	public boolean toggleFullscreen = false, fullscreen = false;
 
@@ -72,11 +71,12 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private WalkingAnimationSystem walkingAnimationSystem;
 	private MovingPlatformSystem movingPlatformSystem;
 	private MoveToOffScreenSystem moveToOffScreenSystem;
-	private DrawScoreSystem drawScoreSystem;
+	private DrawInGameGuiSystem drawInGameGuiSystem;
 	private ProcessPlayersSystem processPlayersSystem;
-	private MoveDownSystem moveDownSystem;
-	public HashMap<Integer, PlayerData> players = new HashMap<Integer, PlayerData>();	
-	
+	private ScrollPlayAreaSystem moveDownSystem;
+	public ArrayList<PlayerData> players = new ArrayList<PlayerData>();
+	private DrawPreGameGuiSystem drawPreGameGuiSystem;
+
 
 	@Override
 	public void create() {
@@ -107,25 +107,42 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		this.walkingAnimationSystem = new WalkingAnimationSystem(ecs);
 		this.movingPlatformSystem = new MovingPlatformSystem(ecs);
 		this.moveToOffScreenSystem = new MoveToOffScreenSystem(ecs);
-		this.drawScoreSystem = new DrawScoreSystem(this, batch);
+		this.drawInGameGuiSystem = new DrawInGameGuiSystem(this, batch);
 		this.processPlayersSystem = new ProcessPlayersSystem(this);
-		this.moveDownSystem = new MoveDownSystem(this, ecs);
-		
+		this.moveDownSystem = new ScrollPlayAreaSystem(this, ecs);
+		this.drawPreGameGuiSystem = new DrawPreGameGuiSystem(this, batch);
+
 		lvl = new LevelGenerator(this.entityFactory, ecs);
+		
+		players.add(new PlayerData(null)); // Create keyboard player by default *(might not actually join though!)
 
 		startPreGame();
 
-		//if (!Settings.RELEASE_MODE) {
+		if (!Settings.RELEASE_MODE) {
 			this.startGame();
-		//}
+		}
 	}
 
+
+	public void startNextStage() {
+		this.nextStage = true;
+	}
 
 	private void startPreGame() {
 		this.removeAllEntities();
 
+		this.playMusic("MainTheme.wav");
+	}
+
+
+	private void playMusic(String filename) {
+		if (music != null) {
+			music.dispose();
+			music = null;
+		}
+
 		try {
-			music = Gdx.audio.newMusic(Gdx.files.internal("8BitMetal.wav"));
+			music = Gdx.audio.newMusic(Gdx.files.internal(filename));
 			music.setLooping(true);
 			music.setVolume(1f);
 			music.play();
@@ -137,14 +154,13 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 	private void startPostGame() {
 		this.removeAllEntities();
+
+		this.playMusic("todo");
 	}
 
 
 	private void startGame() {
-		/*if (music != null) {
-			music.dispose();
-			music = null;
-		}*/
+		this.playMusic("8BitMetal.wav");
 
 		gameData = new GameData();
 
@@ -152,34 +168,33 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 		lvl.createLevel1();
 
-		if (Controllers.getControllers().size > 0) {
-			int playerId = 0;
+		/*if (Controllers.getControllers().size > 0) {
 			for (Controller controller : Controllers.getControllers()) {
 				Gdx.app.log("", controller.getName());
-				this.createPlayer(playerId++, controller, lvl);
+				this.createPlayer(controller, lvl);
 			}
 		} else {
-			this.createPlayer(0, null, lvl);
-		}
+			this.createPlayer(null, lvl);
+		}*/
 
 
 	}
 
 
-	private void createPlayer(int id, Controller controller, LevelGenerator lvl) {
-		PlayerData data = new PlayerData(id, controller);
-		this.players.put(id, data);
-		
-		this.createPlayersAvatar(id, controller, lvl);
+	public void createPlayer(Controller controller) {
+		PlayerData data = new PlayerData(controller);
+		this.players.add(data);
+
+		p("player created");
 	}
-	
-	
-	public void createPlayersAvatar(int id, Controller controller, LevelGenerator lvl) {
+
+
+	public void createPlayersAvatar(PlayerData player, Controller controller, LevelGenerator lvl) {
 		int xPos = NumberFunctions.rnd(50,  Settings.LOGICAL_WIDTH_PIXELS-50);
-		AbstractEntity avatar = this.entityFactory.createPlayer(id, controller, xPos, Settings.LOGICAL_HEIGHT_PIXELS);
+		AbstractEntity avatar = this.entityFactory.createPlayersAvatar(player, controller, xPos, Settings.LOGICAL_HEIGHT_PIXELS);
 		ecs.addEntity(avatar);
-		
-		this.players.get(id).avatar = avatar;
+
+		player.avatar = avatar;
 	}
 
 
@@ -202,18 +217,20 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 			ecs.process();
 
-			// loop through systems
-			this.processPlayersSystem.process();
-			this.moveToOffScreenSystem.process();
 			this.inputSystem.process();
-			this.playerMovementSystem.process();
-			this.mobAiSystem.process();
-			this.moveDownSystem.process();
-			this.walkingAnimationSystem.process(); // Must be before the movementsystem, as that clears the direction
-			this.movementSystem.process();
-			this.movingPlatformSystem.process();
-			this.animSystem.process();			
-			
+			if (this.gameStage == 0) {
+				// loop through systems
+				this.processPlayersSystem.process();
+				this.moveToOffScreenSystem.process();
+				this.playerMovementSystem.process();
+				this.mobAiSystem.process();
+				this.moveDownSystem.process();
+				this.walkingAnimationSystem.process(); // Must be before the movementsystem, as that clears the direction
+				this.movementSystem.process();
+				this.movingPlatformSystem.process();
+				this.animSystem.process();			
+			}
+
 			// Start actual drawing
 			Gdx.gl.glClearColor(1, 1, 1, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -223,8 +240,11 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 			batch.begin();
 			this.drawingSystem.process();
-			//this.drawFont(batch, "Creds: " + this.gameData.creds, 20, 40);
-			this.drawScoreSystem.process();
+			if (this.gameStage == -1) {
+				this.drawPreGameGuiSystem.process();
+			} else if (this.gameStage == 0) {
+				this.drawInGameGuiSystem.process();
+			}
 			batch.end();
 
 			if (Settings.SHOW_OUTLINE) {
@@ -345,8 +365,24 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 
 	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		return false;
+	}
+
+
+	@Override
+	public boolean scrolled(int amount) {
+		return false;
+	}
+
+
+	public static final void p(String s) {
+		System.out.println(s);
+	}
+
+
+	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		this.inputSystem.touchDown(screenX, screenY, pointer, button);
 		return false;
 	}
 
@@ -360,24 +396,6 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 		return false;
-	}
-
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		this.inputSystem.mouseMoved(screenX, screenY);
-		return false;
-	}
-
-
-	@Override
-	public boolean scrolled(int amount) {
-		return false;
-	}
-
-
-	public static final void p(String s) {
-		System.out.println(s);
 	}
 
 }

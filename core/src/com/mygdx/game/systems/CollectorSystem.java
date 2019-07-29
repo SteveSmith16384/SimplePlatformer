@@ -22,7 +22,7 @@ public class CollectorSystem {
 		case Coin:
 			PlayersAvatarComponent uic = (PlayersAvatarComponent)collector.getComponent(PlayersAvatarComponent.class);
 			if (uic != null) {
-				game.players.get(uic.playerId).score += 100;
+				uic.player.score += 100;
 			}
 			game.ecs.addEntity(game.entityFactory.createRisingCoin(coin));
 			break;

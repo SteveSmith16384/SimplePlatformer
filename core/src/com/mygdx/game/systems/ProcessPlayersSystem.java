@@ -14,11 +14,11 @@ public class ProcessPlayersSystem {
 
 
 	public void process() {
-		for (PlayerData player : game.players.values()) {
+		for (PlayerData player : game.players) {
 			if (player.avatar == null) {
 				player.timeUntilAvatar -= Gdx.graphics.getDeltaTime();
 				if (player.timeUntilAvatar <= 0) {
-					game.createPlayersAvatar(player.playerId, player.controller, game.lvl);
+					game.createPlayersAvatar(player, player.controller, game.lvl);
 				}
 			}
 		}

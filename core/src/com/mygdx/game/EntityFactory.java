@@ -12,21 +12,22 @@ import com.mygdx.game.components.ImageComponent;
 import com.mygdx.game.components.JumpingComponent;
 import com.mygdx.game.components.KillByJumpingComponent;
 import com.mygdx.game.components.MobComponent;
-import com.mygdx.game.components.MoveDownComponent;
 import com.mygdx.game.components.MoveOffScreenComponent;
 import com.mygdx.game.components.MovementComponent;
+import com.mygdx.game.components.PlayersAvatarComponent;
 import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.components.PreventsEndOfLevelComponent;
-import com.mygdx.game.components.PlayersAvatarComponent;
+import com.mygdx.game.components.ScrollsAroundComponent;
 import com.mygdx.game.components.WalkingAnimationComponent;
 import com.mygdx.game.helpers.AnimationFramesHelper;
+import com.mygdx.game.models.PlayerData;
 import com.scs.awt.Rect;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.libgdx.Ninepatch;
 
 public class EntityFactory {
 
-	public AbstractEntity createPlayer(int id, Controller controller, int x, int y) {
+	public AbstractEntity createPlayersAvatar(PlayerData player, Controller controller, int x, int y) {
 		AbstractEntity e = new AbstractEntity("Player");
 
 		ImageComponent imageData = new ImageComponent("grey_box.png", 1, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
@@ -37,7 +38,7 @@ public class EntityFactory {
 		e.addComponent(cc);
 		MovementComponent mc = new MovementComponent(true);
 		e.addComponent(mc);
-		PlayersAvatarComponent uic = new PlayersAvatarComponent(id, controller);
+		PlayersAvatarComponent uic = new PlayersAvatarComponent(player, controller);
 		e.addComponent(uic);
 		JumpingComponent jc = new JumpingComponent();
 		e.addComponent(jc);
@@ -64,7 +65,7 @@ public class EntityFactory {
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, false);
 		e.addComponent(cc);
-		MoveDownComponent mdc = new MoveDownComponent();
+		ScrollsAroundComponent mdc = new ScrollsAroundComponent();
 		e.addComponent(mdc);
 
 		return e;
@@ -84,7 +85,7 @@ public class EntityFactory {
 		e.addComponent(cc);
 		HarmOnContactComponent hoc = new HarmOnContactComponent();
 		e.addComponent(hoc);
-		MoveDownComponent mdc = new MoveDownComponent();
+		ScrollsAroundComponent mdc = new ScrollsAroundComponent();
 		e.addComponent(mdc);
 		return e;
 	}
@@ -130,7 +131,7 @@ public class EntityFactory {
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, true);
 		e.addComponent(cc);
-		MoveDownComponent mdc = new MoveDownComponent();
+		ScrollsAroundComponent mdc = new ScrollsAroundComponent();
 		e.addComponent(mdc);
 
 		return e;
@@ -148,7 +149,7 @@ public class EntityFactory {
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(false, true, false, false);
 		e.addComponent(cc);
-		MoveDownComponent mdc = new MoveDownComponent();
+		ScrollsAroundComponent mdc = new ScrollsAroundComponent();
 		e.addComponent(mdc);
 
 		return e;
@@ -167,7 +168,7 @@ public class EntityFactory {
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(false, true, false, false);
 		e.addComponent(cc);
-		MoveDownComponent mdc = new MoveDownComponent();
+		ScrollsAroundComponent mdc = new ScrollsAroundComponent();
 		e.addComponent(mdc);
 
 		return e;
@@ -181,7 +182,7 @@ public class EntityFactory {
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(false, false, true, false);
 		e.addComponent(cc);
-		MoveDownComponent mdc = new MoveDownComponent();
+		ScrollsAroundComponent mdc = new ScrollsAroundComponent();
 		e.addComponent(mdc);
 
 		return e;
@@ -205,7 +206,7 @@ public class EntityFactory {
 		e.addComponent(beolc);
 		WalkingAnimationComponent wac = new WalkingAnimationComponent(.2f);
 		e.addComponent(wac);
-		MoveDownComponent mdc = new MoveDownComponent();
+		ScrollsAroundComponent mdc = new ScrollsAroundComponent();
 		e.addComponent(mdc);
 
 		AnimationFramesHelper.createMob1Frames(e, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
@@ -249,7 +250,7 @@ public class EntityFactory {
 		e.addComponent(col);
 		PreventsEndOfLevelComponent beolc = new PreventsEndOfLevelComponent();
 		e.addComponent(beolc);
-		MoveDownComponent mdc = new MoveDownComponent();
+		ScrollsAroundComponent mdc = new ScrollsAroundComponent();
 		e.addComponent(mdc);
 		return e;
 	}
@@ -261,7 +262,12 @@ public class EntityFactory {
 		
 		AbstractEntity e = new AbstractEntity("RisingCoin");
 
-		ImageComponent imageData = new ImageComponent(img.sprite, 1);
+		ImageComponent imageData;
+		if (img.sprite != null) {
+			imageData = new ImageComponent(img.sprite, 1);
+		} else {
+			imageData = new ImageComponent(img.imageFilename, 1, img.w, img.h);
+		}
 		e.addComponent(imageData);
 		PositionComponent pos2 = PositionComponent.ByBottomLeft(pos.rect.left, pos.rect.bottom, pos.rect.width(), pos.rect.height());
 		e.addComponent(pos2);
