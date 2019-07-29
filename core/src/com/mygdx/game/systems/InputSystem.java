@@ -45,14 +45,14 @@ public class InputSystem extends AbstractSystem {
 			}
 		}
 
-		if (key[Keys.S]) { // S to start
+		if (key[Keys.S] && game.gameStage == -1) { // S to start
 			game.startNextStage();
 		}
 
 		if (key[Keys.SPACE]) { // Space for keyboard player to join
 			for (PlayerData player : game.players) {
 				if (player.controller == null) {
-				if (player.in_game == false) {
+					if (player.in_game == false) {
 						MyGdxGame.p("Keyboard player joined");
 						player.in_game = true;
 						break;

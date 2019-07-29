@@ -114,12 +114,12 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 		lvl = new LevelGenerator(this.entityFactory, ecs);
 		
-		players.add(new PlayerData(null)); // Create keyboard player by default *(might not actually join though!)
+		players.add(new PlayerData(null)); // Create keyboard player by default (they might not actually join though!)
 
 		startPreGame();
 
 		if (!Settings.RELEASE_MODE) {
-			this.startGame();
+			this.nextStage = true;
 		}
 	}
 

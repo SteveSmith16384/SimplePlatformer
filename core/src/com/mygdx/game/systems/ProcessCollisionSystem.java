@@ -124,7 +124,7 @@ public class ProcessCollisionSystem extends AbstractSystem {
 		PlayerData player = uic.player;
 		player.avatar = null;
 		player.timeUntilAvatar = 4; // todo - setting
-		player.score -= 1000;
+		player.lives--;
 		
 	}
 

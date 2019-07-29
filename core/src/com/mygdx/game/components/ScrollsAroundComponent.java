@@ -5,5 +5,11 @@ package com.mygdx.game.components;
  *
  */
 public class ScrollsAroundComponent {
+	
+	public boolean removeWhenNearEdge; // othewise, removed only when off-screen
+	
+	public ScrollsAroundComponent(boolean _removeWhenNearEdge) {
+		removeWhenNearEdge = _removeWhenNearEdge;		
+	}
 
 }

@@ -65,7 +65,7 @@ public class EntityFactory {
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, false);
 		e.addComponent(cc);
-		ScrollsAroundComponent mdc = new ScrollsAroundComponent();
+		ScrollsAroundComponent mdc = new ScrollsAroundComponent(true);
 		e.addComponent(mdc);
 
 		return e;
@@ -85,7 +85,7 @@ public class EntityFactory {
 		e.addComponent(cc);
 		HarmOnContactComponent hoc = new HarmOnContactComponent();
 		e.addComponent(hoc);
-		ScrollsAroundComponent mdc = new ScrollsAroundComponent();
+		ScrollsAroundComponent mdc = new ScrollsAroundComponent(true);
 		e.addComponent(mdc);
 		return e;
 	}
@@ -131,7 +131,7 @@ public class EntityFactory {
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, true);
 		e.addComponent(cc);
-		ScrollsAroundComponent mdc = new ScrollsAroundComponent();
+		ScrollsAroundComponent mdc = new ScrollsAroundComponent(true);
 		e.addComponent(mdc);
 
 		return e;
@@ -149,14 +149,14 @@ public class EntityFactory {
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(false, true, false, false);
 		e.addComponent(cc);
-		ScrollsAroundComponent mdc = new ScrollsAroundComponent();
+		ScrollsAroundComponent mdc = new ScrollsAroundComponent(true);
 		e.addComponent(mdc);
 
 		return e;
 	}
 
 
-	public AbstractEntity createPlatformImage1(int x, int y, int w, int h) {
+	public AbstractEntity createPlatformType1(int x, int y, int w, int h) {
 		AbstractEntity e = new AbstractEntity("PlatformImage1");
 
 		Ninepatch ninepatch = new Ninepatch("platform1.png", new Rect(1, 8, 1, 3));
@@ -168,7 +168,7 @@ public class EntityFactory {
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(false, true, false, false);
 		e.addComponent(cc);
-		ScrollsAroundComponent mdc = new ScrollsAroundComponent();
+		ScrollsAroundComponent mdc = new ScrollsAroundComponent(true);
 		e.addComponent(mdc);
 
 		return e;
@@ -182,7 +182,7 @@ public class EntityFactory {
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(false, false, true, false);
 		e.addComponent(cc);
-		ScrollsAroundComponent mdc = new ScrollsAroundComponent();
+		ScrollsAroundComponent mdc = new ScrollsAroundComponent(true);
 		e.addComponent(mdc);
 
 		return e;
@@ -206,7 +206,7 @@ public class EntityFactory {
 		e.addComponent(beolc);
 		WalkingAnimationComponent wac = new WalkingAnimationComponent(.2f);
 		e.addComponent(wac);
-		ScrollsAroundComponent mdc = new ScrollsAroundComponent();
+		ScrollsAroundComponent mdc = new ScrollsAroundComponent(false);
 		e.addComponent(mdc);
 
 		AnimationFramesHelper.createMob1Frames(e, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
@@ -250,7 +250,7 @@ public class EntityFactory {
 		e.addComponent(col);
 		PreventsEndOfLevelComponent beolc = new PreventsEndOfLevelComponent();
 		e.addComponent(beolc);
-		ScrollsAroundComponent mdc = new ScrollsAroundComponent();
+		ScrollsAroundComponent mdc = new ScrollsAroundComponent(false);
 		e.addComponent(mdc);
 		return e;
 	}

@@ -25,8 +25,7 @@ public class LevelGenerator {
 		//ecs.addEntity(floor);
 
 		//int row = Settings.LOGICAL_HEIGHT_PIXELS/2;
-		for (int row=100 ; row<Settings.LOGICAL_HEIGHT_PIXELS-Settings.PLATFORM_START_HEIGHT ; row += Settings.PLATFORM_SPACING)
-		{
+		for (int row=Settings.PLATFORM_SPACING ; row<Settings.MAX_PLATFORM_HEIGHT ; row += Settings.PLATFORM_SPACING) {
 			this.generateRow(row);
 		}
 
@@ -39,9 +38,9 @@ public class LevelGenerator {
 	}
 
 
-	public void generateRow(int row) {
+	public void generateRow(int rowYPos) {
 		//generateRow_OneLongRow(row);
-		generateRow_MultiplePlatforms(row, NumberFunctions.rnd(1, 5));
+		generateRow_MultiplePlatforms(rowYPos, NumberFunctions.rnd(1, 5));
 	}
 
 
@@ -51,7 +50,7 @@ public class LevelGenerator {
 
 		AbstractEntity platform = this.entityFactory.createFluidPlatform(inset, row, width);
 		ecs.addEntity(platform);
-		AbstractEntity platformImage = this.entityFactory.createPlatformImage1(inset, row, width, 35);
+		AbstractEntity platformImage = this.entityFactory.createPlatformType1(inset, row, width, 35);
 		ecs.addEntity(platformImage);
 
 		AbstractEntity mob = this.entityFactory.createMob1(NumberFunctions.rnd(inset+20, inset+width-20), row);
@@ -61,20 +60,23 @@ public class LevelGenerator {
 			AbstractEntity coin = this.entityFactory.createCoin(inset, row+5);
 			ecs.addEntity(coin);
 		}
-
 	}
 
 
 	private void generateRow_MultiplePlatforms(int row, int numPlatforms) {
+		int numCreated = 0;
 		for (int p=0 ; p<numPlatforms ; p++) {
 			if (numPlatforms > 1) {
-				if (NumberFunctions.rnd(1,  3) == 1) {
-					continue; // Miss some out
+				if (numCreated > numPlatforms/2) {
+					if (NumberFunctions.rnd(1, 3) == 1) {
+						continue; // Miss some out
+					}
 				}
 			}
 			int width = Settings.LOGICAL_WIDTH_PIXELS / (numPlatforms*2);
 			int inset = (width/2)+(p*width*2);
 			this.createPlatform(row, inset, width, numPlatforms <= 4);
+			numCreated++;
 		}
 	}
 
@@ -82,7 +84,7 @@ public class LevelGenerator {
 	private void createPlatform(int row, int inset, int width, boolean createMob) {
 		AbstractEntity platform = this.entityFactory.createFluidPlatform(inset, row, width);
 		ecs.addEntity(platform);
-		AbstractEntity platformImage = this.entityFactory.createPlatformImage1(inset, row, width, 35);
+		AbstractEntity platformImage = this.entityFactory.createPlatformType1(inset, row, width, 35);
 		ecs.addEntity(platformImage);
 
 		if (createMob) {

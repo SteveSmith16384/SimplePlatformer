@@ -19,7 +19,7 @@ public class DrawPreGameGuiSystem {
 
 
 	public void process() {
-		game.drawFont(batch, Controllers.getControllers().size +  " controllers found", 20, Settings.LOGICAL_HEIGHT_PIXELS-40);
+		game.drawFont(batch, Controllers.getControllers().size + " controllers found", 20, Settings.LOGICAL_HEIGHT_PIXELS-40);
 
 		int count = 0;
 		for (PlayerData player : game.players) {
@@ -27,7 +27,8 @@ public class DrawPreGameGuiSystem {
 				count++;
 			}
 		}
-		game.drawFont(batch, count +  " players in the game!", 20, Settings.LOGICAL_HEIGHT_PIXELS-60);
+		game.drawFont(batch, count + " players in the game!", 20, Settings.LOGICAL_HEIGHT_PIXELS-80);
+		game.drawFont(batch, "PRESS 'S' TO START", 20, Settings.LOGICAL_HEIGHT_PIXELS-120);
 	}
 	
 	
