@@ -91,7 +91,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		font.getData().setScale(3);
 
 		ecs = new BasicECS();
-		entityFactory = new EntityFactory();//this, ecs);
+		entityFactory = new EntityFactory(this);
 		animFrameHelper = new AnimationFramesHelper();
 
 		// Systems
@@ -119,6 +119,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		startPreGame();
 
 		if (!Settings.RELEASE_MODE) {
+			this.players.get(0).setInGame(); // Auto-add keyboard player
 			this.nextStage = true;
 		}
 	}

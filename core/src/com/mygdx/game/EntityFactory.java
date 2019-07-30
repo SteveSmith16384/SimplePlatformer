@@ -26,6 +26,13 @@ import com.scs.basicecs.AbstractEntity;
 import com.scs.libgdx.Ninepatch;
 
 public class EntityFactory {
+	
+	private MyGdxGame game;
+	
+	public EntityFactory(MyGdxGame _game) {
+		game = _game;
+	}
+	
 
 	public AbstractEntity createPlayersAvatar(PlayerData player, Controller controller, int x, int y) {
 		AbstractEntity e = new AbstractEntity("Player");
@@ -49,7 +56,7 @@ public class EntityFactory {
 		WalkingAnimationComponent wac = new WalkingAnimationComponent(.2f);
 		e.addComponent(wac);
 
-		AnimationFramesHelper.createPlayersFrames(e, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		game.animFrameHelper.createPlayersFrames(e, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		return e;
 	}
 
@@ -209,7 +216,7 @@ public class EntityFactory {
 		ScrollsAroundComponent mdc = new ScrollsAroundComponent(false);
 		e.addComponent(mdc);
 
-		AnimationFramesHelper.createMob1Frames(e, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		game.animFrameHelper.createMob1Frames(e, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		return e;
 	}
 
@@ -240,7 +247,7 @@ public class EntityFactory {
 
 		ImageComponent imageData = new ImageComponent("coin_01.png", 1, Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
 		e.addComponent(imageData);
-		AnimationCycleComponent acc = AnimationFramesHelper.generateForCoin(Settings.COLLECTABLE_SIZE);
+		AnimationCycleComponent acc = game.animFrameHelper.generateForCoin(Settings.COLLECTABLE_SIZE);
 		e.addComponent(acc);
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
 		e.addComponent(pos);

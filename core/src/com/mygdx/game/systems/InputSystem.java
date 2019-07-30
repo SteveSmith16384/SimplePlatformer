@@ -45,16 +45,16 @@ public class InputSystem extends AbstractSystem {
 			}
 		}
 
-		if (key[Keys.S] && game.gameStage == -1) { // S to start
+		if (key[Keys.S] && game.gameStage != 0) { // S to start
 			game.startNextStage();
 		}
 
 		if (key[Keys.SPACE]) { // Space for keyboard player to join
 			for (PlayerData player : game.players) {
 				if (player.controller == null) {
-					if (player.in_game == false) {
+					if (player.isInGame() == false) {
 						MyGdxGame.p("Keyboard player joined");
-						player.in_game = true;
+						player.setInGame();
 						break;
 					}
 				}
@@ -77,11 +77,11 @@ public class InputSystem extends AbstractSystem {
 
 			// See if players want to join
 			for (PlayerData player : game.players) {
-				if (player.in_game == false) {
+				if (player.isInGame() == false) {
 					if (player.controller != null) {
 						if (player.controller.getButton(1)) {
 							MyGdxGame.p("Controller player joined!");
-							player.in_game = true;
+							player.setInGame();
 						}
 					}
 				}

@@ -66,11 +66,17 @@ public class ScrollPlayAreaSystem extends AbstractSystem {
 		ScrollsAroundComponent gic = (ScrollsAroundComponent)entity.getComponent(ScrollsAroundComponent.class);
 		if (gic != null) {
 			PositionComponent pos = (PositionComponent)entity.getComponent(PositionComponent.class);
-			if (gic.removeWhenNearEdge) {
+			if (gic.removeWhenNearEdge) { // Only use these types to detemine high
 				if (pos.rect.top < 0 || pos.rect.top > Settings.MAX_PLATFORM_HEIGHT) {
 					entity.remove();
 					return;
 				}
+				if (pos.rect.top < lowestPos) {
+					lowestPos = (int)pos.rect.top; 
+				}
+				if (pos.rect.top > highestPos) {
+					highestPos = (int)pos.rect.top; 
+				}			
 			} else {
 				if (pos.rect.top < 0 || pos.rect.bottom > Settings.LOGICAL_HEIGHT_PIXELS) {
 					entity.remove();
@@ -78,13 +84,6 @@ public class ScrollPlayAreaSystem extends AbstractSystem {
 				}
 			}
 			pos.rect.move(0, -dist);
-
-			if (pos.rect.top < lowestPos) {
-				lowestPos = (int)pos.rect.top; 
-			}
-			if (pos.rect.top > highestPos) {
-				highestPos = (int)pos.rect.top; 
-			}			
 		}
 	}
 

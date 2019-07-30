@@ -33,10 +33,10 @@ public class BasicECS {
 		for (int i = this.entities.size()-1 ; i >= 0; i--) {
 			AbstractEntity entity = this.entities.get(i);
 			if (entity.isMarkedForRemoval()) {
-				MyGdxGame.p("Removing " + entity);
+				//MyGdxGame.p("Removing " + entity);
 				this.entities.remove(entity);
 
-				// Remove from systemsdw
+				// Remove from systems
 				for(AbstractSystem system : this.systems.values()) {
 					Class clazz = system.getEntityClass();
 					if (clazz != null) {

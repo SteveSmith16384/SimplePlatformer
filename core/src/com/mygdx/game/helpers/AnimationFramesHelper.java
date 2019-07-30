@@ -9,12 +9,12 @@ import com.mygdx.game.components.AnimationCycleComponent;
 import com.mygdx.game.components.WalkingAnimationComponent;
 import com.scs.basicecs.AbstractEntity;
 
-public class AnimationFramesHelper { // todo - don 't make everything static, and dispose at end
+public class AnimationFramesHelper {
 
-	private static HashMap<String, Texture> textures = new HashMap<String, Texture>();
+	private HashMap<String, Texture> textures = new HashMap<String, Texture>();
 
-	public static AnimationCycleComponent generateForCoin(float size) {
-		AnimationCycleComponent acd = new AnimationCycleComponent(.2f);
+	public AnimationCycleComponent generateForCoin(float size) {
+		AnimationCycleComponent acd = new AnimationCycleComponent(.1f);
 		acd.frames = new Sprite[9];
 		
 		for(int i=1 ; i<=8 ; i++) {
@@ -28,7 +28,7 @@ public class AnimationFramesHelper { // todo - don 't make everything static, an
 	}
 	
 	
-	public static void createPlayersFrames(AbstractEntity player, float w, float h) {
+	public void createPlayersFrames(AbstractEntity player, float w, float h) {
 		WalkingAnimationComponent wac = (WalkingAnimationComponent)player.getComponent(WalkingAnimationComponent.class);
 		wac.framesLeft = new Sprite[3];
 		wac.framesRight = new Sprite[3];
@@ -54,7 +54,7 @@ public class AnimationFramesHelper { // todo - don 't make everything static, an
 	}
 
 
-	public static void createMob1Frames(AbstractEntity mob, float w, float h) {
+	public void createMob1Frames(AbstractEntity mob, float w, float h) {
 		int NUM_FRAMES = 6;
 		WalkingAnimationComponent wac = (WalkingAnimationComponent)mob.getComponent(WalkingAnimationComponent.class);
 		wac.framesLeft = new Sprite[NUM_FRAMES];
@@ -76,7 +76,7 @@ public class AnimationFramesHelper { // todo - don 't make everything static, an
 	}
 	
 	
-	private static Texture getTexture(String filename) {
+	private Texture getTexture(String filename) {
 		if (textures.containsKey(filename)) {
 			return textures.get(filename);
 		}

@@ -15,7 +15,7 @@ public class ProcessPlayersSystem {
 
 	public void process() {
 		for (PlayerData player : game.players) {
-			if (player.in_game && player.lives > 0) {
+			if (player.isInGame() && player.lives > 0) {
 				if (player.avatar == null) {
 					player.timeUntilAvatar -= Gdx.graphics.getDeltaTime();
 					if (player.timeUntilAvatar <= 0) {

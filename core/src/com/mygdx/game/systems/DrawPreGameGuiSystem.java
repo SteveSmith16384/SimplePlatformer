@@ -23,7 +23,7 @@ public class DrawPreGameGuiSystem {
 
 		int count = 0;
 		for (PlayerData player : game.players) {
-			if (player.in_game) {
+			if (player.isInGame()) {
 				count++;
 			}
 		}

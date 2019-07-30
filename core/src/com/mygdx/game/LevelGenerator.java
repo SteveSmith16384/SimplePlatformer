@@ -40,7 +40,7 @@ public class LevelGenerator {
 
 	public void generateRow(int rowYPos) {
 		//generateRow_OneLongRow(row);
-		generateRow_MultiplePlatforms(rowYPos, NumberFunctions.rnd(1, 5));
+		generateRow_MultiplePlatforms(rowYPos, NumberFunctions.rnd(1, 7));
 	}
 
 
