@@ -64,10 +64,10 @@ public class EntityFactory {
 	public AbstractEntity createWall(int x, int y, float w, float h) {
 		AbstractEntity e = new AbstractEntity("Wall");
 
-		//if (Settings.SHOW_GREY_BOXES) {
+		if (Settings.SHOW_GREY_BOXES) {
 			ImageComponent imageData = new ImageComponent("grey_box.png", 0, w, h);
 			e.addComponent(imageData);
-		//}
+		}
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, false);
@@ -207,7 +207,7 @@ public class EntityFactory {
 		e.addComponent(cc);
 		MovementComponent mc = new MovementComponent(true);
 		e.addComponent(mc);
-		MobComponent mob = new MobComponent();
+		MobComponent mob = new MobComponent(45, true);
 		e.addComponent(mob);
 		PreventsEndOfLevelComponent beolc = new PreventsEndOfLevelComponent();
 		e.addComponent(beolc);
@@ -232,7 +232,7 @@ public class EntityFactory {
 		e.addComponent(cc);
 		MovementComponent mc = new MovementComponent(true);
 		e.addComponent(mc);
-		MobComponent mob = new MobComponent();
+		MobComponent mob = new MobComponent(65, false);
 		e.addComponent(mob);
 		//PreventsEndOfLevelComponent beolc = new PreventsEndOfLevelComponent();
 		//e.addComponent(beolc);
@@ -270,10 +270,13 @@ public class EntityFactory {
 	public AbstractEntity createCoin(int x, int y) {
 		AbstractEntity e = new AbstractEntity("Coin");
 
-		ImageComponent imageData = new ImageComponent("grey_box.png", 1, Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
-		e.addComponent(imageData);
 		AnimationCycleComponent acc = game.animFrameHelper.generateForCoin(Settings.COLLECTABLE_SIZE);
 		e.addComponent(acc);
+		/*if (acc.frames[0] == null) {
+			int dfgf = 456;
+		}*/
+		ImageComponent imageData = new ImageComponent(acc.frames[0], 1);
+		e.addComponent(imageData);
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, false, false);

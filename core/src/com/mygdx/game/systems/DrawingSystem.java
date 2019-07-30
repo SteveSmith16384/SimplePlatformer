@@ -57,7 +57,7 @@ public class DrawingSystem extends AbstractSystem implements Comparator<Abstract
 		PositionComponent posData = (PositionComponent)entity.getComponent(PositionComponent.class);
 		if (imageData.sprite == null) {
 			// Load sprite for given filename
-			//MyGdxGame.p("Creating sprite for " + entity);
+			MyGdxGame.p("Creating sprite for " + entity);
 			Texture tex = getTexture(imageData.imageFilename);
 			if (imageData.atlasPosition == null) {
 				imageData.sprite = new Sprite(tex);

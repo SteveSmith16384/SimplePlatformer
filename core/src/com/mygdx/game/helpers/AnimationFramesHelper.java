@@ -14,8 +14,9 @@ public class AnimationFramesHelper {
 	private HashMap<String, Texture> textures = new HashMap<String, Texture>();
 
 	public AnimationCycleComponent generateForCoin(float size) {
+		int numFrames = 8;
 		AnimationCycleComponent acd = new AnimationCycleComponent(.1f);
-		acd.frames = new Sprite[9];
+		acd.frames = new Sprite[numFrames];
 		
 		/*for(int i=1 ; i<=8 ; i++) {
 			Texture tex = getTexture("coin_0" + i + ".png");
@@ -25,7 +26,7 @@ public class AnimationFramesHelper {
 		}*/
 		Texture texture = getTexture("Coin_16x16_Anim.png");
 		TextureAtlas atlas = new TextureAtlas();
-		for (int i=0 ; i<8 ; i++) {
+		for (int i=0 ; i<numFrames ; i++) {
 			atlas.addRegion("frame"+i, texture, i*16, 0, 16, 16);
 			acd.frames[i] = atlas.createSprite("frame"+i);
 			acd.frames[i].setSize(size, size);

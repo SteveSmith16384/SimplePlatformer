@@ -18,11 +18,11 @@ public final class Settings {
 	
 	// Settings
 	public static final float PLAYER_SPEED = 120;//50;
-	public static final float MOB_SPEED = 45;
+	//public static final float MOB_SPEED = 45;
 	public static final float MAX_MOVEMENT = 20;//50;//150; // After adjusting for FPS
 	//public static final int PLATFORM_START_HEIGHT = 200; // From the top
 	public static final int PLATFORM_SPACING = (int)(Settings.LOGICAL_HEIGHT_PIXELS * 0.20f);
-	public static final int MAX_PLATFORM_HEIGHT = (int)(Settings.LOGICAL_HEIGHT_PIXELS * 0.8f);
+	public static final int MAX_PLATFORM_HEIGHT = (int)(Settings.LOGICAL_HEIGHT_PIXELS);// * 0.8f);
 
 	public static final float PLAYER_SIZE = LOGICAL_HEIGHT_PIXELS / 17;
 	public static final float COLLECTABLE_SIZE = 25;

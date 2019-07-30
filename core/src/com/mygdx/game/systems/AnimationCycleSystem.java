@@ -37,6 +37,10 @@ public class AnimationCycleSystem extends AbstractSystem {
 				}
 				ImageComponent image = (ImageComponent)entity.getComponent(ImageComponent.class);
 				image.sprite = data.frames[data.currentFrame];
+				
+				if (image.sprite == null) {
+					throw new RuntimeException("todo");
+				}
 
 				data.timeUntilNextFrame = data.interval;
 			}

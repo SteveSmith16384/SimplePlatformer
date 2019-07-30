@@ -1,7 +1,13 @@
 # CO-OP PLATFORMER
-A simple multiplayer platformer.
+A simple multiplayer platformer.  Avoid 
 
 Written by Stephen Smith.
+
+https://bitbucket.org/SteveSmith16384/coop_platformer/raw/0fc86a87ea5d6f86b5f7e9070ebedc2fc50b20d7/docs/gameplay1.gif
+
+##Licence
+MIT licence.  See the separate file for details.
+
 
 ##Contact
 Email: stephen.carlylesmith@googlemail.com

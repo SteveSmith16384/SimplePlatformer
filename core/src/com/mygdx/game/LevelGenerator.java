@@ -88,8 +88,13 @@ public class LevelGenerator {
 		ecs.addEntity(platformImage);
 
 		if (createMob) {
-			AbstractEntity mob = this.entityFactory.createMob_Cannonball(NumberFunctions.rnd(inset+20, inset+width-20), row);
-			ecs.addEntity(mob);
+			if (NumberFunctions.rnd(1, 4) == 1) {
+				AbstractEntity mob = this.entityFactory.createMob_Cannonball(NumberFunctions.rnd(inset+20, inset+width-20), row);
+				ecs.addEntity(mob);
+			} else {
+				AbstractEntity mob = this.entityFactory.createMob1(NumberFunctions.rnd(inset+20, inset+width-20), row);
+				ecs.addEntity(mob);
+			}
 		}
 
 		for (int col=inset ; col<inset+width ; col+=100) {
