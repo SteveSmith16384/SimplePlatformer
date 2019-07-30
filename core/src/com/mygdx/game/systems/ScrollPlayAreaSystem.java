@@ -3,12 +3,11 @@ package com.mygdx.game.systems;
 import com.badlogic.gdx.Gdx;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Settings;
-import com.mygdx.game.components.ScrollsAroundComponent;
 import com.mygdx.game.components.PositionComponent;
+import com.mygdx.game.components.ScrollsAroundComponent;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
-import com.scs.lang.NumberFunctions;
 
 public class ScrollPlayAreaSystem extends AbstractSystem {
 

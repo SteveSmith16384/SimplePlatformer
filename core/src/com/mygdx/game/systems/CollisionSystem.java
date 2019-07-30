@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.components.AnimationCycleComponent;
 import com.mygdx.game.components.CollisionComponent;
 import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.models.CollisionResults;

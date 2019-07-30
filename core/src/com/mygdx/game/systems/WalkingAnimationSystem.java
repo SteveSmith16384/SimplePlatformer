@@ -1,7 +1,6 @@
 package com.mygdx.game.systems;
 
 import com.badlogic.gdx.Gdx;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.components.ImageComponent;
 import com.mygdx.game.components.MovementComponent;
 import com.mygdx.game.components.WalkingAnimationComponent;

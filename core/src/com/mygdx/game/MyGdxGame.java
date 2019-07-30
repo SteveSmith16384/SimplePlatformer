@@ -22,6 +22,7 @@ import com.mygdx.game.systems.AnimationCycleSystem;
 import com.mygdx.game.systems.CollectorSystem;
 import com.mygdx.game.systems.CollisionSystem;
 import com.mygdx.game.systems.DrawInGameGuiSystem;
+import com.mygdx.game.systems.DrawPostGameGuiSystem;
 import com.mygdx.game.systems.DrawPreGameGuiSystem;
 import com.mygdx.game.systems.DrawingSystem;
 import com.mygdx.game.systems.InputSystem;
@@ -53,7 +54,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	public SoundEffects sfx = new SoundEffects();
 	public AnimationFramesHelper animFrameHelper;
 	public LevelGenerator lvl;
-
+	public int winnerImageId;
 	public int gameStage = -1; // -1, 0, or 1 for before, during and after game
 	private boolean nextStage = false;
 	public boolean toggleFullscreen = false, fullscreen = false;
@@ -76,7 +77,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private ScrollPlayAreaSystem moveDownSystem;
 	public ArrayList<PlayerData> players = new ArrayList<PlayerData>();
 	private DrawPreGameGuiSystem drawPreGameGuiSystem;
-
+	private DrawPostGameGuiSystem drawPostGameGuiSystem;
 
 	@Override
 	public void create() {
@@ -111,6 +112,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		this.processPlayersSystem = new ProcessPlayersSystem(this);
 		this.moveDownSystem = new ScrollPlayAreaSystem(this, ecs);
 		this.drawPreGameGuiSystem = new DrawPreGameGuiSystem(this, batch);
+		this.drawPostGameGuiSystem = new DrawPostGameGuiSystem(this, batch);
 
 		lvl = new LevelGenerator(this.entityFactory, ecs);
 		
@@ -160,6 +162,12 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	}
 
 
+	public void setWinner(int imageId) {
+		this.nextStage = true;
+		this.winnerImageId = imageId;
+	}
+	
+	
 	private void startGame() {
 		this.playMusic("8BitMetal.wav");
 
@@ -245,6 +253,9 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 				this.drawPreGameGuiSystem.process();
 			} else if (this.gameStage == 0) {
 				this.drawInGameGuiSystem.process();
+			} else if (this.gameStage == 1) {
+				this.drawInGameGuiSystem.process();
+				this.drawPostGameGuiSystem.process();
 			}
 			batch.end();
 

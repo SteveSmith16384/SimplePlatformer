@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import com.mygdx.game.MyGdxGame;
-
 public class BasicECS {
 
 	private HashMap<Class, AbstractSystem> systems = new HashMap<Class, AbstractSystem>();

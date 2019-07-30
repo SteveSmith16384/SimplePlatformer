@@ -3,7 +3,6 @@ package com.mygdx.game.systems;
 import java.util.List;
 
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.Settings;
 import com.mygdx.game.components.CollisionComponent;
 import com.mygdx.game.components.MobComponent;
 import com.mygdx.game.components.MovementComponent;

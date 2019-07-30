@@ -3,7 +3,6 @@ package com.scs.libgdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.scs.awt.Point;
 import com.scs.awt.Rect;
 
 public class Ninepatch {

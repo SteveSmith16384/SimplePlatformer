@@ -19,7 +19,6 @@ import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.components.PreventsEndOfLevelComponent;
 import com.mygdx.game.components.ScrollsAroundComponent;
 import com.mygdx.game.components.WalkingAnimationComponent;
-import com.mygdx.game.helpers.AnimationFramesHelper;
 import com.mygdx.game.models.PlayerData;
 import com.scs.awt.Rect;
 import com.scs.basicecs.AbstractEntity;
