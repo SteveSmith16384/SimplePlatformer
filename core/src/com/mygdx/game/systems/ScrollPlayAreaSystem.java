@@ -15,7 +15,7 @@ public class ScrollPlayAreaSystem extends AbstractSystem {
 	private MyGdxGame game;
 	private float dist;
 	private int highestPos, lowestPos;
-	private int dir;
+	private int dir = 1;
 	private float timeUntilChange;
 	
 	public ScrollPlayAreaSystem(MyGdxGame _game, BasicECS ecs) {
@@ -34,18 +34,13 @@ public class ScrollPlayAreaSystem extends AbstractSystem {
 
 	@Override
 	public void process() {
-		timeUntilChange -= Gdx.graphics.getDeltaTime();
+		/*timeUntilChange -= Gdx.graphics.getDeltaTime();  NO!  When scrolling up, the player falls through the platform.
 		if (timeUntilChange < 0) {
 			dir = NumberFunctions.rnd(0, 1) == 1 ? 1 : -1;
 			timeUntilChange = NumberFunctions.rndFloat(2, 10);
-		}
+		}*/
 		
 		dist = 20 * Gdx.graphics.getDeltaTime() * dir;
-		/*distBeforeNewPlatform -= dist;		
-		if (distBeforeNewPlatform < 0) {
-			game.lvl.generateRow(Settings.LOGICAL_HEIGHT_PIXELS);
-			distBeforeNewPlatform = Settings.PLATFORM_SPACING;
-		}*/
 		highestPos = 0;
 		lowestPos = Settings.LOGICAL_HEIGHT_PIXELS;
 

@@ -221,6 +221,31 @@ public class EntityFactory {
 	}
 
 
+	public AbstractEntity createMob_Cannonball(int x, int y) {
+		AbstractEntity e = new AbstractEntity("Cannonball");
+
+		ImageComponent imageData = new ImageComponent("grey_box.png", 1, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		e.addComponent(imageData);
+		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		e.addComponent(pos);
+		CollisionComponent cc = new CollisionComponent(true, true, false, false); // Needs collideAsPlatform to be killed
+		e.addComponent(cc);
+		MovementComponent mc = new MovementComponent(true);
+		e.addComponent(mc);
+		MobComponent mob = new MobComponent();
+		e.addComponent(mob);
+		//PreventsEndOfLevelComponent beolc = new PreventsEndOfLevelComponent();
+		//e.addComponent(beolc);
+		WalkingAnimationComponent wac = new WalkingAnimationComponent(.1f);
+		e.addComponent(wac);
+		ScrollsAroundComponent mdc = new ScrollsAroundComponent(false);
+		e.addComponent(mdc);
+
+		game.animFrameHelper.createCannonballFrames(e, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		return e;
+	}
+
+
 	public AbstractEntity createFallingMob(AbstractEntity mob) {
 		PositionComponent pos = (PositionComponent)mob.getComponent(PositionComponent.class);
 		ImageComponent img = (ImageComponent)mob.getComponent(ImageComponent.class);	
@@ -245,7 +270,7 @@ public class EntityFactory {
 	public AbstractEntity createCoin(int x, int y) {
 		AbstractEntity e = new AbstractEntity("Coin");
 
-		ImageComponent imageData = new ImageComponent("coin_01.png", 1, Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
+		ImageComponent imageData = new ImageComponent("grey_box.png", 1, Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
 		e.addComponent(imageData);
 		AnimationCycleComponent acc = game.animFrameHelper.generateForCoin(Settings.COLLECTABLE_SIZE);
 		e.addComponent(acc);

@@ -88,7 +88,7 @@ public class LevelGenerator {
 		ecs.addEntity(platformImage);
 
 		if (createMob) {
-			AbstractEntity mob = this.entityFactory.createMob1(NumberFunctions.rnd(inset+20, inset+width-20), row);
+			AbstractEntity mob = this.entityFactory.createMob_Cannonball(NumberFunctions.rnd(inset+20, inset+width-20), row);
 			ecs.addEntity(mob);
 		}
 

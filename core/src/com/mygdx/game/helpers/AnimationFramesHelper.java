@@ -17,13 +17,21 @@ public class AnimationFramesHelper {
 		AnimationCycleComponent acd = new AnimationCycleComponent(.1f);
 		acd.frames = new Sprite[9];
 		
-		for(int i=1 ; i<=8 ; i++) {
+		/*for(int i=1 ; i<=8 ; i++) {
 			Texture tex = getTexture("coin_0" + i + ".png");
 			Sprite sprite = new Sprite(tex);
 			sprite.setSize(size * (tex.getWidth()/45f), size);
 			acd.frames[i-1] = sprite;
+		}*/
+		Texture texture = getTexture("Coin_16x16_Anim.png");
+		TextureAtlas atlas = new TextureAtlas();
+		for (int i=0 ; i<8 ; i++) {
+			atlas.addRegion("frame"+i, texture, i*16, 0, 16, 16);
+			acd.frames[i] = atlas.createSprite("frame"+i);
+			acd.frames[i].setSize(size, size);
 		}
-
+		
+		
 		return acd;
 	}
 	
@@ -64,8 +72,26 @@ public class AnimationFramesHelper {
 		TextureAtlas atlas = new TextureAtlas();
 		for (int i=0 ; i<NUM_FRAMES ; i++) {
 			atlas.addRegion("frame"+i, texture, i*16, 0, 16, 13);
-		/*}
-		for (int i=0 ; i<6 ; i++) {*/
+			wac.framesLeft[i] = atlas.createSprite("frame"+i);
+			wac.framesLeft[i].setSize(w, h);
+			wac.framesRight[i] = atlas.createSprite("frame"+i);
+			wac.framesRight[i].setSize(w, h);
+			wac.framesRight[i].flip(true, false);
+		}
+		wac.idleFrame = wac.framesLeft[0];
+	}
+	
+	
+	public void createCannonballFrames(AbstractEntity mob, float w, float h) {
+		int NUM_FRAMES = 10;
+		WalkingAnimationComponent wac = (WalkingAnimationComponent)mob.getComponent(WalkingAnimationComponent.class);
+		wac.framesLeft = new Sprite[NUM_FRAMES];
+		wac.framesRight = new Sprite[NUM_FRAMES];
+
+		Texture texture = getTexture("cannonbobmouth.png");
+		TextureAtlas atlas = new TextureAtlas();
+		for (int i=0 ; i<NUM_FRAMES ; i++) {
+			atlas.addRegion("frame"+i, texture, i*16, 0, 16, 16);
 			wac.framesLeft[i] = atlas.createSprite("frame"+i);
 			wac.framesLeft[i].setSize(w, h);
 			wac.framesRight[i] = atlas.createSprite("frame"+i);
