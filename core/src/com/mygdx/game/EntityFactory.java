@@ -16,7 +16,6 @@ import com.mygdx.game.components.MoveOffScreenComponent;
 import com.mygdx.game.components.MovementComponent;
 import com.mygdx.game.components.PlayersAvatarComponent;
 import com.mygdx.game.components.PositionComponent;
-import com.mygdx.game.components.PreventsEndOfLevelComponent;
 import com.mygdx.game.components.ScrollsAroundComponent;
 import com.mygdx.game.components.WalkingAnimationComponent;
 import com.mygdx.game.models.PlayerData;
@@ -208,8 +207,6 @@ public class EntityFactory {
 		e.addComponent(mc);
 		MobComponent mob = new MobComponent(45, true);
 		e.addComponent(mob);
-		PreventsEndOfLevelComponent beolc = new PreventsEndOfLevelComponent();
-		e.addComponent(beolc);
 		WalkingAnimationComponent wac = new WalkingAnimationComponent(.2f);
 		e.addComponent(wac);
 		ScrollsAroundComponent mdc = new ScrollsAroundComponent(false);
@@ -282,8 +279,6 @@ public class EntityFactory {
 		e.addComponent(cc);
 		CollectableComponent col = new CollectableComponent(Type.Coin);
 		e.addComponent(col);
-		PreventsEndOfLevelComponent beolc = new PreventsEndOfLevelComponent();
-		e.addComponent(beolc);
 		ScrollsAroundComponent mdc = new ScrollsAroundComponent(false);
 		e.addComponent(mdc);
 		return e;

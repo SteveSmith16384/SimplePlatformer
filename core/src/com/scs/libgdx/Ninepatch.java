@@ -46,8 +46,9 @@ public class Ninepatch {
 		
 		Texture newTex = new Texture(basePixmap);
 
-		//todo basePixmap.dispose();
-		//todo t1.dispose();
+		basePixmap.dispose();
+		t1.dispose();
+		p1.dispose();
 		
 		return new Sprite(newTex);
 	}

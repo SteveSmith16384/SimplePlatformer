@@ -39,7 +39,7 @@ public class AnimationCycleSystem extends AbstractSystem {
 				image.sprite = data.frames[data.currentFrame];
 				
 				if (image.sprite == null) {
-					throw new RuntimeException("todo");
+					throw new RuntimeException("Null sprite");
 				}
 
 				data.timeUntilNextFrame = data.interval;

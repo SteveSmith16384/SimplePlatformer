@@ -23,7 +23,7 @@ public final class SoundEffects {
 	}
 	
 	
-	public void dispose() { // todo -call this
+	public void dispose() {
 		Iterator<Sound> it = sfx.values().iterator();
 		while (it.hasNext()) {
 			Sound s = it.next();

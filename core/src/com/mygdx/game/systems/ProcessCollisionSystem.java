@@ -123,7 +123,7 @@ public class ProcessCollisionSystem extends AbstractSystem {
 		PlayersAvatarComponent uic = (PlayersAvatarComponent)avatar.getComponent(PlayersAvatarComponent.class);
 		PlayerData player = uic.player;
 		player.avatar = null;
-		player.timeUntilAvatar = 3; // todo - setting
+		player.timeUntilAvatar = Settings.AVATAR_RESPAWN_TIME_SECS;
 		player.lives--;
 		
 	}

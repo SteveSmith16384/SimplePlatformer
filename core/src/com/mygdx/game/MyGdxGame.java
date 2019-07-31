@@ -134,7 +134,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private void startPreGame() {
 		this.removeAllEntities();
 
-		this.playMusic("MainTheme.wav");
+		this.playMusic("IntroLoop.wav");
 	}
 
 
@@ -158,7 +158,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private void startPostGame() {
 		this.removeAllEntities();
 
-		this.playMusic("todo");
+		this.playMusic("VictoryMusic.wav");
 	}
 
 

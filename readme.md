@@ -1,17 +1,23 @@
 # CO-OP PLATFORMER
-A simple multiplayer platformer.  Avoid 
+A simple multiplayer platformer.  Avoid falling off the bottom of the screen.
 
 Written by Stephen Smith.
 
 https://bitbucket.org/SteveSmith16384/coop_platformer/raw/0fc86a87ea5d6f86b5f7e9070ebedc2fc50b20d7/docs/gameplay1.gif
 
-##Licence
-MIT licence.  See the separate file for details.
+
+##CONTROLS
+* Gamepads or keyboard (W, A and D, Space to join).
+* Press S to start.
 
 
 ##Contact
 Email: stephen.carlylesmith@googlemail.com
 Twitter: https://twitter.com/stephencsmith
+
+
+##Licence
+MIT licence.  See the separate file for details.
 
 
 ##Credits

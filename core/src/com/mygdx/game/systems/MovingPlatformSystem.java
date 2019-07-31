@@ -5,6 +5,9 @@ import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
 
+/*
+ * Not implemented yet
+ */
 public class MovingPlatformSystem extends AbstractSystem {
 
 	public MovingPlatformSystem(BasicECS ecs) {

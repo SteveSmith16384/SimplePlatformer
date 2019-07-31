@@ -8,7 +8,7 @@ import java.util.List;
 public class BasicECS {
 
 	private HashMap<Class, AbstractSystem> systems = new HashMap<Class, AbstractSystem>();
-	private List<AbstractEntity> entities = new ArrayList<AbstractEntity>(); // todo - use Hashmap with ids
+	private List<AbstractEntity> entities = new ArrayList<AbstractEntity>();
 	private List<AbstractEntity> to_add_entities = new ArrayList<AbstractEntity>();
 
 	public BasicECS() {

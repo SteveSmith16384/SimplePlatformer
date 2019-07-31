@@ -28,6 +28,7 @@ public final class Settings {
 	public static final float COLLECTABLE_SIZE = 25;
 	public static final float JUMP_FORCE = 300;	
 	public static final float GRAVITY = 7;
+	public static final int AVATAR_RESPAWN_TIME_SECS = 3;
 	
 	public static final String TITLE = RELEASE_MODE ? "Co-op Platformer" : "CP";
 	
