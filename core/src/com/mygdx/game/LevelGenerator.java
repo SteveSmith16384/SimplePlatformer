@@ -40,10 +40,10 @@ public class LevelGenerator {
 
 	public void generateRow(int rowYPos) {
 		//generateRow_OneLongRow(row);
-		generateRow_MultiplePlatforms(rowYPos, NumberFunctions.rnd(1, 7));
+		generateRow_MultiplePlatforms(rowYPos, NumberFunctions.rnd(1, 6));
 	}
 
-
+/*
 	private void generateRow_OneLongRow(int row) {
 		int inset = 100;
 		int width = Settings.LOGICAL_WIDTH_PIXELS-(inset*2);
@@ -61,7 +61,7 @@ public class LevelGenerator {
 			ecs.addEntity(coin);
 		}
 	}
-
+*/
 
 	private void generateRow_MultiplePlatforms(int row, int numPlatforms) {
 		int numCreated = 0;
@@ -75,7 +75,7 @@ public class LevelGenerator {
 			}
 			int width = Settings.LOGICAL_WIDTH_PIXELS / (numPlatforms*2);
 			int inset = (width/2)+(p*width*2);
-			this.createPlatform(row, inset, width, numPlatforms <= 4);
+			this.createPlatform(row, inset, width, numPlatforms <= 5);
 			numCreated++;
 		}
 	}
@@ -88,7 +88,7 @@ public class LevelGenerator {
 		ecs.addEntity(platformImage);
 
 		if (createMob) {
-			if (NumberFunctions.rnd(1, 4) == 1) {
+			if (NumberFunctions.rnd(1, 3) == 1) {
 				AbstractEntity mob = this.entityFactory.createMob_Cannonball(NumberFunctions.rnd(inset+20, inset+width-20), row);
 				ecs.addEntity(mob);
 			} else {
@@ -97,7 +97,7 @@ public class LevelGenerator {
 			}
 		}
 
-		for (int col=inset ; col<inset+width ; col+=100) {
+		for (int col=inset+35 ; col<inset+width ; col+=100) {
 			AbstractEntity coin = this.entityFactory.createCoin(col, row+5);
 			ecs.addEntity(coin);
 		}
