@@ -1,5 +1,6 @@
 package com.mygdx.game.systems;
 
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,11 +21,12 @@ public class DrawPostGameGuiSystem {
 
 
 	public void process() {
+		game.drawFont(batch, "WINNER!", 20, Settings.LOGICAL_HEIGHT_PIXELS-40);
 		if (winnerSprite == null) {
 			Texture tex = new Texture("player" + game.winnerImageId + "_right1.png");
 			winnerSprite = new Sprite(tex);
 			winnerSprite.setSize(Settings.LOGICAL_WIDTH_PIXELS/4, Settings.LOGICAL_HEIGHT_PIXELS/4);
-			winnerSprite.setPosition(0,  0);
+			winnerSprite.setPosition(Settings.LOGICAL_WIDTH_PIXELS/2, Settings.LOGICAL_HEIGHT_PIXELS/2);
 		}
 		winnerSprite.draw(batch);
 		

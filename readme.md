@@ -1,5 +1,5 @@
-# CO-OP PLATFORMER
-A simple multiplayer platformer.  Avoid falling off the bottom of the screen.
+# A SIMPLE PLATFORMER
+A simple multiplayer platformer.  Avoid falling off the bottom of the screen.  The game goes on until everyone runs out of lives, and the winner is the player with the highest score.
 
 Written by Stephen Smith.
 
@@ -30,3 +30,4 @@ MIT licence.  See the separate file for details.
 * Background: https://opengameart.org/content/simple-sky
 * Music by SketchyLogic: https://opengameart.org/content/hungry-dino-9-chiptune-tracks-10-sfx
 * Other sound effects: https://opengameart.org/content/platform-small-sound-effect-pack
+

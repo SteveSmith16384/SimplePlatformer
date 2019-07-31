@@ -6,7 +6,7 @@ import com.mygdx.game.components.CanBeHarmedComponent;
 import com.mygdx.game.components.CanCollectComponent;
 import com.mygdx.game.components.CollectableComponent;
 import com.mygdx.game.components.HarmOnContactComponent;
-import com.mygdx.game.components.KillByJumpingComponent;
+import com.mygdx.game.components.KillByJumpingOnComponent;
 import com.mygdx.game.components.MobComponent;
 import com.mygdx.game.components.PlayersAvatarComponent;
 import com.mygdx.game.models.CollisionResults;
@@ -33,7 +33,7 @@ public class ProcessCollisionSystem extends AbstractSystem {
 			if (mob != null) {
 				// Player jumping on mob
 				if (results.fromAbove) {
-					KillByJumpingComponent kbj = (KillByJumpingComponent)mover.getComponent(KillByJumpingComponent.class);
+					KillByJumpingOnComponent kbj = (KillByJumpingOnComponent)mover.getComponent(KillByJumpingOnComponent.class);
 					if (kbj != null) {
 						results.collidedWith.remove();
 						game.sfx.play("Laser.ogg");

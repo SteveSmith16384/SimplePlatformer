@@ -10,7 +10,7 @@ import com.mygdx.game.components.CollisionComponent;
 import com.mygdx.game.components.HarmOnContactComponent;
 import com.mygdx.game.components.ImageComponent;
 import com.mygdx.game.components.JumpingComponent;
-import com.mygdx.game.components.KillByJumpingComponent;
+import com.mygdx.game.components.KillByJumpingOnComponent;
 import com.mygdx.game.components.MobComponent;
 import com.mygdx.game.components.MoveOffScreenComponent;
 import com.mygdx.game.components.MovementComponent;
@@ -47,7 +47,7 @@ public class EntityFactory {
 		e.addComponent(uic);
 		JumpingComponent jc = new JumpingComponent();
 		e.addComponent(jc);
-		KillByJumpingComponent kbj = new KillByJumpingComponent();
+		KillByJumpingOnComponent kbj = new KillByJumpingOnComponent();
 		e.addComponent(kbj);
 		CanCollectComponent ccc = new CanCollectComponent();
 		e.addComponent(ccc);

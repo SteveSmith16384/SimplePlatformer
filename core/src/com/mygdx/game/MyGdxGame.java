@@ -75,9 +75,10 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private DrawInGameGuiSystem drawInGameGuiSystem;
 	private ProcessPlayersSystem processPlayersSystem;
 	private ScrollPlayAreaSystem moveDownSystem;
-	public ArrayList<PlayerData> players = new ArrayList<PlayerData>();
 	private DrawPreGameGuiSystem drawPreGameGuiSystem;
 	private DrawPostGameGuiSystem drawPostGameGuiSystem;
+
+	public ArrayList<PlayerData> players = new ArrayList<PlayerData>();
 
 	@Override
 	public void create() {
@@ -115,15 +116,12 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		this.drawPostGameGuiSystem = new DrawPostGameGuiSystem(this, batch);
 
 		lvl = new LevelGenerator(this.entityFactory, ecs);
-		
-		players.add(new PlayerData(null)); // Create keyboard player by default (they might not actually join though!)
 
 		startPreGame();
 
-		if (!Settings.RELEASE_MODE) {
-			this.players.get(0).setInGame(); // Auto-add keyboard player
+		/*if (!Settings.RELEASE_MODE) {
 			this.nextStage = true;
-		}
+		}*/
 	}
 
 
@@ -132,9 +130,13 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	}
 
 	private void startPreGame() {
+		this.playMusic("IntroLoop.wav");
+
 		this.removeAllEntities();
 
-		this.playMusic("IntroLoop.wav");
+		players.clear();
+		players.add(new PlayerData(null)); // Create keyboard player by default (they might not actually join though!)
+
 	}
 
 
@@ -166,27 +168,20 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		this.nextStage = true;
 		this.winnerImageId = imageId;
 	}
-	
-	
+
+
 	private void startGame() {
 		this.playMusic("8BitMetal.wav");
+
+		if (!Settings.RELEASE_MODE) {
+			this.players.get(0).setInGame(); // Auto-add keyboard player
+		}
 
 		gameData = new GameData();
 
 		this.removeAllEntities();
 
 		lvl.createLevel1();
-
-		/*if (Controllers.getControllers().size > 0) {
-			for (Controller controller : Controllers.getControllers()) {
-				Gdx.app.log("", controller.getName());
-				this.createPlayer(controller, lvl);
-			}
-		} else {
-			this.createPlayer(null, lvl);
-		}*/
-
-
 	}
 
 

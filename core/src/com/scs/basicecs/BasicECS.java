@@ -78,11 +78,13 @@ public class BasicECS {
 	}
 
 	public void removeAllEntities() {
-		// Remove any entities
-		while (this.entities.size() > 0) {
+		/*while (this.entities.size() > 0) {
 			AbstractEntity entity = this.entities.get(0);
 			this.entities.remove(entity);
 			//this.eventListener.EntityRemoved(entity);
+		}*/
+		for(AbstractEntity e : this.entities) {
+			e.remove();
 		}
 	}
 
