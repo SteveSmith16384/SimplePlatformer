@@ -21,6 +21,7 @@ public class CollectorSystem {
 		switch (cc.type) {
 		case Coin:
 			PlayersAvatarComponent uic = (PlayersAvatarComponent)collector.getComponent(PlayersAvatarComponent.class);
+			//game.sfx.play("Retro_Game_Sounds_SFX_01.wav");
 			if (uic != null) {
 				uic.player.score += 100;
 			}

@@ -174,7 +174,9 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		this.playMusic("8BitMetal.wav");
 
 		if (!Settings.RELEASE_MODE) {
-			this.players.get(0).setInGame(); // Auto-add keyboard player
+			if (this.players.get(0).isInGame() == false) {
+				this.players.get(0).setInGame(); // Auto-add keyboard player
+			}
 		}
 
 		gameData = new GameData();

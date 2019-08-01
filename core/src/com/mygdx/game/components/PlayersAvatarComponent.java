@@ -5,7 +5,7 @@ import com.mygdx.game.models.PlayerData;
 
 public class PlayersAvatarComponent {
 
-	public PlayerData player;//int playerId;
+	public PlayerData player;
 	public Controller controller; // If null, player is keyboard
 	public boolean moveLeft, moveRight, jump;
 	public long timeStarted;

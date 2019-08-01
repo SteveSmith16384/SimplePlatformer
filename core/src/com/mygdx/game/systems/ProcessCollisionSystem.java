@@ -51,15 +51,9 @@ public class ProcessCollisionSystem extends AbstractSystem {
 				}
 				PlayersAvatarComponent dbm = (PlayersAvatarComponent)mover.getComponent(PlayersAvatarComponent.class);
 				if (dbm != null) {
-					long diff = System.currentTimeMillis() - dbm.timeStarted;
-					if (diff > 4000) { // Invincible for 4 seconds
-						this.playerKilled(mover);
-						return;
-					} else {
-						if (!Settings.RELEASE_MODE) {
-							MyGdxGame.p("Player invincible!");
-						}
-					}
+					this.playerKilled(mover, dbm.timeStarted);
+					return;
+
 				}
 			}
 		}
@@ -70,7 +64,7 @@ public class ProcessCollisionSystem extends AbstractSystem {
 			if (mob != null) {
 				PlayersAvatarComponent dbm = (PlayersAvatarComponent)results.collidedWith.getComponent(PlayersAvatarComponent.class);
 				if (dbm != null) {
-					this.playerKilled(results.collidedWith);
+					this.playerKilled(results.collidedWith, dbm.timeStarted);
 					return;
 				}
 			}
@@ -112,9 +106,17 @@ public class ProcessCollisionSystem extends AbstractSystem {
 			}
 		}
 	}
-	
-	
-	public void playerKilled(AbstractEntity avatar) {
+
+
+	public void playerKilled(AbstractEntity avatar, long timeStarted) {
+		long diff = System.currentTimeMillis() - timeStarted;
+		if (diff < 4000) { // Invincible for 4 seconds
+			if (!Settings.RELEASE_MODE) {
+				MyGdxGame.p("Player invincible!");
+			}
+			return;
+		}
+
 		game.sfx.play("Falling.mp3");
 
 		avatar.remove();
@@ -125,7 +127,7 @@ public class ProcessCollisionSystem extends AbstractSystem {
 		player.avatar = null;
 		player.timeUntilAvatar = Settings.AVATAR_RESPAWN_TIME_SECS;
 		player.lives--;
-		
+
 	}
 
 }

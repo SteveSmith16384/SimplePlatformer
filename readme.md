@@ -8,6 +8,7 @@ https://bitbucket.org/SteveSmith16384/coop_platformer/raw/0fc86a87ea5d6f86b5f7e9
 
 ##CONTROLS
 * Gamepads or keyboard (W, A and D, Space to join).
+* Can currently only handle 2 controllers max, plus one keyboard player
 * Press S to start.
 
 

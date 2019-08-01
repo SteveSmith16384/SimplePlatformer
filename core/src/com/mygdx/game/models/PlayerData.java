@@ -1,6 +1,7 @@
 package com.mygdx.game.models;
 
 import com.badlogic.gdx.controllers.Controller;
+import com.mygdx.game.Settings;
 import com.scs.basicecs.AbstractEntity;
 
 public class PlayerData {
@@ -22,6 +23,11 @@ public class PlayerData {
 	
 	
 	public void setInGame() {
+		if (Settings.RELEASE_MODE == false) {
+			if (in_game) {
+				throw new RuntimeException("Player already in game!");
+			}
+		}
 		this.in_game = true;
 		imageId = nextImageId++;
 	}
