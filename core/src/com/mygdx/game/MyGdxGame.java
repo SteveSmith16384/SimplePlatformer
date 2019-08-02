@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -8,11 +9,15 @@ import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.ControllerListener;
+import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.helpers.AnimationFramesHelper;
@@ -35,11 +40,9 @@ import com.mygdx.game.systems.ProcessCollisionSystem;
 import com.mygdx.game.systems.ProcessPlayersSystem;
 import com.mygdx.game.systems.ScrollPlayAreaSystem;
 import com.mygdx.game.systems.WalkingAnimationSystem;
-import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.BasicECS;
-import com.scs.lang.NumberFunctions;
 
-public final class MyGdxGame extends ApplicationAdapter implements InputProcessor {
+public final class MyGdxGame extends ApplicationAdapter implements InputProcessor, ControllerListener {
 
 	public BasicECS ecs;
 
@@ -70,15 +73,18 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	public ProcessCollisionSystem processCollisionSystem;
 	public CollectorSystem collectorSystem;
 	private WalkingAnimationSystem walkingAnimationSystem;
-	private MovingPlatformSystem movingPlatformSystem;
+	//private MovingPlatformSystem movingPlatformSystem;
 	private MoveToOffScreenSystem moveToOffScreenSystem;
 	private DrawInGameGuiSystem drawInGameGuiSystem;
 	private ProcessPlayersSystem processPlayersSystem;
-	private ScrollPlayAreaSystem moveDownSystem;
+	private ScrollPlayAreaSystem scrollPlayAreaSystem;
 	private DrawPreGameGuiSystem drawPreGameGuiSystem;
 	private DrawPostGameGuiSystem drawPostGameGuiSystem;
 
 	public ArrayList<PlayerData> players = new ArrayList<PlayerData>();
+	private List<Controller> controllersAdded = new ArrayList<Controller>();
+	private List<Controller> controllersRemoved = new ArrayList<Controller>();
+
 
 	@Override
 	public void create() {
@@ -107,36 +113,72 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		processCollisionSystem = new ProcessCollisionSystem(this, ecs);
 		this.collectorSystem = new CollectorSystem(this);
 		this.walkingAnimationSystem = new WalkingAnimationSystem(ecs);
-		this.movingPlatformSystem = new MovingPlatformSystem(ecs);
+		//this.movingPlatformSystem = new MovingPlatformSystem(ecs);
 		this.moveToOffScreenSystem = new MoveToOffScreenSystem(ecs);
 		this.drawInGameGuiSystem = new DrawInGameGuiSystem(this, batch);
 		this.processPlayersSystem = new ProcessPlayersSystem(this);
-		this.moveDownSystem = new ScrollPlayAreaSystem(this, ecs);
+		this.scrollPlayAreaSystem = new ScrollPlayAreaSystem(this, ecs);
 		this.drawPreGameGuiSystem = new DrawPreGameGuiSystem(this, batch);
 		this.drawPostGameGuiSystem = new DrawPostGameGuiSystem(this, batch);
+
+		// Add players for all connected controllers
+		for (Controller controller : Controllers.getControllers()) {
+			this.addPlayerForController(controller);
+		}
+		players.add(new PlayerData(null)); // Create keyboard player by default (they might not actually join though!)
+
+		Controllers.addListener(this);
 
 		lvl = new LevelGenerator(this.entityFactory, ecs);
 
 		startPreGame();
 
-		/*if (!Settings.RELEASE_MODE) {
+		if (!Settings.RELEASE_MODE) {
 			this.nextStage = true;
-		}*/
+		}
 	}
 
+
+	private void addPlayerForController(Controller controller) {
+		boolean playerFound = false;
+		for (PlayerData player : players) {
+			if (player.controller == controller) {
+				playerFound = true;
+				break;
+			}
+		}
+		if (!playerFound) {
+			//createPlayer(controller);
+			PlayerData data = new PlayerData(controller);
+			this.players.add(data);
+
+			p("player created");
+		}
+	}
+
+
+	/*	private void createPlayer(Controller controller) {
+		PlayerData data = new PlayerData(controller);
+		this.players.add(data);
+
+		p("player created");
+	}
+	 */
 
 	public void startNextStage() {
 		this.nextStage = true;
 	}
+
 
 	private void startPreGame() {
 		this.playMusic("IntroLoop.wav");
 
 		this.removeAllEntities();
 
-		players.clear();
-		players.add(new PlayerData(null)); // Create keyboard player by default (they might not actually join though!)
-
+		// Reset all player data
+		for (PlayerData player : players) {
+			player.setInGame(false);
+		}
 	}
 
 
@@ -174,8 +216,10 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		this.playMusic("8BitMetal.wav");
 
 		if (!Settings.RELEASE_MODE) {
-			if (this.players.get(0).isInGame() == false) {
-				this.players.get(0).setInGame(); // Auto-add keyboard player
+			if (this.players.size() == 1) {
+				if (this.players.get(0).isInGame() == false) {
+					this.players.get(0).setInGame(true); // Auto-add keyboard player
+				}
 			}
 		}
 
@@ -186,15 +230,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		lvl.createLevel1();
 	}
 
-
-	public void createPlayer(Controller controller) {
-		PlayerData data = new PlayerData(controller);
-		this.players.add(data);
-
-		p("player created");
-	}
-
-
+	/*
 	public void createPlayersAvatar(PlayerData player, Controller controller, LevelGenerator lvl) {
 		int xPos = NumberFunctions.rnd(50,  Settings.LOGICAL_WIDTH_PIXELS-50);
 		AbstractEntity avatar = this.entityFactory.createPlayersAvatar(player, controller, xPos, Settings.LOGICAL_HEIGHT_PIXELS);
@@ -202,6 +238,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 		player.avatar = avatar;
 	}
+	 */
 
 
 	@Override
@@ -223,17 +260,20 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 			ecs.process();
 
+			checkNewOrRemovedControllers();
+
 			this.inputSystem.process();
+
 			if (this.gameStage == 0) {
 				// loop through systems
 				this.processPlayersSystem.process();
 				this.moveToOffScreenSystem.process();
 				this.playerMovementSystem.process();
 				this.mobAiSystem.process();
-				this.moveDownSystem.process();
+				this.scrollPlayAreaSystem.process();
 				this.walkingAnimationSystem.process(); // Must be before the movementsystem, as that clears the direction
 				this.movementSystem.process();
-				this.movingPlatformSystem.process();
+				//this.movingPlatformSystem.process();
 				this.animSystem.process();			
 			}
 
@@ -289,6 +329,25 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 			}
 		}
 
+	}
+
+
+	private void checkNewOrRemovedControllers() {
+		for (Controller c : this.controllersAdded) {
+			this.addPlayerForController(c);
+		}
+		this.controllersAdded.clear();
+
+		for (Controller c : this.controllersRemoved) {
+			for (PlayerData player : players) {
+				if (player.controller == c) {
+					player.avatar.remove();
+					player.quit = true;
+					break;
+				}
+			}
+		}
+		this.controllersAdded.clear();
 	}
 
 
@@ -404,6 +463,60 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		return false;
+	}
+
+
+	@Override
+	public void connected(Controller controller) {
+		this.controllersAdded.add(controller);
+	}
+
+
+	@Override
+	public void disconnected(Controller controller) {
+		this.controllersRemoved.add(controller);
+	}
+
+
+	@Override
+	public boolean buttonDown(Controller controller, int buttonCode) {
+		return false;
+	}
+
+
+	@Override
+	public boolean buttonUp(Controller controller, int buttonCode) {
+		return false;
+	}
+
+
+	@Override
+	public boolean axisMoved(Controller controller, int axisCode, float value) {
+		return false;
+	}
+
+
+	@Override
+	public boolean povMoved(Controller controller, int povCode, PovDirection value) {
+		return false;
+	}
+
+
+	@Override
+	public boolean xSliderMoved(Controller controller, int sliderCode, boolean value) {
+		return false;
+	}
+
+
+	@Override
+	public boolean ySliderMoved(Controller controller, int sliderCode, boolean value) {
+		return false;
+	}
+
+
+	@Override
+	public boolean accelerometerMoved(Controller controller, int accelerometerCode, Vector3 value) {
 		return false;
 	}
 

@@ -46,32 +46,21 @@ public class InputSystem extends AbstractSystem {
 		}
 
 		if (key[Keys.S] && game.gameStage != 0) { // S to start
+			key[Keys.S] = false;
 			game.startNextStage();
 		}
 
-		if (key[Keys.SPACE]) { // Space for keyboard player to join
-			for (PlayerData player : game.players) {
-				if (player.controller == null) {
-					if (player.isInGame() == false) {
-						MyGdxGame.p("Keyboard player joined");
-						player.setInGame();
-						break;
-					}
-				}
-			}
-		}
-
 		if (game.gameStage == -1) {
-			for (Controller controller : Controllers.getControllers()) {
-				boolean playerFound = false;
+			if (key[Keys.SPACE]) { // Space for keyboard player to join
+				key[Keys.SPACE] = false;
 				for (PlayerData player : game.players) {
-					if (player.controller == controller) {
-						playerFound = true;
-						break;
+					if (player.controller == null) {
+						if (player.isInGame() == false) {
+							MyGdxGame.p("Keyboard player joined");
+							player.setInGame(true);
+							break;
+						}
 					}
-				}
-				if (!playerFound) {
-					game.createPlayer(controller);
 				}
 			}
 
@@ -81,7 +70,7 @@ public class InputSystem extends AbstractSystem {
 					if (player.controller != null) {
 						if (player.controller.getButton(1)) {
 							MyGdxGame.p("Controller player joined!");
-							player.setInGame();
+							player.setInGame(true);
 						}
 					}
 				}

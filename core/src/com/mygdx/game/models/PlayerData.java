@@ -5,11 +5,12 @@ import com.mygdx.game.Settings;
 import com.scs.basicecs.AbstractEntity;
 
 public class PlayerData {
-	
+
 	private static int nextImageId = 1;
 
 	public Controller controller; // If null, player is keyboard
 	private boolean in_game = false;
+	public boolean quit = false; // If they've removeed their controller; prevent them re-attaching to start again
 	public AbstractEntity avatar;
 	public float timeUntilAvatar;
 	public int score;
@@ -18,21 +19,26 @@ public class PlayerData {
 
 	public PlayerData(Controller _controller) {
 		this.controller = _controller;
-		lives = 3;
+		//lives = 3;
 	}
-	
-	
-	public void setInGame() {
-		if (Settings.RELEASE_MODE == false) {
-			if (in_game) {
-				throw new RuntimeException("Player already in game!");
+
+
+	public void setInGame(boolean b) {
+		if (b) {
+			if (Settings.RELEASE_MODE == false) {
+				if (in_game) {
+					throw new RuntimeException("Player already in game!");
+				}
 			}
+			this.in_game = true;
+			this.lives = 3;
+			imageId = nextImageId++;
+		} else {
+			this.in_game = false;
 		}
-		this.in_game = true;
-		imageId = nextImageId++;
 	}
-	
-	
+
+
 	public boolean isInGame() {
 		return this.in_game;
 	}

@@ -15,7 +15,7 @@ public class ScrollPlayAreaSystem extends AbstractSystem {
 	private float dist;
 	private int highestPos, lowestPos;
 	private int dir = 1;
-	private float timeUntilChange;
+	//private float timeUntilChange;
 	
 	public ScrollPlayAreaSystem(MyGdxGame _game, BasicECS ecs) {
 		super(ecs);
@@ -46,11 +46,11 @@ public class ScrollPlayAreaSystem extends AbstractSystem {
 		super.process();
 
 		if (highestPos < Settings.MAX_PLATFORM_HEIGHT - Settings.PLATFORM_SPACING) {
-			game.lvl.generateRow(highestPos + Settings.PLATFORM_SPACING);
+			game.lvl.generateRow(highestPos + Settings.PLATFORM_SPACING, true);
 		}
-		if (lowestPos > Settings.PLATFORM_SPACING) {
-			game.lvl.generateRow(lowestPos - Settings.PLATFORM_SPACING);
-		}
+		/*if (lowestPos > Settings.PLATFORM_SPACING) {
+			game.lvl.generateRow(lowestPos - Settings.PLATFORM_SPACING, true);
+		}*/
 
 	}
 

@@ -93,7 +93,7 @@ public class MovementSystem extends AbstractSystem {
 						//pos.rect.move(0, Settings.LOGICAL_HEIGHT_PIXELS);
 						PlayersAvatarComponent dbm = (PlayersAvatarComponent)movingEntity.getComponent(PlayersAvatarComponent.class);
 						if (dbm != null) {
-							game.processCollisionSystem.playerKilled(movingEntity);
+							game.processCollisionSystem.playerKilled(movingEntity, -1);
 						}
 					}
 				}

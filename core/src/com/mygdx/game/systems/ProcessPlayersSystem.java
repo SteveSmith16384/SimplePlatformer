@@ -1,8 +1,13 @@
 package com.mygdx.game.systems;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.controllers.Controller;
+import com.mygdx.game.LevelGenerator;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Settings;
 import com.mygdx.game.models.PlayerData;
+import com.scs.basicecs.AbstractEntity;
+import com.scs.lang.NumberFunctions;
 
 public class ProcessPlayersSystem {
 
@@ -15,12 +20,12 @@ public class ProcessPlayersSystem {
 
 	public void process() {
 		for (PlayerData player : game.players) {
-			if (player.isInGame()) {
+			if (player.isInGame() && player.quit == false) {
 				if (player.lives > 0) {
 					if (player.avatar == null) {
 						player.timeUntilAvatar -= Gdx.graphics.getDeltaTime();
 						if (player.timeUntilAvatar <= 0) {
-							game.createPlayersAvatar(player, player.controller, game.lvl);
+							createPlayersAvatar(player, player.controller, game.lvl);
 						}
 					}
 				}
@@ -46,6 +51,15 @@ public class ProcessPlayersSystem {
 
 		game.setWinner(winner);
 
+	}
+
+	
+	private void createPlayersAvatar(PlayerData player, Controller controller, LevelGenerator lvl) {
+		int xPos = NumberFunctions.rnd(50,  Settings.LOGICAL_WIDTH_PIXELS-50);
+		AbstractEntity avatar = game.entityFactory.createPlayersAvatar(player, controller, xPos, Settings.LOGICAL_HEIGHT_PIXELS);
+		game.ecs.addEntity(avatar);
+
+		player.avatar = avatar;
 	}
 
 }

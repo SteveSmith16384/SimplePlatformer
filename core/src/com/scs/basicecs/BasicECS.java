@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Settings;
+
 public class BasicECS {
 
 	private HashMap<Class, AbstractSystem> systems = new HashMap<Class, AbstractSystem>();
@@ -31,7 +34,9 @@ public class BasicECS {
 		for (int i = this.entities.size()-1 ; i >= 0; i--) {
 			AbstractEntity entity = this.entities.get(i);
 			if (entity.isMarkedForRemoval()) {
-				//MyGdxGame.p("Removing " + entity);
+		    	if (!Settings.RELEASE_MODE) {
+		    		MyGdxGame.p("Removing " + entity);
+		    	}
 				this.entities.remove(entity);
 
 				// Remove from systems
