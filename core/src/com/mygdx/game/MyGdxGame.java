@@ -291,8 +291,8 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 			} else if (this.gameStage == 0) {
 				this.drawInGameGuiSystem.process();
 			} else if (this.gameStage == 1) {
-				this.drawInGameGuiSystem.process();
 				this.drawPostGameGuiSystem.process();
+				this.drawInGameGuiSystem.process();
 			}
 			batch.end();
 

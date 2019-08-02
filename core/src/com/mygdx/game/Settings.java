@@ -3,7 +3,7 @@ package com.mygdx.game;
 public final class Settings {
 	
 	public static final String VERSION = "0.01";
-	public static final boolean RELEASE_MODE = false;
+	public static final boolean RELEASE_MODE = true;
 	
 	// Debug
 	//public static final boolean DEBUG_COINS = !RELEASE_MODE && false;
@@ -31,7 +31,7 @@ public final class Settings {
 	public static final float GRAVITY = 7;
 	public static final int AVATAR_RESPAWN_TIME_SECS = 3;
 	
-	public static final String TITLE = RELEASE_MODE ? "Co-op Platformer" : "CP";
+	public static final String TITLE = RELEASE_MODE ? "Spiked Brazil" : "CP";
 	
 	private Settings() { }
 
