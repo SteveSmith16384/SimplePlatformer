@@ -54,7 +54,7 @@ public class EntityFactory {
 		WalkingAnimationComponent wac = new WalkingAnimationComponent(.2f);
 		e.addComponent(wac);
 
-		game.animFrameHelper.createPlayersFrames(e, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		game.animFrameHelper.createPlayersFrames(e, player.imageId, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		return e;
 	}
 

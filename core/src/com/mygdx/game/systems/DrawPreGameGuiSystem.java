@@ -23,7 +23,7 @@ public class DrawPreGameGuiSystem {
 			background = new Sprite(tex);
 			background.setSize(Settings.LOGICAL_WIDTH_PIXELS,  Settings.LOGICAL_HEIGHT_PIXELS);
 
-			Texture tex2 = new Texture("sb_logo.png");
+			Texture tex2 = new Texture("ctc_logo.png");
 			logo = new Sprite(tex2);
 			logo.setSize(Settings.LOGICAL_WIDTH_PIXELS/2, Settings.LOGICAL_HEIGHT_PIXELS/2);
 			logo.setPosition(Settings.LOGICAL_WIDTH_PIXELS/4, Settings.LOGICAL_HEIGHT_PIXELS/4);

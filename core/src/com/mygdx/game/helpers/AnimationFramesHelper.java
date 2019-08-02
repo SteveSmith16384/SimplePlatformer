@@ -37,25 +37,25 @@ public class AnimationFramesHelper {
 	}
 	
 	
-	public void createPlayersFrames(AbstractEntity player, float w, float h) {
+	public void createPlayersFrames(AbstractEntity player, int num, float w, float h) {
 		WalkingAnimationComponent wac = (WalkingAnimationComponent)player.getComponent(WalkingAnimationComponent.class);
 		wac.framesLeft = new Sprite[3];
 		wac.framesRight = new Sprite[3];
-		wac.framesLeft[0] = new Sprite(getTexture("player1_right1.png"));
+		wac.framesLeft[0] = new Sprite(getTexture("player" + num + "_right1.png"));
 		wac.framesLeft[0].flip(true,  false);
 		wac.framesLeft[0].setSize(w, h);
-		wac.framesLeft[1] = new Sprite(getTexture("player1_right2.png"));
+		wac.framesLeft[1] = new Sprite(getTexture("player" + num + "_right2.png"));
 		wac.framesLeft[1].setSize(w, h);
 		wac.framesLeft[1].flip(true,  false);
-		wac.framesLeft[2] = new Sprite(getTexture("player1_right3.png"));
+		wac.framesLeft[2] = new Sprite(getTexture("player" + num + "_right3.png"));
 		wac.framesLeft[2].setSize(w, h);
 		wac.framesLeft[2].flip(true, false);
 
-		wac.framesRight[0] = new Sprite(getTexture("player1_right1.png"));
+		wac.framesRight[0] = new Sprite(getTexture("player" + num + "_right1.png"));
 		wac.framesRight[0].setSize(w, h);
-		wac.framesRight[1] = new Sprite(getTexture("player1_right2.png"));
+		wac.framesRight[1] = new Sprite(getTexture("player" + num + "_right2.png"));
 		wac.framesRight[1].setSize(w, h);
-		wac.framesRight[2] = new Sprite(getTexture("player1_right3.png"));
+		wac.framesRight[2] = new Sprite(getTexture("player" + num + "_right3.png"));
 		wac.framesRight[2].setSize(w, h);
 		
 		wac.idleFrame = wac.framesRight[0];
