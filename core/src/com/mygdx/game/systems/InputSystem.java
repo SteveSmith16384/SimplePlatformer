@@ -133,9 +133,16 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 
 	public boolean buttonDown(Controller controller, int buttonCode) {
 		if (buttonCode == 1) {
-			AbstractEntity entity = game.players.get(controller).avatar;
-			PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
-			uic.jump = true;
+			if (game.gameStage == -1) {
+				PlayerData player = game.players.get(controller);
+				player.setInGame(true);
+			} else if (game.gameStage == 0) {
+				AbstractEntity entity = game.players.get(controller).avatar;
+				if (entity != null) {
+					PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
+					uic.jump = true;
+				}
+			}
 		}
 		return false;
 	}
@@ -143,9 +150,13 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 
 	public boolean buttonUp(Controller controller, int buttonCode) {
 		if (buttonCode == 1) {
-			AbstractEntity entity = game.players.get(controller).avatar;
-			PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
-			uic.jump = false;
+			if (game.gameStage == 0) {
+				AbstractEntity entity = game.players.get(controller).avatar;
+				if (entity != null) {
+					PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
+					uic.jump = false;
+				}
+			}
 		}
 		return false;
 	}
@@ -153,10 +164,14 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 
 	public boolean axisMoved(Controller controller, int axisCode, float value) {
 		if (axisCode == 3) {
-			AbstractEntity entity = game.players.get(controller).avatar;
-			PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
-			uic.moveLeft = uic.controller.getAxis(3) < -0.5f;
-			uic.moveRight = uic.controller.getAxis(3) > 0.5f;
+			if (game.gameStage == 0) {
+				AbstractEntity entity = game.players.get(controller).avatar;
+				if (entity != null) {
+					PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
+					uic.moveLeft = uic.controller.getAxis(3) < -0.5f;
+					uic.moveRight = uic.controller.getAxis(3) > 0.5f;
+				}
+			}
 		}
 		return false;
 	}
