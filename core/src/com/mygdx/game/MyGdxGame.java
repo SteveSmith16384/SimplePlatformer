@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -34,7 +35,6 @@ import com.mygdx.game.systems.InputSystem;
 import com.mygdx.game.systems.MobAISystem;
 import com.mygdx.game.systems.MoveToOffScreenSystem;
 import com.mygdx.game.systems.MovementSystem;
-import com.mygdx.game.systems.MovingPlatformSystem;
 import com.mygdx.game.systems.PlayerMovementSystem;
 import com.mygdx.game.systems.ProcessCollisionSystem;
 import com.mygdx.game.systems.ProcessPlayersSystem;
@@ -81,10 +81,10 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private DrawPreGameGuiSystem drawPreGameGuiSystem;
 	private DrawPostGameGuiSystem drawPostGameGuiSystem;
 
-	public ArrayList<PlayerData> players = new ArrayList<PlayerData>();
+	public HashMap<Controller, PlayerData> players = new HashMap<Controller, PlayerData>();
 	private List<Controller> controllersAdded = new ArrayList<Controller>();
 	private List<Controller> controllersRemoved = new ArrayList<Controller>();
-
+	public DummyController dummyController = new DummyController();
 
 	@Override
 	public void create() {
@@ -125,7 +125,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		for (Controller controller : Controllers.getControllers()) {
 			this.addPlayerForController(controller);
 		}
-		players.add(new PlayerData(null)); // Create keyboard player by default (they might not actually join though!)
+		players.put(dummyController, new PlayerData(null)); // Create keyboard player by default (they might not actually join though!)
 
 		Controllers.addListener(this);
 
@@ -140,17 +140,11 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 
 	private void addPlayerForController(Controller controller) {
-		boolean playerFound = false;
-		for (PlayerData player : players) {
-			if (player.controller == controller) {
-				playerFound = true;
-				break;
-			}
-		}
-		if (!playerFound) {
+		//boolean playerFound = false;
+		if (this.players.containsKey(controller) == false) {
 			//createPlayer(controller);
 			PlayerData data = new PlayerData(controller);
-			this.players.add(data);
+			this.players.put(controller, data);
 
 			p("player created");
 		}
@@ -176,7 +170,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		this.removeAllEntities();
 
 		// Reset all player data
-		for (PlayerData player : players) {
+		for (PlayerData player : players.values()) {
 			player.setInGame(false);
 		}
 	}
@@ -215,13 +209,13 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 	private void startGame() {
 		this.playMusic("8BitMetal.wav");
 
-		if (!Settings.RELEASE_MODE) {
+		/*if (!Settings.RELEASE_MODE) {
 			if (this.players.size() > 0) {
 				if (this.players.get(0).isInGame() == false) {
 					this.players.get(0).setInGame(true); // Auto-add keyboard player
 				}
 			}
-		}
+		}*/
 
 		gameData = new GameData();
 
@@ -230,15 +224,16 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		lvl.createLevel1();
 	}
 
-	/*
-	public void createPlayersAvatar(PlayerData player, Controller controller, LevelGenerator lvl) {
-		int xPos = NumberFunctions.rnd(50,  Settings.LOGICAL_WIDTH_PIXELS-50);
-		AbstractEntity avatar = this.entityFactory.createPlayersAvatar(player, controller, xPos, Settings.LOGICAL_HEIGHT_PIXELS);
-		ecs.addEntity(avatar);
 
-		player.avatar = avatar;
+	private int getNumPlayersInGame() {
+		int count = 0;
+		for (PlayerData player : players.values()) {
+			if (player.isInGame()) {
+				count++;
+			}
+		}
+		return count;
 	}
-	 */
 
 
 	@Override
@@ -246,7 +241,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		if (!paused) {
 			if (nextStage) {
 				nextStage = false;
-				if (this.gameStage == -1) {
+				if (this.gameStage == -1 && this.getNumPlayersInGame() > 0) {
 					this.gameStage = 0;
 					this.startGame();
 				} else if (this.gameStage == 0) {
@@ -273,7 +268,6 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 				this.scrollPlayAreaSystem.process();
 				this.walkingAnimationSystem.process(); // Must be before the movementsystem, as that clears the direction
 				this.movementSystem.process();
-				//this.movingPlatformSystem.process();
 				this.animSystem.process();			
 			}
 
@@ -339,7 +333,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 		this.controllersAdded.clear();
 
 		for (Controller c : this.controllersRemoved) {
-			for (PlayerData player : players) {
+			for (PlayerData player : players.values()) {
 				if (player.controller == c) {
 					player.avatar.remove();
 					player.quit = true;
@@ -481,18 +475,21 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 	@Override
 	public boolean buttonDown(Controller controller, int buttonCode) {
+		this.inputSystem.buttonDown(controller, buttonCode);
 		return false;
 	}
 
 
 	@Override
 	public boolean buttonUp(Controller controller, int buttonCode) {
+		this.inputSystem.buttonUp(controller, buttonCode);
 		return false;
 	}
 
 
 	@Override
 	public boolean axisMoved(Controller controller, int axisCode, float value) {
+		this.inputSystem.axisMoved(controller, axisCode, value);
 		return false;
 	}
 

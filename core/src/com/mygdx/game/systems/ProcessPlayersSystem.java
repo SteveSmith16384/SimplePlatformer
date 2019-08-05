@@ -19,7 +19,7 @@ public class ProcessPlayersSystem {
 
 
 	public void process() {
-		for (PlayerData player : game.players) {
+		for (PlayerData player : game.players.values()) {
 			if (player.isInGame() && player.quit == false) {
 				if (player.lives > 0) {
 					if (player.avatar == null) {
@@ -36,7 +36,7 @@ public class ProcessPlayersSystem {
 		int winner = -1;
 		int highestScore = -1;
 
-		for (PlayerData player : game.players) {
+		for (PlayerData player : game.players.values()) {
 			if (player.isInGame()) {
 				if (player.lives <= 0) {
 					if (player.score > highestScore) {

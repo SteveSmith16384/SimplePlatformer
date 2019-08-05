@@ -4,7 +4,9 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.controllers.ControllerListener;
+import com.badlogic.gdx.controllers.PovDirection;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Settings;
 import com.mygdx.game.components.PlayersAvatarComponent;
@@ -13,7 +15,7 @@ import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
 
-public class InputSystem extends AbstractSystem {
+public class InputSystem extends AbstractSystem {//implements ControllerListener {
 
 	private MyGdxGame game;
 	private volatile boolean key[] = new boolean[256];
@@ -53,7 +55,7 @@ public class InputSystem extends AbstractSystem {
 		if (game.gameStage == -1) {
 			if (key[Keys.SPACE]) { // Space for keyboard player to join
 				key[Keys.SPACE] = false;
-				for (PlayerData player : game.players) {
+				for (PlayerData player : game.players.values()) {
 					if (player.controller == null) {
 						if (player.isInGame() == false) {
 							MyGdxGame.p("Keyboard player joined");
@@ -65,17 +67,18 @@ public class InputSystem extends AbstractSystem {
 			}
 
 			// See if players want to join
-			for (PlayerData player : game.players) {
-				if (player.isInGame() == false) {
-					if (player.controller != null) {
-						if (player.controller.getButton(1)) {
-							MyGdxGame.p("Controller player joined!");
-							player.setInGame(true);
+			if (Settings.CONTROLLER_MODE_1) {
+				for (PlayerData player : game.players.values()) {
+					if (player.isInGame() == false) {
+						if (player.controller != null) {
+							if (player.controller.getButton(1)) {
+								MyGdxGame.p("Controller player joined!");
+								player.setInGame(true);
+							}
 						}
 					}
 				}
 			}
-
 		} else if (game.gameStage == 0) {
 			super.process();
 		}
@@ -97,9 +100,11 @@ public class InputSystem extends AbstractSystem {
 						MyGdxGame.p("button!");
 					}
 				}
-				uic.moveLeft = uic.controller.getAxis(3) < -0.5f;
-				uic.moveRight = uic.controller.getAxis(3) > 0.5f;
-				uic.jump = uic.controller.getButton(1);
+				if (Settings.CONTROLLER_MODE_1) {
+					uic.moveLeft = uic.controller.getAxis(3) < -0.5f;
+					uic.moveRight = uic.controller.getAxis(3) > 0.5f;
+					uic.jump = uic.controller.getButton(1);
+				}
 			} else {
 				uic.moveLeft = key[29];
 				uic.moveRight = key[32];
@@ -123,23 +128,37 @@ public class InputSystem extends AbstractSystem {
 		}
 
 		key[keycode] = false;
+	}
 
-		/*if (gameStage == -1) {
-			nextStage = true;
+
+	public boolean buttonDown(Controller controller, int buttonCode) {
+		if (buttonCode == 1) {
+			AbstractEntity entity = game.players.get(controller).avatar;
+			PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
+			uic.jump = true;
 		}
-		if (keycode == 66) { //Enter
-			if (gameStage == 1) {
-				nextStage = true;
-			}
-		} else if (keycode == Keys.F1) {// && Gdx.app.getType() == ApplicationType.WebGL) {
-			if (Gdx.app.getType() == ApplicationType.WebGL) {
-				if (!Gdx.graphics.isFullscreen()) {
-					Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayModes()[0]);
-				}
-			} else {
-				toggleFullscreen = true;
-			}
-		}*/
+		return false;
+	}
+
+
+	public boolean buttonUp(Controller controller, int buttonCode) {
+		if (buttonCode == 1) {
+			AbstractEntity entity = game.players.get(controller).avatar;
+			PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
+			uic.jump = false;
+		}
+		return false;
+	}
+
+
+	public boolean axisMoved(Controller controller, int axisCode, float value) {
+		if (axisCode == 3) {
+			AbstractEntity entity = game.players.get(controller).avatar;
+			PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
+			uic.moveLeft = uic.controller.getAxis(3) < -0.5f;
+			uic.moveRight = uic.controller.getAxis(3) > 0.5f;
+		}
+		return false;
 	}
 
 }

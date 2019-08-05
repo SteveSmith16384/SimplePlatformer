@@ -3,7 +3,7 @@ package com.mygdx.game;
 public final class Settings {
 	
 	public static final String VERSION = "0.01";
-	public static final boolean RELEASE_MODE = true;
+	public static final boolean RELEASE_MODE = false;
 	
 	// Debug
 	//public static final boolean DEBUG_COINS = !RELEASE_MODE && false;
@@ -18,10 +18,9 @@ public final class Settings {
 	public static final int LOGICAL_HEIGHT_PIXELS = (int)(LOGICAL_WIDTH_PIXELS * .68);
 	
 	// Settings
+	public static final boolean CONTROLLER_MODE_1 = false;
 	public static final float PLAYER_SPEED = 120;//50;
-	//public static final float MOB_SPEED = 45;
 	public static final float MAX_MOVEMENT = 20;//50;//150; // After adjusting for FPS
-	//public static final int PLATFORM_START_HEIGHT = 200; // From the top
 	public static final int PLATFORM_SPACING = (int)(Settings.LOGICAL_HEIGHT_PIXELS * 0.20f);
 	public static final int MAX_PLATFORM_HEIGHT = (int)(Settings.LOGICAL_HEIGHT_PIXELS * 0.9f); // Needs to be slightly lower so the coins don't disappear straight away!
 

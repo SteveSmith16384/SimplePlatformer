@@ -1,15 +1,15 @@
 # A SIMPLE PLATFORMER
-A simple multiplayer platformer.  Avoid falling off the bottom of the screen.  The game goes on until everyone runs out of lives, and the winner is the player with the highest score.
+A simple multiplayer platformer.  Avoid falling off the bottom of the screen.  The game goes on until everyone runs out of lives, and the winner is the player with the highest score.  Use gamepads and/or keyboard.
 
-Written by Stephen Smith.
+Written by Stephen Smith (stephen.carlylesmith@googlemail.com)
 
-https://bitbucket.org/SteveSmith16384/coop_platformer/raw/0fc86a87ea5d6f86b5f7e9070ebedc2fc50b20d7/docs/gameplay1.gif
+![Screenshot](docs/screenshots/gameplay1.gif)
 
 
 ##CONTROLS
-* Gamepads or keyboard (W, A and D, Space to join).
+* Gamepads (X to join/jump) or keyboard (W, A and D, Space to join).
 * Can currently only handle 2 controllers max, plus one keyboard player
-* Press S to start.
+* Press S to start!
 
 
 ##Contact

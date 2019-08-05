@@ -26,7 +26,7 @@ public class DrawPreGameGuiSystem {
 			Texture tex2 = new Texture("ctc_logo.png");
 			logo = new Sprite(tex2);
 			logo.setSize(Settings.LOGICAL_WIDTH_PIXELS/2, Settings.LOGICAL_HEIGHT_PIXELS/2);
-			logo.setPosition(Settings.LOGICAL_WIDTH_PIXELS/4, Settings.LOGICAL_HEIGHT_PIXELS/4);
+			logo.setPosition(Settings.LOGICAL_WIDTH_PIXELS/4, Settings.LOGICAL_HEIGHT_PIXELS/2);
 		}
 	}
 
@@ -40,14 +40,14 @@ public class DrawPreGameGuiSystem {
 		//game.drawFont(batch, Controllers.getControllers().size + " controllers found", 20, Settings.LOGICAL_HEIGHT_PIXELS-40);
 
 		int count = 0;
-		for (PlayerData player : game.players) {
+		for (PlayerData player : game.players.values()) {
 			if (player.isInGame()) {
 				count++;
 			}
 		}
-		game.drawFont(batch, count + " players in the game!", 20, Settings.LOGICAL_HEIGHT_PIXELS-80);
-		game.drawFont(batch, "Press 'Space' for keyboard player", 20, Settings.LOGICAL_HEIGHT_PIXELS-140);
-		game.drawFont(batch, "PRESS 'S' TO START!", 20, Settings.LOGICAL_HEIGHT_PIXELS-200);
+		game.drawFont(batch, count + " players in the game!", 20, Settings.LOGICAL_HEIGHT_PIXELS-200);
+		game.drawFont(batch, "Press 'Space' for keyboard player", 20, Settings.LOGICAL_HEIGHT_PIXELS-260);
+		game.drawFont(batch, "PRESS 'S' TO START!", 20, Settings.LOGICAL_HEIGHT_PIXELS-320);
 	}
 
 
