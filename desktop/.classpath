@@ -8,6 +8,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6/"/>
 	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/coop_platformer-core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/simpleplatformer-core"/>
 	<classpathentry kind="output" path="bin/default"/>
 </classpath>

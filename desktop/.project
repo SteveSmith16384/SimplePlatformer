@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>coop_platformer-desktop</name>
-	<comment>Project coop_platformer-desktop created by Buildship.</comment>
+	<name>simpleplatformer-desktop</name>
+	<comment>Project simpleplatformer-desktop created by Buildship.</comment>
 	<projects>
 	</projects>
 	<buildSpec>
@@ -27,4 +27,10 @@
 			<locationURI>PARENT-1-PROJECT_LOC/core/assets</locationURI>
 		</link>
 	</linkedResources>
+	<variableList>
+		<variable>
+			<name>copy_PARENT</name>
+			<value>$%7BPARENT-2-PROJECT_LOC%7D/simpleplatformer</value>
+		</variable>
+	</variableList>
 </projectDescription>
