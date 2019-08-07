@@ -195,7 +195,7 @@ public final class MyGdxGame extends ApplicationAdapter implements InputProcesso
 
 	private void startPostGame() {
 		this.removeAllEntities();
-
+		//PlayerData.nextImageId = 1; // todo - move
 		this.playMusic("VictoryMusic.wav");
 	}
 

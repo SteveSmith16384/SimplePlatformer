@@ -6,7 +6,7 @@ import com.scs.basicecs.AbstractEntity;
 
 public class PlayerData {
 
-	private static int nextImageId = 1;
+	public static int nextImageId = 1;
 
 	public Controller controller; // If null, player is keyboard
 	private boolean in_game = false;
@@ -25,14 +25,16 @@ public class PlayerData {
 
 	public void setInGame(boolean b) {
 		if (b) {
-			if (Settings.RELEASE_MODE == false) {
+			/*if (Settings.RELEASE_MODE == false) {
 				if (in_game) {
 					throw new RuntimeException("Player already in game!");
 				}
-			}
+			}*/
 			this.in_game = true;
 			this.lives = 3;
-			imageId = nextImageId++;
+			if (imageId <= 0) {
+				imageId = nextImageId++;
+			}
 		} else {
 			this.in_game = false;
 		}

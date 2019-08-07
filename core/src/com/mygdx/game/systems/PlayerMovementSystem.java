@@ -45,7 +45,7 @@ public class PlayerMovementSystem extends AbstractSystem {
 					mc.offY = Settings.JUMP_FORCE;
 					jc.canJump = false;
 				} else {
-					//MyGdxGame.p("Cannot jump!");
+					MyGdxGame.p("Cannot jump!");
 				}
 			}
 		}

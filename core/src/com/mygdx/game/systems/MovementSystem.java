@@ -101,7 +101,7 @@ public class MovementSystem extends AbstractSystem {
 			if (md.canFall) {
 				// Gravity
 				if (!Settings.TURN_OFF_GRAVITY) {
-					md.offY -= Settings.GRAVITY;
+					md.offY -= Settings.GRAVITY * Gdx.graphics.getDeltaTime();
 				}
 			} else {
 				md.offY = 0;
