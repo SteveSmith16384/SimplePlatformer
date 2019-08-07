@@ -175,5 +175,10 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 		}
 		return false;
 	}
+	
+	
+	private void reassignController(Controller controller) {
+		
+	}
 
 }
