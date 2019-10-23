@@ -6,22 +6,22 @@ Written by Stephen Smith (stephen.carlylesmith@googlemail.com)
 ![Screenshot](docs/screenshots/gameplay1.gif)
 
 
-##CONTROLS
+## CONTROLS
 * Gamepads (X to join/jump) or keyboard (W, A and D, Space to join).
 * Can currently only handle 2 controllers max, plus one keyboard player
 * Press S to start!
 
 
-##Contact
+## Contact
 Email: stephen.carlylesmith@googlemail.com
 Twitter: https://twitter.com/stephencsmith
 
 
-##Licence
+## Licence
 MIT licence.  See the separate file for details.
 
 
-##Credits
+## Credits
 * LibGDX for the engine
 * Some background assets by GrafxKid: https://opengameart.org/content/arcade-platformer-assets
 * Rotating coin by Master484: https://opengameart.org/content/cute-platformer-sisters
