@@ -1,7 +1,6 @@
 package com.mygdx.game.models;
 
 import com.badlogic.gdx.controllers.Controller;
-import com.mygdx.game.Settings;
 import com.scs.basicecs.AbstractEntity;
 
 public class PlayerData {

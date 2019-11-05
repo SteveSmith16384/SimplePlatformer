@@ -5,12 +5,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Settings;
 
 public class BasicECS {
 
-	private HashMap<Class, AbstractSystem> systems = new HashMap<Class, AbstractSystem>();
+	private HashMap<Class<?>, AbstractSystem> systems = new HashMap<Class<?>, AbstractSystem>();
 	private List<AbstractEntity> entities = new ArrayList<AbstractEntity>();
 	private List<AbstractEntity> to_add_entities = new ArrayList<AbstractEntity>();
 
@@ -24,7 +23,7 @@ public class BasicECS {
 
 
 
-	public AbstractSystem getSystem(Class clazz) {
+	public AbstractSystem getSystem(Class<?> clazz) {
 		return this.systems.get(clazz);
 	}
 
@@ -41,7 +40,7 @@ public class BasicECS {
 
 				// Remove from systems
 				for(AbstractSystem system : this.systems.values()) {
-					Class clazz = system.getEntityClass();
+					Class<?> clazz = system.getEntityClass();
 					if (clazz != null) {
 						if (entity.getComponents().containsKey(clazz)) {
 							//MyGdxGame.p("Removing " + entity + " from " + system + " system");
@@ -54,7 +53,7 @@ public class BasicECS {
 
 		for(AbstractEntity e : this.to_add_entities) {
 			for(AbstractSystem system : this.systems.values()) {
-				Class clazz = system.getEntityClass();
+				Class<?> clazz = system.getEntityClass();
 				if (clazz != null) {
 					if (e.getComponents().containsKey(clazz)) {
 						system.entities.add(e);

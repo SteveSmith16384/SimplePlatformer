@@ -25,7 +25,7 @@ public class CollisionSystem extends AbstractSystem {
 
 
 	@Override
-	public Class getEntityClass() {
+	public Class<?> getEntityClass() {
 		return CollisionComponent.class;
 	}
 

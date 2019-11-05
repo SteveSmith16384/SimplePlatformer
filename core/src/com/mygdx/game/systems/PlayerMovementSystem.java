@@ -21,7 +21,7 @@ public class PlayerMovementSystem extends AbstractSystem {
 
 
 	@Override
-	public Class getEntityClass() {
+	public Class<?> getEntityClass() {
 		return PlayersAvatarComponent.class;
 	}
 

@@ -4,9 +4,6 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.controllers.ControllerListener;
-import com.badlogic.gdx.controllers.PovDirection;
-import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Settings;
 import com.mygdx.game.components.PlayersAvatarComponent;
@@ -28,7 +25,7 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 
 
 	@Override
-	public Class getEntityClass() {
+	public Class<?> getEntityClass() {
 		return PlayersAvatarComponent.class;
 	}
 

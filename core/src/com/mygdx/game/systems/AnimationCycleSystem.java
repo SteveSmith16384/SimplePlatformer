@@ -19,7 +19,7 @@ public class AnimationCycleSystem extends AbstractSystem {
 
 
 	@Override
-	public Class getEntityClass() {
+	public Class<?> getEntityClass() {
 		return AnimationCycleComponent.class;
 	}
 

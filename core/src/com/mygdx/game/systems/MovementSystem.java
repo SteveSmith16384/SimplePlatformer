@@ -24,7 +24,7 @@ public class MovementSystem extends AbstractSystem {
 
 
 	@Override
-	public Class getEntityClass() {
+	public Class<?> getEntityClass() {
 		return MovementComponent.class;
 	}
 

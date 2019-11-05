@@ -16,7 +16,7 @@ public class WalkingAnimationSystem extends AbstractSystem {
 
 
 	@Override
-	public Class getEntityClass() {
+	public Class<?> getEntityClass() {
 		return WalkingAnimationComponent.class;
 	}
 

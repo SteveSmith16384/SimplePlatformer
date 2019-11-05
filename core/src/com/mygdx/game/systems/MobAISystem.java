@@ -24,7 +24,7 @@ public class MobAISystem extends AbstractSystem {
 
 
 	@Override
-	public Class getEntityClass() {
+	public Class<?> getEntityClass() {
 		return MobComponent.class;
 	}
 

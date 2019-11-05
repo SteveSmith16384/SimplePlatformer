@@ -22,7 +22,7 @@ public abstract class AbstractSystem {
 	}
 
 
-	public Class<Object> getEntityClass() {
+	public Class<?> getEntityClass() {
 		return null;
 	}
 

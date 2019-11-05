@@ -2,16 +2,13 @@ package com.scs.basicecs;
 
 import java.util.HashMap;
 
-import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.Settings;
-
 public class AbstractEntity {
 
 	private static int next_id = 0;
 
 	public int id;
 	public String name;
-	private HashMap<Class, Object> components = new HashMap<Class, Object>();
+	private HashMap<Class<?>, Object> components = new HashMap<Class<?>, Object>();
 	private boolean markForRemoval = false;
 
 	public AbstractEntity(String _name) {
@@ -30,7 +27,7 @@ public class AbstractEntity {
 	}
 
 
-	public Object getComponent(Class name) {
+	public Object getComponent(Class<?> name) {
 		if (this.components.containsKey(name)) {
 			return this.components.get(name);
 		} else {
@@ -39,7 +36,7 @@ public class AbstractEntity {
 	}
 
 
-	public HashMap<Class, Object> getComponents() {
+	public HashMap<Class<?>, Object> getComponents() {
 		return this.components;
 	}
 
