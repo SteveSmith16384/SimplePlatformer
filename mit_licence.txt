@@ -1,4 +1,4 @@
-MIT Licence for Platformer
+MIT Licence for Simple Platformer
 
 Copyright (c)2018 Stephen Carlyle-Smith
 
