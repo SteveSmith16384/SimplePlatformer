@@ -6,7 +6,6 @@ public final class Settings {
 	public static final boolean RELEASE_MODE = true;
 	
 	// Debug
-	//public static final boolean DEBUG_COINS = !RELEASE_MODE && false;
 	public static final boolean SHOW_GREY_BOXES = !RELEASE_MODE && false;
 	public static final boolean USE_SIMPLE_ECS = !RELEASE_MODE && false;
 	public static final boolean TURN_OFF_GRAVITY = !RELEASE_MODE && false;

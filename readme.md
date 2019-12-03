@@ -1,5 +1,7 @@
 # A SIMPLE PLATFORMER
-A simple multiplayer platformer.  Avoid falling off the bottom of the screen.  The game goes on until everyone runs out of lives, and the winner is the player with the highest score.  Use gamepads and/or keyboard.
+A simple multiplayer platformer.  Avoid falling off the bottom of the screen.  The game goes on until everyone runs out of lives, and the winner is the player with the highest score.  Players can use gamepads and/or keyboard.  The game run on the desktop or inside a web page.
+
+This game is designed to be a simple basic game with all the boilerplate code written for you, that can be forked and extended with your own gameplay design.
 
 Written by Stephen Smith (stephen.carlylesmith@googlemail.com)
 

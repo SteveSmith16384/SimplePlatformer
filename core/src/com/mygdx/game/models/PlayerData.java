@@ -9,7 +9,7 @@ public class PlayerData {
 
 	public Controller controller; // If null, player is keyboard
 	private boolean in_game = false;
-	public boolean quit = false; // If they've removeed their controller; prevent them re-attaching to start again
+	public boolean quit = false; // If they've removed their controller; prevent them re-attaching to start again
 	public AbstractEntity avatar;
 	public float timeUntilAvatar;
 	public int score;
@@ -18,7 +18,6 @@ public class PlayerData {
 
 	public PlayerData(Controller _controller) {
 		this.controller = _controller;
-		//lives = 3;
 	}
 
 
