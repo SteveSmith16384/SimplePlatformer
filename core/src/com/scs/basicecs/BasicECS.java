@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import com.mygdx.game.Settings;
-
 public class BasicECS {
 
 	private HashMap<Class<?>, AbstractSystem> systems = new HashMap<Class<?>, AbstractSystem>();
@@ -28,22 +26,32 @@ public class BasicECS {
 	}
 
 
-	public void process() {
+	/**
+	 * In your game loop, you can either call this method, or call the process()
+	 * method on all your systems individually as required.
+	 */
+	public void processAllSystems() {
+		for (AbstractSystem system : this.systems.values()) {
+			system.process();
+		}
+	}
+	
+	
+	/*
+	 * Entities are added here to avoid ConcurrentModificationExceptions when add/removing entities while iterating through the list of entities. 
+	 */
+	public void addAndRemoveEntities() {
 		// Remove any entities
 		for (int i = this.entities.size()-1 ; i >= 0; i--) {
 			AbstractEntity entity = this.entities.get(i);
 			if (entity.isMarkedForRemoval()) {
-		    	if (!Settings.RELEASE_MODE) {
-		    		//MyGdxGame.p("Removing " + entity);
-		    	}
 				this.entities.remove(entity);
 
 				// Remove from systems
 				for(AbstractSystem system : this.systems.values()) {
-					Class<?> clazz = system.getEntityClass();
+					Class<?> clazz = system.getComponentClass();
 					if (clazz != null) {
 						if (entity.getComponents().containsKey(clazz)) {
-							//MyGdxGame.p("Removing " + entity + " from " + system + " system");
 							system.entities.remove(entity);
 						}
 					}
@@ -53,7 +61,7 @@ public class BasicECS {
 
 		for(AbstractEntity e : this.to_add_entities) {
 			for(AbstractSystem system : this.systems.values()) {
-				Class<?> clazz = system.getEntityClass();
+				Class<?> clazz = system.getComponentClass();
 				if (clazz != null) {
 					if (e.getComponents().containsKey(clazz)) {
 						system.entities.add(e);
@@ -82,15 +90,10 @@ public class BasicECS {
 	}
 
 	public void removeAllEntities() {
-		/*while (this.entities.size() > 0) {
-			AbstractEntity entity = this.entities.get(0);
-			this.entities.remove(entity);
-			//this.eventListener.EntityRemoved(entity);
-		}*/
 		for(AbstractEntity e : this.entities) {
 			e.remove();
 		}
+		this.to_add_entities.clear();
 	}
-
 
 }

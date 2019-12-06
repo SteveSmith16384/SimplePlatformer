@@ -34,7 +34,7 @@ public class DrawingSystem extends AbstractSystem implements Comparator<Abstract
 
 
 	@Override
-	public Class<?> getEntityClass() {
+	public Class<?> getComponentClass() {
 		return ImageComponent.class;
 	}
 

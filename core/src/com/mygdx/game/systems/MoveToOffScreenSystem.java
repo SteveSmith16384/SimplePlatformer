@@ -16,7 +16,7 @@ public class MoveToOffScreenSystem extends AbstractSystem {
 
 
 	@Override
-	public Class<?> getEntityClass() {
+	public Class<?> getComponentClass() {
 		return MoveOffScreenComponent.class;
 	}
 

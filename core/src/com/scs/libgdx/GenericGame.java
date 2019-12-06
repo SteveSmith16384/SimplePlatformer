@@ -18,7 +18,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.bitfire.postprocessing.PostProcessing;
+import com.mygdx.game.PostProcessing;
 import com.mygdx.game.Settings;
 import com.mygdx.game.SoundEffects;
 

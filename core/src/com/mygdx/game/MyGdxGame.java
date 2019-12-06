@@ -1,12 +1,10 @@
 package com.mygdx.game;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.Controllers;
@@ -201,7 +199,7 @@ public final class MyGdxGame extends GenericGame implements InputProcessor, Cont
 				}
 			}
 
-			ecs.process();
+			ecs.processAllSystems();
 
 			checkNewOrRemovedControllers();
 

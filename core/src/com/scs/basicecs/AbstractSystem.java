@@ -4,25 +4,26 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.mygdx.game.Settings;
-
 public abstract class AbstractSystem {
 
 	protected BasicECS ecs;
-	protected List<AbstractEntity> entities;// = new ArrayList<AbstractEntity>();
+	protected List<AbstractEntity> entities;
 
 	public AbstractSystem(BasicECS _ecs) {
 		this.ecs = _ecs;
 
 		this.ecs.addSystem(this);
 
-		if (this.getEntityClass() != null) {
+		if (this.getComponentClass() != null) {
 			entities = new ArrayList<AbstractEntity>();
 		}
 	}
 
 
-	public Class<?> getEntityClass() {
+	/**
+	 * Override if this system should only deal with entities that have a specific component.
+	 */
+	public Class<?> getComponentClass() {
 		return null;
 	}
 
@@ -32,9 +33,9 @@ public abstract class AbstractSystem {
 	}
 
 
-	// Override if required to run against all entities
+	// Override if required to run against specific entities specified by getComponentClass()
 	public void process() {
-		if (this.entities == null || Settings.USE_SIMPLE_ECS) {
+		if (this.entities == null) {
 			Iterator<AbstractEntity> it = ecs.getIterator();
 			while (it.hasNext()) {
 				AbstractEntity entity = it.next();
@@ -50,8 +51,8 @@ public abstract class AbstractSystem {
 	}
 
 
+	// Override if required to run against all entities.
 	public void processEntity(AbstractEntity entity) {
-		// Override if required to run against a single entity.
 	}
 
 }

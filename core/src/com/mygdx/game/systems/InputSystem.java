@@ -25,7 +25,7 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 
 
 	@Override
-	public Class<?> getEntityClass() {
+	public Class<?> getComponentClass() {
 		return PlayersAvatarComponent.class;
 	}
 
