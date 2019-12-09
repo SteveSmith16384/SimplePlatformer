@@ -46,7 +46,7 @@ public class ScrollPlayAreaSystem extends AbstractSystem {
 		super.process();
 
 		if (highestPos < Settings.MAX_PLATFORM_HEIGHT - Settings.PLATFORM_SPACING) {
-			game.lvl.generateRow(highestPos + Settings.PLATFORM_SPACING, true);
+			game.levelGenerator.generateRow(highestPos + Settings.PLATFORM_SPACING, true);
 		}
 		/*if (lowestPos > Settings.PLATFORM_SPACING) {
 			game.lvl.generateRow(lowestPos - Settings.PLATFORM_SPACING, true);

@@ -41,7 +41,7 @@ public final class MyGdxGame extends GenericGame implements InputProcessor, Cont
 	public EntityFactory entityFactory;
 	public GameData gameData;
 	public AnimationFramesHelper animFrameHelper;
-	public LevelGenerator lvl;
+	public LevelGenerator levelGenerator;
 	public int winnerImageId;
 	public int gameStage = -1; // -1, 0, or 1 for before, during and after game
 	private boolean nextStage = false;
@@ -102,7 +102,7 @@ public final class MyGdxGame extends GenericGame implements InputProcessor, Cont
 		}
 		players.put(dummyController, new PlayerData(null)); // Create keyboard player by default (they might not actually join though!)
 
-		lvl = new LevelGenerator(this.entityFactory, ecs);
+		levelGenerator = new LevelGenerator(this.entityFactory, ecs);
 
 		startPreGame();
 
@@ -165,7 +165,7 @@ public final class MyGdxGame extends GenericGame implements InputProcessor, Cont
 
 		this.removeAllEntities();
 
-		lvl.createLevel1();
+		levelGenerator.createLevel1();
 	}
 
 
@@ -199,7 +199,8 @@ public final class MyGdxGame extends GenericGame implements InputProcessor, Cont
 				}
 			}
 
-			ecs.processAllSystems();
+			ecs.addAndRemoveEntities();
+			//ecs.processAllSystems();
 
 			checkNewOrRemovedControllers();
 

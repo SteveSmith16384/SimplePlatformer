@@ -25,7 +25,7 @@ public class ProcessPlayersSystem {
 					if (player.avatar == null) {
 						player.timeUntilAvatar -= Gdx.graphics.getDeltaTime();
 						if (player.timeUntilAvatar <= 0) {
-							createPlayersAvatar(player, player.controller, game.lvl);
+							createPlayersAvatar(player, player.controller);
 						}
 					}
 				}
@@ -54,7 +54,7 @@ public class ProcessPlayersSystem {
 	}
 
 	
-	private void createPlayersAvatar(PlayerData player, Controller controller, LevelGenerator lvl) {
+	private void createPlayersAvatar(PlayerData player, Controller controller) {
 		int xPos = NumberFunctions.rnd(50,  Settings.LOGICAL_WIDTH_PIXELS-50);
 		AbstractEntity avatar = game.entityFactory.createPlayersAvatar(player, controller, xPos, Settings.LOGICAL_HEIGHT_PIXELS);
 		game.ecs.addEntity(avatar);
