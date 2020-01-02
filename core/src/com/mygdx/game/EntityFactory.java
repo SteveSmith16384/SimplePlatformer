@@ -1,6 +1,5 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.game.components.AnimationCycleComponent;
 import com.mygdx.game.components.CanCollectComponent;
@@ -18,6 +17,7 @@ import com.mygdx.game.components.PlayersAvatarComponent;
 import com.mygdx.game.components.PositionComponent;
 import com.mygdx.game.components.ScrollsAroundComponent;
 import com.mygdx.game.components.WalkingAnimationComponent;
+import com.mygdx.game.input.IPlayerInput;
 import com.mygdx.game.models.PlayerData;
 import com.scs.awt.Rect;
 import com.scs.basicecs.AbstractEntity;
@@ -32,7 +32,7 @@ public class EntityFactory {
 	}
 	
 
-	public AbstractEntity createPlayersAvatar(PlayerData player, Controller controller, int x, int y) {
+	public AbstractEntity createPlayersAvatar(PlayerData player, IPlayerInput controller, int x, int y) {
 		AbstractEntity e = new AbstractEntity("Player");
 
 		ImageComponent imageData = new ImageComponent("grey_box.png", 1, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);

@@ -1,13 +1,13 @@
 package com.mygdx.game.models;
 
-import com.badlogic.gdx.controllers.Controller;
+import com.mygdx.game.input.IPlayerInput;
 import com.scs.basicecs.AbstractEntity;
 
 public class PlayerData {
 
 	public static int nextImageId = 1;
 
-	public Controller controller; // If null, player is keyboard
+	public IPlayerInput controller;
 	private boolean in_game = false;
 	public boolean quit = false; // If they've removed their controller; prevent them re-attaching to start again
 	public AbstractEntity avatar;
@@ -16,7 +16,7 @@ public class PlayerData {
 	public int lives;
 	public int imageId;
 
-	public PlayerData(Controller _controller) {
+	public PlayerData(IPlayerInput _controller) {
 		this.controller = _controller;
 	}
 

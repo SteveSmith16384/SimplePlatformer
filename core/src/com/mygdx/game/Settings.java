@@ -3,13 +3,13 @@ package com.mygdx.game;
 public final class Settings {
 	
 	public static final String VERSION = "0.01";
-	public static final boolean RELEASE_MODE = true;
+	public static final boolean RELEASE_MODE = false;
 	
 	// Debug
 	public static final boolean SHOW_GREY_BOXES = !RELEASE_MODE && false;
 	public static final boolean USE_SIMPLE_ECS = !RELEASE_MODE && false;
 	public static final boolean TURN_OFF_GRAVITY = !RELEASE_MODE && false;
-	public static final boolean SHOW_OUTLINE = !RELEASE_MODE && false;
+	public static final boolean SHOW_OUTLINES = !RELEASE_MODE && false;
 
 	public static final int WINDOW_WIDTH_PIXELS = RELEASE_MODE ? 1100 : 512;
 	public static final int WINDOW_HEIGHT_PIXELS = (int)(WINDOW_WIDTH_PIXELS * .68);
@@ -17,7 +17,8 @@ public final class Settings {
 	public static final int LOGICAL_HEIGHT_PIXELS = (int)(LOGICAL_WIDTH_PIXELS * .68);
 	
 	// Settings
-	public static final boolean CONTROLLER_MODE_1 = false;
+	//public static final boolean CONTROLLER_MODE_1 = false;
+	
 	public static final int AXIS = 0;
 	public static final float PLAYER_SPEED = 120;//50;
 	public static final float MAX_MOVEMENT = 20;//50;//150; // After adjusting for FPS

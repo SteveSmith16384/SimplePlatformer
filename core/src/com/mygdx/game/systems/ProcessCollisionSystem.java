@@ -111,9 +111,9 @@ public class ProcessCollisionSystem extends AbstractSystem {
 	public void playerKilled(AbstractEntity avatar, long timeStarted) {
 		long diff = System.currentTimeMillis() - timeStarted;
 		if (diff < 4000) { // Invincible for 4 seconds
-			if (!Settings.RELEASE_MODE) {
+			/*if (!Settings.RELEASE_MODE) {
 				MyGdxGame.p("Player invincible!");
-			}
+			}*/
 			return;
 		}
 

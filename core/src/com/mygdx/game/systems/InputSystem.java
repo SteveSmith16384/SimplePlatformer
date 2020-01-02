@@ -5,17 +5,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.controllers.Controller;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.Settings;
 import com.mygdx.game.components.PlayersAvatarComponent;
 import com.mygdx.game.models.PlayerData;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
 
-public class InputSystem extends AbstractSystem {//implements ControllerListener {
+public class InputSystem extends AbstractSystem {
 
 	private MyGdxGame game;
-	private volatile boolean key[] = new boolean[256];
+	public volatile boolean key[] = new boolean[256];
 
 	public InputSystem(MyGdxGame _game, BasicECS ecs) {
 		super(ecs);
@@ -52,19 +51,15 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 		if (game.gameStage == -1) {
 			if (key[Keys.SPACE]) { // Space for keyboard player to join
 				key[Keys.SPACE] = false;
-				for (PlayerData player : game.players.values()) {
-					if (player.controller == null) {
-						if (player.isInGame() == false) {
-							MyGdxGame.p("Keyboard player joined");
-							player.setInGame(true);
-							break;
-						}
-					}
+				PlayerData player = game.getKeyboardPlayer();
+				if (player.isInGame() == false) {
+					MyGdxGame.p("Keyboard player joined");
+					player.setInGame(true);
 				}
 			}
 
 			// See if players want to join
-			if (Settings.CONTROLLER_MODE_1) {
+			/*if (Settings.CONTROLLER_MODE_1) {
 				for (PlayerData player : game.players.values()) {
 					if (player.isInGame() == false) {
 						if (player.controller != null) {
@@ -75,7 +70,7 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 						}
 					}
 				}
-			}
+			}*/
 		} else if (game.gameStage == 0) {
 			super.process();
 		}
@@ -84,71 +79,51 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 
 	@Override
 	public void processEntity(AbstractEntity entity) {
-		PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
-		if (uic != null) {
-			if (uic.controller != null) {
-				if (!Settings.RELEASE_MODE) {
-					// 1 = right stick l/r
-					// 2 = left stick u/d
-					// 3 = left stick l.r
-					//MyGdxGame.p("Axis:" + uic.controller.getAxis(3));
-					// 0 =square
-					if (uic.controller.getButton(1)) {
-						MyGdxGame.p("button!");
-					}
-				}
-				if (Settings.CONTROLLER_MODE_1) {
-					uic.moveLeft = uic.controller.getAxis(Settings.AXIS) < -0.5f;
-					uic.moveRight = uic.controller.getAxis(Settings.AXIS) > 0.5f;
-					uic.jump = uic.controller.getButton(1);
-				}
-			} else {
-				uic.moveLeft = key[29];
-				uic.moveRight = key[32];
-				uic.jump = key[51] || key[62];  // W or space
-			}
-		}
+		PlayersAvatarComponent pac = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
+		pac.moveLeft = pac.controller.isLeftPressed();
+		pac.moveRight = pac.controller.isRightPressed();
+		pac.jump = pac.controller.isJumpPressed();
 	}
 
 
 	public void keyDown(int keycode) {
-		if (!Settings.RELEASE_MODE) {
+		/*if (!Settings.RELEASE_MODE) {
 			MyGdxGame.p("key pressed: " + keycode);
-		}
+		}*/
 		key[keycode] = true;
 	}
 
 
 	public void keyUp(int keycode) {
-		if (!Settings.RELEASE_MODE) {
-			//Settings.p("key released: " + keycode);
-		}
+		/*if (!Settings.RELEASE_MODE) {
+			MyGdxGame.p("key released: " + keycode);
+		}*/
 
 		key[keycode] = false;
 	}
 
 
-	public boolean buttonDown(Controller controller, int buttonCode) {
-		if (buttonCode == 1) {
+	public void buttonDown(Controller controller, int buttonCode) {
+		//if (buttonCode == 1) {
 			if (game.gameStage == -1) {
-				PlayerData player = game.players.get(controller);
+				PlayerData player = game.getControllerPlayer(controller);
 				player.setInGame(true);
-			} else if (game.gameStage == 0) {
-				AbstractEntity entity = game.players.get(controller).avatar;
+			}/* else if (game.gameStage == 0) {
+				AbstractEntity entity = game.getControllerPlayer(controller).avatar;
 				if (entity != null) {
 					PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
 					uic.jump = true;
 				}
 			}
 		}
-		return false;
+		return false;*/
 	}
 
-
+/*
 	public boolean buttonUp(Controller controller, int buttonCode) {
 		if (buttonCode == 1) {
 			if (game.gameStage == 0) {
-				AbstractEntity entity = game.players.get(controller).avatar;
+				AbstractEntity entity = game.getControllerPlayer(controller).avatar;
 				if (entity != null) {
 					PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
 					uic.jump = false;
@@ -160,15 +135,9 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 
 
 	public boolean axisMoved(Controller controller, int axisCode, float value) {
-		if (Settings.RELEASE_MODE == false) {
-			float val = controller.getAxis(axisCode);
-			if (val < -0.5f || val > .5f) {
-				MyGdxGame.p("Axis " + axisCode + ": " + controller.getAxis(axisCode));
-			}
-		}
 		if (axisCode == Settings.AXIS) {
 			if (game.gameStage == 0) {
-				AbstractEntity entity = game.players.get(controller).avatar;
+				AbstractEntity entity = game.getControllerPlayer(controller).avatar;
 				if (entity != null) {
 					PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
 					uic.moveLeft = uic.controller.getAxis(Settings.AXIS) < -0.5f;
@@ -178,5 +147,5 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 		}
 		return false;
 	}
-
+*/
 }

@@ -1,10 +1,9 @@
 package com.mygdx.game.systems;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.controllers.Controller;
-import com.mygdx.game.LevelGenerator;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Settings;
+import com.mygdx.game.input.IPlayerInput;
 import com.mygdx.game.models.PlayerData;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lang.NumberFunctions;
@@ -54,7 +53,7 @@ public class ProcessPlayersSystem {
 	}
 
 	
-	private void createPlayersAvatar(PlayerData player, Controller controller) {
+	private void createPlayersAvatar(PlayerData player, IPlayerInput controller) {
 		int xPos = NumberFunctions.rnd(50,  Settings.LOGICAL_WIDTH_PIXELS-50);
 		AbstractEntity avatar = game.entityFactory.createPlayersAvatar(player, controller, xPos, Settings.LOGICAL_HEIGHT_PIXELS);
 		game.ecs.addEntity(avatar);
