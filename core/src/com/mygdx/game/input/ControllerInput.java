@@ -5,7 +5,7 @@ import com.mygdx.game.Settings;
 
 public class ControllerInput implements IPlayerInput {
 
-	private Controller controller;
+	public Controller controller;
 	
 	public ControllerInput(Controller _controller) {
 		controller = _controller;

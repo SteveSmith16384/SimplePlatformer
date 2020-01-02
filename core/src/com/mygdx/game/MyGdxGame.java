@@ -72,7 +72,7 @@ public final class MyGdxGame extends GenericGame implements InputProcessor, Cont
 	@Override
 	public void create() {
 		super.create();
-		
+
 		font = new BitmapFont();
 		font.getData().setScale(3);
 
@@ -102,7 +102,7 @@ public final class MyGdxGame extends GenericGame implements InputProcessor, Cont
 		for (Controller controller : Controllers.getControllers()) {
 			this.addPlayerForController(new ControllerInput(controller));
 		}
-		
+
 		KeyboardInput ki = new KeyboardInput(inputSystem);
 		players.put(ki, new PlayerData(ki)); // Create keyboard player by default (they might not actually join though!)
 
@@ -187,7 +187,7 @@ public final class MyGdxGame extends GenericGame implements InputProcessor, Cont
 	@Override
 	public void render() {
 		super.render();
-		
+
 		if (!paused) {
 			if (nextStage) {
 				nextStage = false;
@@ -288,7 +288,7 @@ public final class MyGdxGame extends GenericGame implements InputProcessor, Cont
 	@Override
 	public void dispose() {
 		super.dispose();
-		
+
 		removeAllEntities();
 
 		if (font != null) {
@@ -350,16 +350,19 @@ public final class MyGdxGame extends GenericGame implements InputProcessor, Cont
 		}
 		return null;
 	}
-	
+
 
 	public PlayerData getControllerPlayer(Controller c) {
 		for (PlayerData player : players.values()) {
-			if (player.controller == c) {
-				return player;
+			if (player.controller instanceof ControllerInput) {
+				ControllerInput ci = (ControllerInput)player.controller;
+				if (ci.controller == c) {
+					return player;
+				}
 			}
 		}
 		return null;
 	}
-	
+
 }
 
