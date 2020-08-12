@@ -1,7 +1,7 @@
 # A SIMPLE PLATFORMER
 A simple multiplayer platformer.  Avoid falling off the bottom of the screen.  The game goes on until everyone runs out of lives, and the winner is the player with the highest score.  Players can use gamepads and/or keyboard.  The game run on the desktop or inside a web page.
 
-This game is designed to be a simple basic game with all the boilerplate code written for you, that can be forked and extended with your own gameplay design.
+This game is designed to be a simple basic game with all the boilerplate code written for you, that can be forked and extended to make your own game.
 
 Written by Stephen Smith (stephen.carlylesmith@googlemail.com)
 
@@ -9,14 +9,16 @@ Written by Stephen Smith (stephen.carlylesmith@googlemail.com)
 
 
 ## CONTROLS
-* Gamepads (X to join/jump) or keyboard (W, A and D, Space to join).
+* F1 - Toggle full screen
+* Gamepads (X to join/jump) or keyboard (W, A and D, (or arrows) Space to join).
 * Can currently only handle 2 controllers max, plus one keyboard player
 * Press S to start!
+* Esc to quit
 
 
 ## Contact
-Email: stephen.carlylesmith@googlemail.com
-Twitter: https://twitter.com/stephencsmith
+* Email: stephen.carlylesmith@googlemail.com
+* Twitter: https://twitter.com/stephencsmith
 
 
 ## Licence
