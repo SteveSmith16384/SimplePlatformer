@@ -12,8 +12,6 @@ import com.mygdx.game.components.PlayersAvatarComponent;
 import com.mygdx.game.models.CollisionResults;
 import com.mygdx.game.models.PlayerData;
 import com.scs.basicecs.AbstractEntity;
-import com.scs.basicecs.AbstractSystem;
-import com.scs.basicecs.BasicECS;
 
 public class ProcessCollisionSystem {//implements ISystem {
 

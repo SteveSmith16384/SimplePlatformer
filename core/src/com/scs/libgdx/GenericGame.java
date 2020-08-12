@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Graphics.DisplayMode;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
@@ -33,10 +34,15 @@ public abstract class GenericGame extends ApplicationAdapter implements InputPro
 	protected List<Controller> controllersRemoved = new ArrayList<Controller>();
 
 	protected boolean paused = false;
-	public boolean toggleFullscreen = false, fullscreen = false;
+	public boolean toggleFullscreen = true, currently_fullscreen = false;
 
 	protected PostProcessing post;
 
+	public GenericGame(boolean set_fullscreen) {
+		currently_fullscreen = !set_fullscreen;
+	}
+	
+	
 	@Override
 	public void create() {
 		camera = new OrthographicCamera(Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS);
@@ -56,17 +62,22 @@ public abstract class GenericGame extends ApplicationAdapter implements InputPro
 
 	@Override
 	public void render() {
+		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
+			Gdx.app.exit();
+			return;
+		}
+		
 		if (Gdx.app.getType() != ApplicationType.WebGL) {
 			post.update(Gdx.graphics.getDeltaTime());
 		}
 
 		if (this.toggleFullscreen) {
 			this.toggleFullscreen = false;
-			if (fullscreen) {
+			if (currently_fullscreen) {
 				Gdx.graphics.setWindowedMode(Settings.WINDOW_WIDTH_PIXELS, Settings.WINDOW_HEIGHT_PIXELS);
 				batch.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 				Gdx.gl.glViewport(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
-				fullscreen = false;
+				currently_fullscreen = false;
 			} else {
 				DisplayMode m = null;
 				for(DisplayMode mode: Gdx.graphics.getDisplayModes()) {
@@ -82,7 +93,7 @@ public abstract class GenericGame extends ApplicationAdapter implements InputPro
 				Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 				batch.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 				Gdx.gl.glViewport(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
-				fullscreen = true;
+				currently_fullscreen = true;
 			}
 		}
 	}

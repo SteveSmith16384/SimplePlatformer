@@ -69,6 +69,12 @@ public final class MyGdxGame extends GenericGame implements InputProcessor, Cont
 
 	public HashMap<IPlayerInput, PlayerData> players = new HashMap<IPlayerInput, PlayerData>();
 
+	
+	public MyGdxGame() {
+		super(Settings.RELEASE_MODE);
+	}
+	
+	
 	@Override
 	public void create() {
 		super.create();
@@ -204,7 +210,6 @@ public final class MyGdxGame extends GenericGame implements InputProcessor, Cont
 			}
 
 			ecs.addAndRemoveEntities();
-			//ecs.processAllSystems();
 
 			checkNewOrRemovedControllers();
 

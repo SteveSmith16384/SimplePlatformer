@@ -18,24 +18,20 @@ public class DrawPreGameGuiSystem {
 		game = _game;
 		batch = _batch;
 
-		if (Settings.RELEASE_MODE) {
-			Texture tex = new Texture("background.jpg");
-			background = new Sprite(tex);
-			background.setSize(Settings.LOGICAL_WIDTH_PIXELS,  Settings.LOGICAL_HEIGHT_PIXELS);
+		Texture tex = new Texture("background.jpg");
+		background = new Sprite(tex);
+		background.setSize(Settings.LOGICAL_WIDTH_PIXELS,  Settings.LOGICAL_HEIGHT_PIXELS);
 
-			Texture tex2 = new Texture("ctc_logo.png");
-			logo = new Sprite(tex2);
-			logo.setSize(Settings.LOGICAL_WIDTH_PIXELS/2, Settings.LOGICAL_HEIGHT_PIXELS/2);
-			logo.setPosition(Settings.LOGICAL_WIDTH_PIXELS/4, Settings.LOGICAL_HEIGHT_PIXELS/2);
-		}
+		Texture tex2 = new Texture("ctc_logo.png");
+		logo = new Sprite(tex2);
+		logo.setSize(Settings.LOGICAL_WIDTH_PIXELS/2, Settings.LOGICAL_HEIGHT_PIXELS/2);
+		logo.setPosition(Settings.LOGICAL_WIDTH_PIXELS/4, Settings.LOGICAL_HEIGHT_PIXELS/2);
 	}
 
 
 	public void process() {
-		if (Settings.RELEASE_MODE) {
-			background.draw(batch);
-			logo.draw(batch);
-		}
+		background.draw(batch);
+		logo.draw(batch);
 
 		//game.drawFont(batch, Controllers.getControllers().size + " controllers found", 20, Settings.LOGICAL_HEIGHT_PIXELS-40);
 
