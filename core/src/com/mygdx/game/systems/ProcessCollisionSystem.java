@@ -15,12 +15,12 @@ import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
 
-public class ProcessCollisionSystem extends AbstractSystem {
+public class ProcessCollisionSystem {//implements ISystem {
 
 	private MyGdxGame game;
 
-	public ProcessCollisionSystem(MyGdxGame _game, BasicECS ecs) {
-		super(ecs);
+	public ProcessCollisionSystem(MyGdxGame _game) {//, BasicECS ecs) {
+		//super(ecs, null);
 
 		game = _game;
 	}

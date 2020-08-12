@@ -11,13 +11,7 @@ import com.scs.basicecs.BasicECS;
 public class WalkingAnimationSystem extends AbstractSystem {
 
 	public WalkingAnimationSystem(BasicECS ecs) {
-		super(ecs);
-	}
-
-
-	@Override
-	public Class<?> getComponentClass() {
-		return WalkingAnimationComponent.class;
+		super(ecs, WalkingAnimationComponent.class);
 	}
 
 

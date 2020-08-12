@@ -14,15 +14,9 @@ public class PlayerMovementSystem extends AbstractSystem {
 	private MyGdxGame game;
 
 	public PlayerMovementSystem(MyGdxGame _game, BasicECS ecs) {
-		super(ecs);
+		super(ecs, PlayersAvatarComponent.class);
 
 		game = _game;
-	}
-
-
-	@Override
-	public Class<?> getComponentClass() {
-		return PlayersAvatarComponent.class;
 	}
 
 
@@ -45,7 +39,7 @@ public class PlayerMovementSystem extends AbstractSystem {
 					mc.offY = Settings.JUMP_FORCE;
 					jc.canJump = false;
 				} else {
-					MyGdxGame.p("Cannot jump!");
+					//MyGdxGame.p("Cannot jump!");
 				}
 			}
 		}

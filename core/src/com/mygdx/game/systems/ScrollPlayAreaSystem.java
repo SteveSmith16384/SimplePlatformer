@@ -18,16 +18,10 @@ public class ScrollPlayAreaSystem extends AbstractSystem {
 	//private float timeUntilChange;
 	
 	public ScrollPlayAreaSystem(MyGdxGame _game, BasicECS ecs) {
-		super(ecs);
+		super(ecs, ScrollsAroundComponent.class);
 
 		game = _game;
 
-	}
-
-
-	@Override
-	public Class<?> getComponentClass() {
-		return ScrollsAroundComponent.class;
 	}
 
 

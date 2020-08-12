@@ -17,15 +17,9 @@ public class MobAISystem extends AbstractSystem {
 	private MyGdxGame game;
 
 	public MobAISystem(MyGdxGame _game, BasicECS ecs) {
-		super(ecs);
+		super(ecs, MobComponent.class);
 
 		game = _game;
-	}
-
-
-	@Override
-	public Class<?> getComponentClass() {
-		return MobComponent.class;
 	}
 
 

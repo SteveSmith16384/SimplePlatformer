@@ -88,7 +88,7 @@ public final class MyGdxGame extends GenericGame implements InputProcessor, Cont
 		animSystem = new AnimationCycleSystem(ecs);
 		mobAiSystem = new MobAISystem(this, ecs);
 		this.playerMovementSystem = new PlayerMovementSystem(this, ecs);
-		processCollisionSystem = new ProcessCollisionSystem(this, ecs);
+		processCollisionSystem = new ProcessCollisionSystem(this);
 		this.collectorSystem = new CollectorSystem(this);
 		this.walkingAnimationSystem = new WalkingAnimationSystem(ecs);
 		this.moveToOffScreenSystem = new MoveToOffScreenSystem(ecs);
@@ -300,7 +300,8 @@ public final class MyGdxGame extends GenericGame implements InputProcessor, Cont
 
 
 	private void removeAllEntities() {
-		this.ecs.removeAllEntities();
+		ecs.markAllEntitiesForRemoval();
+		ecs.addAndRemoveEntities();
 	}
 
 

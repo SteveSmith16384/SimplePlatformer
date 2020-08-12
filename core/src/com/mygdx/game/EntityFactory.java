@@ -33,7 +33,7 @@ public class EntityFactory {
 	
 
 	public AbstractEntity createPlayersAvatar(PlayerData player, IPlayerInput controller, int x, int y) {
-		AbstractEntity e = new AbstractEntity("Player");
+		AbstractEntity e = new AbstractEntity(game.ecs, "Player");
 
 		ImageComponent imageData = new ImageComponent("grey_box.png", 1, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(imageData);
@@ -60,7 +60,7 @@ public class EntityFactory {
 
 
 	public AbstractEntity createWall(int x, int y, float w, float h) {
-		AbstractEntity e = new AbstractEntity("Wall");
+		AbstractEntity e = new AbstractEntity(game.ecs, "Wall");
 
 		if (Settings.SHOW_GREY_BOXES) {
 			ImageComponent imageData = new ImageComponent("grey_box.png", 0, w, h);
@@ -78,7 +78,7 @@ public class EntityFactory {
 
 
 	public AbstractEntity createHarmfulArea(int x, int y, float w, float h) {
-		AbstractEntity e = new AbstractEntity("HarmfulArea");
+		AbstractEntity e = new AbstractEntity(game.ecs, "HarmfulArea");
 
 		if (Settings.SHOW_GREY_BOXES) {
 			ImageComponent imageData = new ImageComponent("grey_box.png", 0, w, h);
@@ -97,7 +97,7 @@ public class EntityFactory {
 
 
 	public AbstractEntity createTestImage(int x, int y, int w, int h, int zOrder) {
-		AbstractEntity e = new AbstractEntity("TestImage");
+		AbstractEntity e = new AbstractEntity(game.ecs, "TestImage");
 		
 		//Texture tex = new Texture("grey_box.png");
 		Ninepatch np = new Ninepatch(null, null);
@@ -114,7 +114,7 @@ public class EntityFactory {
 
 
 	public AbstractEntity createImage(String filename, int x, int y, float w, float h, int zOrder) {
-		AbstractEntity e = new AbstractEntity("Image_" + filename);
+		AbstractEntity e = new AbstractEntity(game.ecs, "Image_" + filename);
 
 		ImageComponent imageData = new ImageComponent(filename, zOrder, w, h);
 		e.addComponent(imageData);
@@ -126,7 +126,7 @@ public class EntityFactory {
 
 
 	public AbstractEntity createLadderArea(int x, int y, float w, float h) {
-		AbstractEntity e = new AbstractEntity("Ladder");
+		AbstractEntity e = new AbstractEntity(game.ecs, "Ladder");
 
 		if (Settings.SHOW_GREY_BOXES) {
 			ImageComponent imageData = new ImageComponent("grey_box.png", 0, w, h);
@@ -144,7 +144,7 @@ public class EntityFactory {
 
 
 	public AbstractEntity createFluidPlatform(int x, int y, float w) {
-		AbstractEntity e = new AbstractEntity("FluidPlatform");
+		AbstractEntity e = new AbstractEntity(game.ecs, "FluidPlatform");
 
 		if (Settings.SHOW_GREY_BOXES) {
 			ImageComponent imageData = new ImageComponent("grey_box.png", 0, w, Settings.PLAYER_SIZE);
@@ -162,7 +162,7 @@ public class EntityFactory {
 
 
 	public AbstractEntity createPlatformType1(int x, int y, int w, int h) {
-		AbstractEntity e = new AbstractEntity("PlatformImage1");
+		AbstractEntity e = new AbstractEntity(game.ecs, "PlatformImage1");
 
 		Ninepatch ninepatch = new Ninepatch("platform1.png", new Rect(1, 8, 1, 3));
 		
@@ -181,7 +181,7 @@ public class EntityFactory {
 
 
 	public AbstractEntity createEdge(int x1, int y1, float x2, float y2) {
-		AbstractEntity e = new AbstractEntity("Edge");
+		AbstractEntity e = new AbstractEntity(game.ecs, "Edge");
 
 		PositionComponent pos = PositionComponent.FromEdge(x1, y1, x2, y2);
 		e.addComponent(pos);
@@ -195,7 +195,7 @@ public class EntityFactory {
 
 
 	public AbstractEntity createMob1(int x, int y) {
-		AbstractEntity e = new AbstractEntity("Mob");
+		AbstractEntity e = new AbstractEntity(game.ecs, "Mob");
 
 		ImageComponent imageData = new ImageComponent("grey_box.png", 1, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(imageData);
@@ -218,7 +218,7 @@ public class EntityFactory {
 
 
 	public AbstractEntity createMob_Cannonball(int x, int y) {
-		AbstractEntity e = new AbstractEntity("Cannonball");
+		AbstractEntity e = new AbstractEntity(game.ecs, "Cannonball");
 
 		ImageComponent imageData = new ImageComponent("grey_box.png", 1, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(imageData);
@@ -251,7 +251,7 @@ public class EntityFactory {
 
 
 	public AbstractEntity createFallingGraphic(String name, float x, float y, Sprite image, float w, float h) {
-		AbstractEntity e = new AbstractEntity("Falling" + name);
+		AbstractEntity e = new AbstractEntity(game.ecs, "Falling" + name);
 
 		ImageComponent imageData = new ImageComponent(image, 1);
 		e.addComponent(imageData);
@@ -264,7 +264,7 @@ public class EntityFactory {
 
 
 	public AbstractEntity createCoin(int x, int y) {
-		AbstractEntity e = new AbstractEntity("Coin");
+		AbstractEntity e = new AbstractEntity(game.ecs, "Coin");
 
 		AnimationCycleComponent acc = game.animFrameHelper.generateForCoin(Settings.COLLECTABLE_SIZE);
 		e.addComponent(acc);
@@ -289,7 +289,7 @@ public class EntityFactory {
 		PositionComponent pos = (PositionComponent)coin.getComponent(PositionComponent.class);
 		ImageComponent img = (ImageComponent)coin.getComponent(ImageComponent.class);
 		
-		AbstractEntity e = new AbstractEntity("RisingCoin");
+		AbstractEntity e = new AbstractEntity(game.ecs, "RisingCoin");
 
 		ImageComponent imageData;
 		if (img.sprite != null) {
@@ -311,7 +311,7 @@ public class EntityFactory {
 		PositionComponent pos = (PositionComponent)player.getComponent(PositionComponent.class);
 		ImageComponent img = (ImageComponent)player.getComponent(ImageComponent.class);
 		
-		AbstractEntity e = new AbstractEntity("DeadPlayer");
+		AbstractEntity e = new AbstractEntity(game.ecs, "DeadPlayer");
 
 		ImageComponent imageData = new ImageComponent(img.sprite, 1);
 		e.addComponent(imageData);

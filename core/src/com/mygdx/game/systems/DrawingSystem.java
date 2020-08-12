@@ -25,17 +25,11 @@ public class DrawingSystem extends AbstractSystem implements Comparator<Abstract
 	private ShapeRenderer shapeRenderer;
 
 	public DrawingSystem(BasicECS ecs, SpriteBatch _batch) {
-		super(ecs);
+		super(ecs, ImageComponent.class);
 
 		batch = _batch;
 
 		shapeRenderer = new ShapeRenderer();
-	}
-
-
-	@Override
-	public Class<?> getComponentClass() {
-		return ImageComponent.class;
 	}
 
 
@@ -92,7 +86,7 @@ public class DrawingSystem extends AbstractSystem implements Comparator<Abstract
 	public void drawDebug(SpriteBatch batch) {
 		shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
 
-		Iterator<AbstractEntity> it = ecs.getIterator();
+		Iterator<AbstractEntity> it = this.getEntityIterator();//ecs.getIterator();
 		while (it.hasNext()) {
 			AbstractEntity entity = it.next();
 			PositionComponent posData = (PositionComponent)entity.getComponent(PositionComponent.class);

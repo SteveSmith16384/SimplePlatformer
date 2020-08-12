@@ -20,13 +20,7 @@ import com.scs.basicecs.BasicECS;
 public class CollisionSystem extends AbstractSystem {
 
 	public CollisionSystem(BasicECS ecs) {
-		super(ecs);
-	}
-
-
-	@Override
-	public Class<?> getComponentClass() {
-		return CollisionComponent.class;
+		super(ecs, CollisionComponent.class);
 	}
 
 

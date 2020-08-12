@@ -17,15 +17,9 @@ public class InputSystem extends AbstractSystem {
 	public volatile boolean key[] = new boolean[256];
 
 	public InputSystem(MyGdxGame _game, BasicECS ecs) {
-		super(ecs);
+		super(ecs, PlayersAvatarComponent.class);
 
 		game = _game;
-	}
-
-
-	@Override
-	public Class<?> getComponentClass() {
-		return PlayersAvatarComponent.class;
 	}
 
 

@@ -17,15 +17,9 @@ public class MovementSystem extends AbstractSystem {
 	private MyGdxGame game;
 
 	public MovementSystem(MyGdxGame _game, BasicECS ecs) {
-		super(ecs);
+		super(ecs, MovementComponent.class);
 
 		game = _game;
-	}
-
-
-	@Override
-	public Class<?> getComponentClass() {
-		return MovementComponent.class;
 	}
 
 

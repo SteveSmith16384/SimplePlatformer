@@ -11,16 +11,10 @@ import com.scs.basicecs.BasicECS;
 public class MoveToOffScreenSystem extends AbstractSystem {
 
 	public MoveToOffScreenSystem(BasicECS ecs) {
-		super(ecs);
+		super(ecs, MoveOffScreenComponent.class);
 	}
 
 
-	@Override
-	public Class<?> getComponentClass() {
-		return MoveOffScreenComponent.class;
-	}
-
-	
 	@Override
 	public void processEntity(AbstractEntity entity) {
 		MoveOffScreenComponent gic = (MoveOffScreenComponent)entity.getComponent(MoveOffScreenComponent.class);

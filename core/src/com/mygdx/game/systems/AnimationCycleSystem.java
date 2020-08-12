@@ -14,16 +14,10 @@ import com.scs.basicecs.BasicECS;
 public class AnimationCycleSystem extends AbstractSystem {
 
 	public AnimationCycleSystem(BasicECS ecs) {
-		super(ecs);
+		super(ecs, AnimationCycleComponent.class);
 	}
 
 
-	@Override
-	public Class<?> getComponentClass() {
-		return AnimationCycleComponent.class;
-	}
-
-	
 	@Override
 	public void processEntity(AbstractEntity entity) {
 		AnimationCycleComponent data = (AnimationCycleComponent)entity.getComponent(AnimationCycleComponent.class);
